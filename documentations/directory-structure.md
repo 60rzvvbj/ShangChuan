@@ -1,0 +1,21 @@
+- src 源码
+  - src/assets css、img等资源文件
+  - src/view 视图组件
+  - src/components 公共组件
+    - src/components/common 其他项目中也能用到的公共组件
+    - src/components/content 当前项目中的公共组件
+  - src/router 路由
+  - src/store Vuex
+  - src/network 网络请求相关
+  - src/common 公共js文件(常量，工具类等)
+- documentaions 说明文档
+- node_modules 依赖包
+- public 公共资源
+- .editorconfig 代码规范约束文件
+- .gitignore 指定哪些文件不提交到git
+- package.json 项目中所需要的所有模块
+- package-lock.json 锁定所有模块的版本号(包括主模块和所有依赖子模块)
+- vue.config.js Vue配置文件
+- README.md 项目介绍文档
+- .browserslistrc 配置项目兼容的浏览器
+- babel.config.js babel配置文件

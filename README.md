@@ -1,19 +1,4 @@
-# shangchuan
+## 尚传(收作业系统)
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+#### [文件目录结构说明文档](documentations/directory-structure.md)
+#### [业务分许文档](documentations/business-analysis.md)
