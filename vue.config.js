@@ -14,6 +14,7 @@ module.exports = {
         'common': resolve('src/common'),
         'components': resolve('src/components'),
         'network': resolve('src/network'),
+        'plugins': resolve('src/plugins'),
         'views': resolve('src/views'),
       }
     }

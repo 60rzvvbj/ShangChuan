@@ -17,7 +17,7 @@
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
-          <el-button type='primary'>登录</el-button>
+          <el-button type="primary">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -25,6 +25,8 @@
 </template>
 
 <script>
+import ElementUI from 'plugins/ElementUI';
+
 export default {
   name: 'Login',
   data () {
@@ -34,18 +36,22 @@ export default {
   },
   methods: {
 
-  }
+  },
+  components: {
+    ...ElementUI,
+  },
 }
 </script>
 
 
 <style lang="less" scoped>
 // scoped当前组件生效
-.login_container{
+@import url("~element-ui/lib/theme-chalk/index.css");
+.login_container {
   height: 100%;
   background-color: rgb(46, 58, 51);
 }
-.login_box{
+.login_box {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -53,29 +59,29 @@ export default {
   height: 300px;
   background-color: #fff;
   border-radius: 3px;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
-.title{
+.title {
   margin: 30px 0;
   text-align: center;
   font-size: 28px;
   color: rgb(46, 58, 51);
 }
-.yun_box{
+.yun_box {
   position: absolute;
   left: 50%;
   top: 0;
   width: 64px;
   height: 64px;
   background-image: url(../../assets/img/yun.png);
-  transform: translate(-50%,-90%);
+  transform: translate(-50%, -90%);
 }
-.login_form{
+.login_form {
   width: 100%;
   padding: 0 50px;
   box-sizing: border-box;
 }
-.btns{
+.btns {
   display: flex;
   justify-content: center;
 }
