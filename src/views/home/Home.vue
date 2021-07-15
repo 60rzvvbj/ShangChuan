@@ -14,6 +14,27 @@
         </div>
         <div class="create">新建作业</div>
       </div>
+      <div class="content">
+        <ul class="clearfix">
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+        </ul>
+      </div>
     </div>
     <h2>主页</h2>
     <router-link to="/login">登录页</router-link>
@@ -84,7 +105,6 @@ export default {
   height: 500px;
   width: var(--baseWidth);
   margin: auto;
-  /* background-color: skyblue; */
 }
 
 .home .work .title {
@@ -117,5 +137,46 @@ export default {
 
 .home .work .title .create:hover {
   background-color: #000;
+}
+
+.home .work .content {
+  width: 100%;
+  height: 410px;
+  padding: 0px 10px 10px 10px;
+  overflow-y: scroll;
+  transform: translate(-10px, 0px);
+  /* background-color: rgb(255, 0, 0, 0.5); */
+}
+
+.home .work .content::-webkit-scrollbar {
+  display: none;
+}
+
+.home .work .content ul {
+  width: 100%;
+}
+
+.home .work .content ul li {
+  float: left;
+  width: 200px;
+  height: 180px;
+  border-radius: 5px;
+  margin-right: 70px;
+  /* box-shadow: 0px 5px 5px 0px #666; */
+  background-color: skyblue;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.home .work .content ul li:nth-child(n + 6) {
+  margin-top: 50px;
+}
+
+.home .work .content ul li:nth-child(5n) {
+  margin-right: 0px;
+}
+
+.home .work .content ul li:hover {
+  box-shadow: 0px 3px 5px 0px #999;
 }
 </style>
