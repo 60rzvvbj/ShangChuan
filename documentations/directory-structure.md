@@ -8,6 +8,7 @@
   - src/store Vuex
   - src/network 网络请求相关
   - src/common 公共js文件(常量，工具类等)
+  - plugins 插件/中间件
 - documentaions 说明文档
 - node_modules 依赖包
 - public 公共资源
