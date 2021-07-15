@@ -6,7 +6,8 @@
         <div class="login">LOG IN</div>
       </div>
       <!-- 登录表单区 -->
-      <el-form label-width="0px" class="login_form">
+      <el-form label-width="0px"
+               class="login_form">
         <!-- 学号 -->
         <el-form-item>
           <el-input></el-input>
@@ -41,11 +42,11 @@ export default {
 
 <style lang="less" scoped>
 // scoped当前组件生效
-.login_container{
+.login_container {
   height: 100%;
   background-color: rgb(46, 58, 51);
 }
-.login_box{
+.login_box {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -53,29 +54,29 @@ export default {
   height: 300px;
   background-color: #fff;
   border-radius: 3px;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
 }
-.title{
+.title {
   margin: 30px 0;
   text-align: center;
   font-size: 28px;
   color: rgb(46, 58, 51);
 }
-.yun_box{
+.yun_box {
   position: absolute;
   left: 50%;
   top: 0;
   width: 64px;
   height: 64px;
   background-image: url(../../assets/img/yun.png);
-  transform: translate(-50%,-90%);
+  transform: translate(-50%, -90%);
 }
-.login_form{
+.login_form {
   width: 100%;
   padding: 0 50px;
   box-sizing: border-box;
 }
-.btns{
+.btns {
   display: flex;
   justify-content: center;
 }
