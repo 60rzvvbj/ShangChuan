@@ -55,7 +55,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .home {
   --headerHeight: 60px;
   --baseWidth: 1280px;
