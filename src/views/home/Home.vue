@@ -6,7 +6,36 @@
         <div class="right">杨超旭</div>
       </div>
     </div>
-    <div class="work"></div>
+    <div class="work">
+      <div class="title">
+        <div class="number">
+          <span>我的作业</span>
+          <span>5/10</span>
+        </div>
+        <div class="create">新建作业</div>
+      </div>
+      <div class="content">
+        <ul class="clearfix">
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+          <li>作业</li>
+        </ul>
+      </div>
+    </div>
     <h2>主页</h2>
     <router-link to="/login">登录页</router-link>
   </div>
@@ -41,20 +70,20 @@ export default {
   cursor: default;
 }
 
-.header {
+.home .header {
   width: 100%;
   height: var(--headerHeight);
   box-shadow: 0px 0px 2px 0px #000;
   background-color: #fff;
 }
 
-.header .headerMain {
+.home .header .headerMain {
   width: var(--baseWidth);
   height: 100%;
   margin: auto;
 }
 
-.header .left {
+.home .header .left {
   float: left;
   height: 100%;
   font-size: 24px;
@@ -62,7 +91,7 @@ export default {
   line-height: var(--headerHeight);
 }
 
-.header .right {
+.home .header .right {
   float: right;
   height: 30px;
   padding: 3px 20px;
@@ -70,5 +99,84 @@ export default {
   border-radius: 50px;
   margin: calc((var(--headerHeight) - 30px) / 2) 0px;
   box-sizing: border-box;
+}
+
+.home .work {
+  height: 500px;
+  width: var(--baseWidth);
+  margin: auto;
+}
+
+.home .work .title {
+  width: 100%;
+  height: 30px;
+  padding: 30px 0px;
+}
+
+.home .work .title .number {
+  float: left;
+  font-size: 20px;
+}
+
+.home .work .title .number span {
+  margin-right: 10px;
+}
+
+.home .work .title .create {
+  float: right;
+  height: 30px;
+  padding: 1px 15px;
+  border-radius: 5px;
+  font-size: 16px;
+  line-height: 30px;
+  color: #fff;
+  background-color: #444;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.home .work .title .create:hover {
+  background-color: #000;
+}
+
+.home .work .content {
+  width: 100%;
+  height: 410px;
+  padding: 0px 10px 10px 10px;
+  overflow-y: scroll;
+  transform: translate(-10px, 0px);
+  /* background-color: rgb(255, 0, 0, 0.5); */
+}
+
+.home .work .content::-webkit-scrollbar {
+  display: none;
+}
+
+.home .work .content ul {
+  width: 100%;
+}
+
+.home .work .content ul li {
+  float: left;
+  width: 200px;
+  height: 180px;
+  border-radius: 5px;
+  margin-right: 70px;
+  /* box-shadow: 0px 5px 5px 0px #666; */
+  background-color: skyblue;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.home .work .content ul li:nth-child(n + 6) {
+  margin-top: 50px;
+}
+
+.home .work .content ul li:nth-child(5n) {
+  margin-right: 0px;
+}
+
+.home .work .content ul li:hover {
+  box-shadow: 0px 3px 5px 0px #999;
 }
 </style>
