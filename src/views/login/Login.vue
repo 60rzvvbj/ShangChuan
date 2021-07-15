@@ -9,11 +9,11 @@
       <el-form label-width="0px" class="login_form">
         <!-- 学号 -->
         <el-form-item>
-          <el-input></el-input>
+          <el-input prefix-icon="el-icon-search"></el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item>
-          <el-input></el-input>
+          <el-input prefix-icon="el-icon-search"></el-input>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">

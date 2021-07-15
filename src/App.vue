@@ -6,12 +6,13 @@
 </template>
 
 <script>
-export default{
-  name:"app"
+export default {
+  name: "app"
 };
 </script>
 
 
 <style>
 @import url("assets/css/base.css");
+@import url("assets/fonts/iconfont.css");
 </style>
