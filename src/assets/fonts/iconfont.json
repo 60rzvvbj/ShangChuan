@@ -1,0 +1,72 @@
+{
+  "id": "2677860",
+  "name": "shang",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "167188",
+      "name": "上传",
+      "font_class": "shangchuan",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
+    {
+      "icon_id": "904047",
+      "name": "感叹号",
+      "font_class": "gantanhao",
+      "unicode": "e685",
+      "unicode_decimal": 59013
+    },
+    {
+      "icon_id": "1069170",
+      "name": "已过期",
+      "font_class": "yiguoqi",
+      "unicode": "e642",
+      "unicode_decimal": 58946
+    },
+    {
+      "icon_id": "1311991",
+      "name": "加",
+      "font_class": "jia",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "6284056",
+      "name": "对勾 填充-01",
+      "font_class": "duigoutianchong-",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "14990435",
+      "name": "_用户",
+      "font_class": "lunkuohua2_yonghu",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "19728801",
+      "name": "用户",
+      "font_class": "subscriber-fill",
+      "unicode": "ebf7",
+      "unicode_decimal": 60407
+    },
+    {
+      "icon_id": "22630834",
+      "name": "日期",
+      "font_class": "riqi",
+      "unicode": "e697",
+      "unicode_decimal": 59031
+    },
+    {
+      "icon_id": "1016749",
+      "name": "密码",
+      "font_class": "lock",
+      "unicode": "e6d5",
+      "unicode_decimal": 59093
+    }
+  ]
+}
