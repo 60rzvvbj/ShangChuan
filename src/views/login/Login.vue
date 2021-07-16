@@ -6,14 +6,22 @@
         <div class="login">LOG IN</div>
       </div>
       <!-- 登录表单区 -->
-      <el-form label-width="0px" class="login_form">
+      <el-form label-width="0px"
+               class="login_form"
+               :model="loginForm"
+               :rules="loginRules">
         <!-- 学号 -->
-        <el-form-item>
-          <el-input prefix-icon="el-icon-search"></el-input>
+        <el-form-item prop="stuNumber">
+          <el-input placeholder="请输入学号"
+                    v-model="loginForm.stuNumber"
+                    prefix-icon="iconfont icon-subscriber-fill"></el-input>
         </el-form-item>
         <!-- 密码 -->
-        <el-form-item>
-          <el-input prefix-icon="el-icon-search"></el-input>
+        <el-form-item prop="password">
+          <el-input placeholder="请输入密码"
+                    v-model="loginForm.password"
+                    show-password
+                    prefix-icon="iconfont icon-lock"></el-input>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
@@ -31,7 +39,20 @@ export default {
   name: 'Login',
   data () {
     return {
-
+      // 登录表单的数据绑定对象
+      loginForm: {
+        stuNumber: '',
+        password: ''
+      },
+      // 验证规则
+      loginRules: {
+        stuNumber: [
+          { required: true, message: '请输入学号', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, message: '请输入登录密码', trigger: 'blur' }
+        ]
+      }
     };
   },
   methods: {
