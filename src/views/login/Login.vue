@@ -6,22 +6,23 @@
         <div class="login">LOG IN</div>
       </div>
       <!-- 登录表单区 -->
-      <el-form label-width="0px"
-               class="login_form"
-               :model="loginForm"
-               :rules="loginRules">
+      <el-form label-width="0px" class="login_form" :model="loginForm" :rules="loginRules">
         <!-- 学号 -->
         <el-form-item prop="stuNumber">
-          <el-input placeholder="请输入学号"
-                    v-model="loginForm.stuNumber"
-                    prefix-icon="iconfont icon-subscriber-fill"></el-input>
+          <el-input
+            placeholder="请输入学号"
+            v-model="loginForm.stuNumber"
+            prefix-icon="iconfont icon-subscriber-fill"
+          ></el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input placeholder="请输入密码"
-                    v-model="loginForm.password"
-                    show-password
-                    prefix-icon="iconfont icon-lock"></el-input>
+          <el-input
+            placeholder="请输入密码"
+            v-model="loginForm.password"
+            show-password
+            prefix-icon="iconfont icon-lock"
+          ></el-input>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
@@ -34,6 +35,7 @@
 
 <script>
 import ElementUI from 'plugins/ElementUI';
+import { getBackground } from 'network/Login';
 
 export default {
   name: 'Login',
@@ -61,7 +63,13 @@ export default {
   components: {
     ...ElementUI,
   },
+  created () {
+    getBackground().then(function (data) {
+      console.log(data);
+    });
+  }
 }
+
 </script>
 
 
