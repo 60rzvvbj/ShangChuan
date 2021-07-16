@@ -6,27 +6,28 @@
         <div class="login">LOG IN</div>
       </div>
       <!-- 登录表单区 -->
-      <el-form label-width="0px" class="login_form" :model="loginForm" :rules="loginRules">
+      <el-form
+        label-width="0px"
+        class="login_form"
+        :model="loginForm"
+        :rules="loginRules"
+        ref="loginFormRef"
+      >
         <!-- 学号 -->
         <el-form-item prop="stuNumber">
-          <el-input
-            placeholder="请输入学号"
-            v-model="loginForm.stuNumber"
-            prefix-icon="iconfont icon-subscriber-fill"
-          ></el-input>
+          <el-input placeholder="请输入学号" v-model="loginForm.stuNumber">
+            <i slot="prefix" class="iconfont icon-subscriber-fill"></i>
+          </el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input
-            placeholder="请输入密码"
-            v-model="loginForm.password"
-            show-password
-            prefix-icon="iconfont icon-lock"
-          ></el-input>
+          <el-input placeholder="请输入密码" v-model="loginForm.password" show-password>
+            <i slot="prefix" class="iconfont icon-lock"></i>
+          </el-input>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
-          <el-button type="primary">登录</el-button>
+          <el-button type="primary" @click="loginCheck">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -58,7 +59,12 @@ export default {
     };
   },
   methods: {
-
+    // 预验证
+    loginCheck () {
+      this.$refs.loginFormRef.validate((valid) => {
+        if (!valid) return;
+      })
+    }
   },
   components: {
     ...ElementUI,
@@ -96,6 +102,7 @@ export default {
   font-size: 28px;
   color: rgb(46, 58, 51);
 }
+// 云图片
 .yun_box {
   position: absolute;
   left: 50%;
@@ -105,13 +112,25 @@ export default {
   background-image: url(../../assets/img/yun.png);
   transform: translate(-50%, -90%);
 }
+// 登录表单
 .login_form {
   width: 100%;
   padding: 0 50px;
   box-sizing: border-box;
 }
+// 按钮
 .btns {
   display: flex;
   justify-content: center;
+}
+.el-input {
+  .el-input__inner {
+    color: #000;
+  }
+}
+//图标位置
+.iconfont {
+  margin: 0 4px;
+  color: #999;
 }
 </style>
