@@ -1,33 +1,41 @@
 <template>
   <div class="login_container">
+    <!-- 背景 -->
+    <div class="bg_img"
+         :style="{backgroundImage:'url(' + imgUrl + ')'}"></div>
+    <!-- 登录盒子 -->
     <div class="login_box">
       <div class="yun_box"></div>
       <div class="title">
         <div class="login">LOG IN</div>
       </div>
       <!-- 登录表单区 -->
-      <el-form
-        label-width="0px"
-        class="login_form"
-        :model="loginForm"
-        :rules="loginRules"
-        ref="loginFormRef"
-      >
+      <el-form label-width="0px"
+               class="login_form"
+               :model="loginForm"
+               :rules="loginRules"
+               ref="loginFormRef">
         <!-- 学号 -->
         <el-form-item prop="stuNumber">
-          <el-input placeholder="请输入学号" v-model="loginForm.stuNumber">
-            <i slot="prefix" class="iconfont icon-subscriber-fill"></i>
+          <el-input placeholder="请输入学号"
+                    v-model="loginForm.stuNumber">
+            <i slot="prefix"
+               class="iconfont icon-subscriber-fill"></i>
           </el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input placeholder="请输入密码" v-model="loginForm.password" show-password>
-            <i slot="prefix" class="iconfont icon-lock"></i>
+          <el-input placeholder="请输入密码"
+                    v-model="loginForm.password"
+                    show-password>
+            <i slot="prefix"
+               class="iconfont icon-lock"></i>
           </el-input>
         </el-form-item>
         <!-- 按钮 -->
         <el-form-item class="btns">
-          <el-button type="primary" @click="loginCheck">登录</el-button>
+          <el-button type="primary"
+                     @click="loginCheck">登录</el-button>
         </el-form-item>
       </el-form>
     </div>
@@ -42,6 +50,8 @@ export default {
   name: 'Login',
   data () {
     return {
+      // 背景
+      imgUrl: '',
       // 登录表单的数据绑定对象
       loginForm: {
         stuNumber: '',
@@ -70,8 +80,9 @@ export default {
     ...ElementUI,
   },
   created () {
-    getBackground().then(function (data) {
-      console.log(data);
+    getBackground().then((data) => {
+      this.imgUrl = "http://localhost:1523/bingImg?url=" + data;
+      console.log(this.imgUrl);
     });
   }
 }
@@ -86,13 +97,19 @@ export default {
   height: 100%;
   background-color: rgb(46, 58, 51);
 }
+// 背景图
+.bg_img {
+  width: 100%;
+  height: 100%;
+}
+// 登录盒子
 .login_box {
   position: absolute;
   left: 50%;
   top: 50%;
   width: 450px;
   height: 300px;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.712);
   border-radius: 3px;
   transform: translate(-50%, -50%);
 }
