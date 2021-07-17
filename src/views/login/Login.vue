@@ -7,7 +7,11 @@
     <div class="login_box">
       <div class="yun_box"></div>
       <div class="title">
-        <div class="login">LOG IN</div>
+        <div class="log"
+             :style="{top:logstate}">LOG</div>
+        <div class="sign"
+             :style="{top:signstate}">SIGN</div>
+        <div class="in">IN</div>
       </div>
       <!-- 登录表单区 -->
       <el-form label-width="0px"
@@ -32,11 +36,24 @@
                class="iconfont icon-lock"></i>
           </el-input>
         </el-form-item>
-        <!-- 按钮 -->
-        <el-form-item class="btns">
-          <el-button type="primary"
-                     @click="loginCheck">登录</el-button>
+        <!-- 密码 -->
+        <el-form-item prop="password_check"
+                      class="password_check"
+                      v-if="state == 'sign'">
+          <el-input placeholder="请确认密码"
+                    v-model="loginForm.password_check"
+                    show-password>
+            <i slot="prefix"
+               class="iconfont icon-lock"></i>
+          </el-input>
         </el-form-item>
+        <!-- 按钮 -->
+        <div class="btn_box">
+          <div class="btn"
+               @click="logIn">登录</div>
+          <div class="btn"
+               @click="signIn">注册</div>
+        </div>
       </el-form>
     </div>
   </div>
@@ -55,8 +72,13 @@ export default {
       // 登录表单的数据绑定对象
       loginForm: {
         stuNumber: '',
-        password: ''
+        password: '',
+        password_check: ''
       },
+      //表单状态
+      state: 'log',
+      logstate: '0px',
+      signstate: '35px',
       // 验证规则
       loginRules: {
         stuNumber: [
@@ -74,7 +96,26 @@ export default {
       this.$refs.loginFormRef.validate((valid) => {
         if (!valid) return;
       })
-    }
+    },
+    //注册
+    signIn () {
+      let self = this;
+      console.log(self.state);
+      if (self.state == 'log') {
+        self.state = 'sign';
+        self.signstate = '0px'
+        self.logstate = '35px'
+      }
+    },
+    //登录
+    logIn () {
+      let self = this;
+      if (self.state == 'sign') {
+        self.state = 'log';
+        self.signstate = '35px'
+        self.logstate = '0px'
+      }
+    },
   },
   components: {
     ...ElementUI,
@@ -82,7 +123,6 @@ export default {
   created () {
     getBackground().then((data) => {
       this.imgUrl = "http://localhost:1523/bingImg?url=" + data;
-      console.log(this.imgUrl);
     });
   }
 }
@@ -108,16 +148,35 @@ export default {
   left: 50%;
   top: 50%;
   width: 450px;
-  height: 300px;
   background-color: rgba(255, 255, 255, 0.712);
   border-radius: 3px;
   transform: translate(-50%, -50%);
+  transition: all 0.3s ease;
 }
+//标题
 .title {
+  position: relative;
+  height: 35px;
   margin: 30px 0;
   text-align: center;
   font-size: 28px;
-  color: rgb(46, 58, 51);
+  color: rgb(0, 0, 0);
+  overflow: hidden;
+  .log,
+  .sign,
+  .in {
+    position: absolute;
+    transition: all 0.3s ease;
+  }
+  .in {
+    left: 54%;
+  }
+  .log {
+    left: 36%;
+  }
+  .sign {
+    left: 35%;
+  }
 }
 // 云图片
 .yun_box {
@@ -149,5 +208,52 @@ export default {
 .iconfont {
   margin: 0 4px;
   color: #999;
+}
+// 按钮
+.btn_box {
+  display: flex;
+  margin: 40px 0;
+  justify-content: space-around;
+}
+.btn {
+  position: relative;
+  display: inline-block;
+  width: 120px;
+  line-height: 40px;
+  border-radius: 5px;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: center;
+  letter-spacing: 20px;
+  text-indent: 20px; //缩进解决文字居中
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+}
+.btn {
+  border: none;
+  color: #000;
+}
+.btn:after {
+  position: absolute;
+  content: "";
+  width: 0;
+  height: 100%;
+  top: 0;
+  left: 0;
+  border-radius: 5px;
+  box-shadow: -7px -7px 20px 0px #fff9, -4px -4px 5px 0px #fff9,
+    7px 7px 20px 0px #0002, 4px 4px 5px 0px #0001;
+  transition: all 0.3s ease;
+}
+.btn:hover:after {
+  left: auto;
+  right: 0;
+  width: 100%;
+}
+.btn:active {
+  top: 2px;
 }
 </style>
