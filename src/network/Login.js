@@ -24,3 +24,16 @@ export function getBackground() {
     });
   });
 }
+/**
+ * 登录测试
+ */
+export function loginTest(mes) {
+  request({
+    method: 'post',
+    url: '/user/login',
+    data: {
+      username: mes.stuNumber,
+      password: mes.password
+    }
+  });
+}

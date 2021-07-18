@@ -33,6 +33,31 @@ app.get('/bingImg', function (req, res) {
     }
   });
 });
+// 测试登录
+app.post('/user/login', function (req, res) {
+  var text = req.body;
+  if (text.username == '191543105' && text.password == '123456') {
+    res.send({
+      result: {
+        flag: true,
+        code: 200,
+        message: '测试',
+        data: 'T',
+        authToken: "token"
+      }
+    });
+  } else {
+    res.send({
+      result: {
+        flag: true,
+        code: 500,
+        message: '账号或密码错误',
+        data: 'T',
+        authToken: "token"
+      }
+    });
+  }
+});
 
 // 监听端口
 app.listen(1523);
