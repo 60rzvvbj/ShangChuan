@@ -29,7 +29,7 @@ export function getBackground() {
  * 登录测试
  */
 export function loginTest(mes) {
-  request({
+  return request({
     method: 'POST',
     url: '/user/login',
     params: {

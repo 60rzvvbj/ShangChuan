@@ -71,8 +71,8 @@ export default {
       imgUrl: '',
       // 登录表单的数据绑定对象
       loginForm: {
-        stuNumber: '',
-        password: '',
+        stuNumber: '191543105',
+        password: '123456',
         password_check: ''
       },
       //表单状态
@@ -82,7 +82,7 @@ export default {
       // 验证规则
       loginRules: {
         stuNumber: [
-          { required: true, message: '请输入学号aaaaaaa', trigger: 'blur' }
+          { required: true, message: '请输入学号', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入登录密码', trigger: 'blur' }
@@ -91,15 +91,10 @@ export default {
     };
   },
   methods: {
-    // 预验证
-    loginCheck () {
-      this.$refs.loginFormRef.validate((valid) => {
-        if (!valid) return;
-      })
-    },
     //注册
     signIn () {
       let self = this;
+      //修改title
       console.log(self.state);
       if (self.state == 'log') {
         self.state = 'sign';
@@ -110,14 +105,19 @@ export default {
     //登录
     logIn () {
       let self = this;
+      // 修改title
       if (self.state == 'sign') {
         self.state = 'log';
         self.signstate = '35px'
         self.logstate = '0px'
       }
-      loginTest(this.loginForm).then((data) => {
-        console.log(data);
-      });
+      // 预验证
+      this.$refs.loginFormRef.validate(async (valid) => {
+        //与验证不通过则return
+        if (!valid) return;
+        const res = await loginTest(this.loginForm);
+        console.log(res);
+      })
     },
   },
   components: {
