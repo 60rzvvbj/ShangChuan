@@ -82,7 +82,7 @@ export default {
       // 验证规则
       loginRules: {
         stuNumber: [
-          { required: true, message: '请输入学号', trigger: 'blur' }
+          { required: true, message: '请输入学号aaaaaaa', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入登录密码', trigger: 'blur' }
