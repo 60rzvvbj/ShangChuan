@@ -12,6 +12,14 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 let url = __dirname + '\\webapp';
 
+// 设置允许跨域
+function setCrossDomain(res) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+}
+
 // 获取bing壁纸
 app.get('/bingImg', function (req, res) {
   let text = req.query;
@@ -33,8 +41,10 @@ app.get('/bingImg', function (req, res) {
     }
   });
 });
+
 // 测试登录
 app.post('/user/login', function (req, res) {
+  setCrossDomain(res);
   var text = req.body;
   if (text.username == '191543105' && text.password == '123456') {
     res.send({
