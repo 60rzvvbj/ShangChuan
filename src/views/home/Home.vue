@@ -16,23 +16,17 @@
       </div>
       <div class="content">
         <ul class="clearfix">
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
-          <li>作业</li>
+          <li class="normal">
+            <div class="title">计算机网络</div>
+            <div class="middle"></div>
+            <div class="content">
+              <div class="text">实验报告三</div>
+            </div>
+            <div class="footer">
+              <div class="date">2021/7/17 22:00</div>
+              <div class="number">23</div>
+            </div>
+          </li>
         </ul>
       </div>
     </div>
@@ -107,22 +101,22 @@ export default {
   margin: auto;
 }
 
-.home .work .title {
+.home .work > .title {
   width: 100%;
   height: 30px;
   padding: 30px 0px;
 }
 
-.home .work .title .number {
+.home .work > .title .number {
   float: left;
   font-size: 20px;
 }
 
-.home .work .title .number span {
+.home .work > .title .number span {
   margin-right: 10px;
 }
 
-.home .work .title .create {
+.home .work > .title .create {
   float: right;
   height: 30px;
   padding: 1px 15px;
@@ -135,11 +129,11 @@ export default {
   transition: background-color 0.3s;
 }
 
-.home .work .title .create:hover {
+.home .work > .title .create:hover {
   background-color: #000;
 }
 
-.home .work .content {
+.home .work > .content {
   width: 100%;
   height: 410px;
   padding: 0px 10px 10px 10px;
@@ -148,35 +142,86 @@ export default {
   /* background-color: rgb(255, 0, 0, 0.5); */
 }
 
-.home .work .content::-webkit-scrollbar {
+.home .work > .content::-webkit-scrollbar {
   display: none;
 }
 
-.home .work .content ul {
+.home .work > .content ul {
   width: 100%;
 }
 
-.home .work .content ul li {
+.home .work > .content ul li {
+  position: relative;
   float: left;
   width: 200px;
   height: 180px;
   border-radius: 5px;
   margin-right: 70px;
-  /* box-shadow: 0px 5px 5px 0px #666; */
+  overflow: hidden;
   background-color: skyblue;
-  cursor: pointer;
   transition: all 0.3s;
 }
 
-.home .work .content ul li:nth-child(n + 6) {
+.home .work > .content ul li:nth-child(n + 6) {
   margin-top: 50px;
 }
 
-.home .work .content ul li:nth-child(5n) {
+.home .work > .content ul li:nth-child(5n) {
   margin-right: 0px;
 }
 
-.home .work .content ul li:hover {
+.home .work > .content ul li:hover {
   box-shadow: 0px 3px 5px 0px #999;
+}
+
+.work > .content ul li {
+  --normalDColor: #9284fe;
+  --normalLColor: #eef2ff;
+  --urgentDColor: #ff7575;
+  --urgentLColor: #feecf2;
+  --overdueDColor: #b4b9c8;
+  --overdueLColor: #f0f1f4;
+  --successDColor: #12a972;
+  --successLColor: #ddfbf0;
+}
+
+.work > .content ul li .title {
+  height: 24px;
+  font-size: 16px;
+  line-height: 24px;
+  text-align: center;
+  color: #fff;
+}
+
+.work > .content ul li .middle {
+  display: block;
+}
+
+.work > .content ul li .content {
+  display: table;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 20px;
+  text-align: center;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.work > .content ul li .content .text {
+  display: table-cell;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.work > .content ul li:hover .content {
+  opacity: 1;
 }
 </style>
