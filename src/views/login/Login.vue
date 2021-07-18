@@ -61,7 +61,7 @@
 
 <script>
 import ElementUI from 'plugins/ElementUI';
-import { getBackground } from 'network/Login';
+import { getBackground, loginTest } from 'network/Login';
 
 export default {
   name: 'Login',
@@ -115,6 +115,9 @@ export default {
         self.signstate = '35px'
         self.logstate = '0px'
       }
+      loginTest(this.loginForm).then((data) => {
+        console.log(data);
+      });
     },
   },
   components: {
