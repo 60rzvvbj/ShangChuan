@@ -12,19 +12,60 @@
           <span>我的作业</span>
           <span>5/10</span>
         </div>
-        <div class="create">新建作业</div>
+        <div class="create iconfont">新建作业</div>
       </div>
       <div class="content">
         <ul class="clearfix">
           <li class="normal">
-            <div class="title">计算机网络</div>
-            <div class="middle"></div>
+            <div class="other">
+              <div class="title">计算机网络</div>
+              <div class="middle iconfont"></div>
+              <div class="footer">
+                <div class="date iconfont">2021/7/17 22:00</div>
+                <div class="number iconfont">23</div>
+              </div>
+            </div>
             <div class="content">
               <div class="text">实验报告三</div>
             </div>
-            <div class="footer">
-              <div class="date">2021/7/17 22:00</div>
-              <div class="number">23</div>
+          </li>
+          <li class="success">
+            <div class="other">
+              <div class="title">计算机网络</div>
+              <div class="middle iconfont"></div>
+              <div class="footer">
+                <div class="date iconfont">2021/7/17 22:00</div>
+                <div class="number iconfont">23</div>
+              </div>
+            </div>
+            <div class="content">
+              <div class="text">实验报告三</div>
+            </div>
+          </li>
+          <li class="overdue">
+            <div class="other">
+              <div class="title">计算机网络</div>
+              <div class="middle iconfont"></div>
+              <div class="footer">
+                <div class="date iconfont">2021/7/17 22:00</div>
+                <div class="number iconfont">23</div>
+              </div>
+            </div>
+            <div class="content">
+              <div class="text">实验报告三</div>
+            </div>
+          </li>
+          <li class="urgent">
+            <div class="other">
+              <div class="title">计算机网络</div>
+              <div class="middle iconfont"></div>
+              <div class="footer">
+                <div class="date iconfont">2021/7/17 22:00</div>
+                <div class="number iconfont">23</div>
+              </div>
+            </div>
+            <div class="content">
+              <div class="text">实验报告三</div>
             </div>
           </li>
         </ul>
@@ -129,6 +170,11 @@ export default {
   transition: background-color 0.3s;
 }
 
+.home .work > .title .create::before {
+  padding-right: 3px;
+  content: "\e644";
+}
+
 .home .work > .title .create:hover {
   background-color: #000;
 }
@@ -157,8 +203,6 @@ export default {
   height: 180px;
   border-radius: 5px;
   margin-right: 70px;
-  overflow: hidden;
-  background-color: skyblue;
   transition: all 0.3s;
 }
 
@@ -174,27 +218,47 @@ export default {
   box-shadow: 0px 3px 5px 0px #999;
 }
 
-.work > .content ul li {
-  --normalDColor: #9284fe;
-  --normalLColor: #eef2ff;
-  --urgentDColor: #ff7575;
-  --urgentLColor: #feecf2;
-  --overdueDColor: #b4b9c8;
-  --overdueLColor: #f0f1f4;
-  --successDColor: #12a972;
-  --successLColor: #ddfbf0;
+/* .home .work > .content ul .normal {
+  --darkColor: #9284fe;
+  --lightColor: #eef2ff;
+  --content: "\e663";
+  --fontSize: 100px;
+} */
+
+.home .work > .content ul .normal {
+  --darkColor: #48adfe;
+  --lightColor: #eef6fe;
+  --content: "\e663";
+  --fontSize: 100px;
 }
 
-.work > .content ul li .title {
-  height: 24px;
-  font-size: 16px;
-  line-height: 24px;
-  text-align: center;
-  color: #fff;
+.home .work > .content ul .success {
+  --darkColor: #12a972;
+  --lightColor: #ddfbf0;
+  --content: "\e634";
+  --fontSize: 70px;
 }
 
-.work > .content ul li .middle {
-  display: block;
+.home .work > .content ul .urgent {
+  --darkColor: #ff7575;
+  --lightColor: #feecf2;
+  --content: "\e685";
+  --fontSize: 70px;
+}
+
+.home .work > .content ul .overdue {
+  --darkColor: #b4b9c8;
+  --lightColor: #f0f1f4;
+  --content: "\e642";
+  --fontSize: 90px;
+}
+
+.work > .content ul li .other {
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  box-shadow: 0px 0px 0px 1px var(--darkColor);
+  overflow: hidden;
 }
 
 .work > .content ul li .content {
@@ -202,9 +266,11 @@ export default {
   position: absolute;
   top: 0px;
   left: 0px;
+  z-index: 1;
   width: 100%;
   height: 100%;
   padding: 20px;
+  border-radius: 5px;
   box-sizing: border-box;
   font-size: 20px;
   text-align: center;
@@ -223,5 +289,68 @@ export default {
 
 .work > .content ul li:hover .content {
   opacity: 1;
+}
+
+.work > .content ul li .title {
+  height: 30px;
+  box-shadow: 0px 0px 0px 1px var(--darkColor);
+  font-size: 16px;
+  line-height: 30px;
+  text-align: center;
+  color: #fff;
+  background-color: var(--darkColor);
+}
+
+.work > .content ul li .middle {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: calc(100% - 54px);
+  background-color: var(--lightColor);
+}
+
+.work > .content ul li .middle::before {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font-size: var(--fontSize);
+  color: var(--darkColor);
+  transform: translate(-50%, -50%);
+  content: var(--content);
+}
+
+.work > .content ul li .footer {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 24px;
+  border-radius: 5px;
+  padding: 0px 10px;
+  box-sizing: border-box;
+  color: var(--darkColor);
+  background-color: var(--lightColor);
+}
+
+.work > .content ul li .footer .date {
+  float: left;
+  font-size: 12px;
+}
+
+.work > .content ul li .footer .date::before {
+  font-size: 16px;
+  content: "\e697  ";
+}
+
+.work > .content ul li .footer .number {
+  float: right;
+  width: 40px;
+  font-size: 12px;
+}
+
+.work > .content ul li .footer .number::before {
+  font-size: 16px;
+  content: "\e654  ";
 }
 </style>
