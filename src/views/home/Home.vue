@@ -1,74 +1,19 @@
 <template>
   <div class="home">
-    <div class="header">
-      <div class="headerMain">
-        <div class="left">交作业了</div>
-        <div class="right">杨超旭</div>
-      </div>
-    </div>
+    <Header></Header>
     <div class="work">
       <div class="title">
         <div class="number">
-          <span>我的作业</span>
-          <span>5/10</span>
+          <span :class="tabClass('work')" @click="changeTab('work')">我的作业</span>
+          <span :class="tabClass('course')" @click="changeTab('course')">我的课程</span>
         </div>
         <div class="create iconfont">新建作业</div>
       </div>
       <div class="content">
-        <ul class="clearfix">
-          <li class="normal">
-            <div class="other">
-              <div class="title">计算机网络</div>
-              <div class="middle iconfont"></div>
-              <div class="footer">
-                <div class="date iconfont">2021/7/17 22:00</div>
-                <div class="number iconfont">23</div>
-              </div>
-            </div>
-            <div class="content">
-              <div class="text">实验报告三</div>
-            </div>
-          </li>
-          <li class="success">
-            <div class="other">
-              <div class="title">计算机网络</div>
-              <div class="middle iconfont"></div>
-              <div class="footer">
-                <div class="date iconfont">2021/7/17 22:00</div>
-                <div class="number iconfont">23</div>
-              </div>
-            </div>
-            <div class="content">
-              <div class="text">实验报告三</div>
-            </div>
-          </li>
-          <li class="overdue">
-            <div class="other">
-              <div class="title">计算机网络</div>
-              <div class="middle iconfont"></div>
-              <div class="footer">
-                <div class="date iconfont">2021/7/17 22:00</div>
-                <div class="number iconfont">23</div>
-              </div>
-            </div>
-            <div class="content">
-              <div class="text">实验报告三</div>
-            </div>
-          </li>
-          <li class="urgent">
-            <div class="other">
-              <div class="title">计算机网络</div>
-              <div class="middle iconfont"></div>
-              <div class="footer">
-                <div class="date iconfont">2021/7/17 22:00</div>
-                <div class="number iconfont">23</div>
-              </div>
-            </div>
-            <div class="content">
-              <div class="text">实验报告三</div>
-            </div>
-          </li>
-        </ul>
+        <div class="workList" v-if="nowTab == 'work'">
+          <work-list></work-list>
+        </div>
+        <div class="courseList" v-if="nowTab == 'course'">课程列表</div>
       </div>
     </div>
     <h2>主页</h2>
@@ -77,22 +22,36 @@
 </template>
 
 <script>
+import Header from 'components/content/Header';
+import WorkList from 'components/content/WorkList';
+
 export default {
   name: 'Home',
   data () {
     return {
-
+      nowTab: 'work',
     };
   },
   methods: {
+    changeTab (tab) {
+      this.nowTab = tab;
+    },
+    tabClass (tab) {
+      return this.nowTab == tab ? ['now'] : [];
+    }
+  },
+  computed: {
 
-  }
+  },
+  components: {
+    WorkList,
+    Header
+  },
 }
 </script>
 
 <style scoped>
 .home {
-  --headerHeight: 60px;
   --baseWidth: 1280px;
 }
 
@@ -103,37 +62,6 @@ export default {
 
 .home * {
   cursor: default;
-}
-
-.home .header {
-  width: 100%;
-  height: var(--headerHeight);
-  box-shadow: 0px 0px 2px 0px #000;
-  background-color: #fff;
-}
-
-.home .header .headerMain {
-  width: var(--baseWidth);
-  height: 100%;
-  margin: auto;
-}
-
-.home .header .left {
-  float: left;
-  height: 100%;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: var(--headerHeight);
-}
-
-.home .header .right {
-  float: right;
-  height: 30px;
-  padding: 3px 20px;
-  border: 1px solid #000;
-  border-radius: 50px;
-  margin: calc((var(--headerHeight) - 30px) / 2) 0px;
-  box-sizing: border-box;
 }
 
 .home .work {
@@ -155,6 +83,17 @@ export default {
 
 .home .work > .title .number span {
   margin-right: 10px;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.home .work > .title .number span:hover {
+  color: #000;
+}
+
+.home .work > .title .number .now {
+  color: #444;
 }
 
 .home .work > .title .create {
@@ -190,167 +129,5 @@ export default {
 
 .home .work > .content::-webkit-scrollbar {
   display: none;
-}
-
-.home .work > .content ul {
-  width: 100%;
-}
-
-.home .work > .content ul li {
-  position: relative;
-  float: left;
-  width: 200px;
-  height: 180px;
-  border-radius: 5px;
-  margin-right: 70px;
-  transition: all 0.3s;
-}
-
-.home .work > .content ul li:nth-child(n + 6) {
-  margin-top: 50px;
-}
-
-.home .work > .content ul li:nth-child(5n) {
-  margin-right: 0px;
-}
-
-.home .work > .content ul li:hover {
-  box-shadow: 0px 3px 5px 0px #999;
-}
-
-/* .home .work > .content ul .normal {
-  --darkColor: #9284fe;
-  --lightColor: #eef2ff;
-  --content: "\e663";
-  --fontSize: 100px;
-} */
-
-.home .work > .content ul .normal {
-  --darkColor: #48adfe;
-  --lightColor: #eef6fe;
-  --content: "\e663";
-  --fontSize: 100px;
-}
-
-.home .work > .content ul .success {
-  --darkColor: #12a972;
-  --lightColor: #ddfbf0;
-  --content: "\e634";
-  --fontSize: 70px;
-}
-
-.home .work > .content ul .urgent {
-  --darkColor: #ff7575;
-  --lightColor: #feecf2;
-  --content: "\e685";
-  --fontSize: 70px;
-}
-
-.home .work > .content ul .overdue {
-  --darkColor: #b4b9c8;
-  --lightColor: #f0f1f4;
-  --content: "\e642";
-  --fontSize: 90px;
-}
-
-.work > .content ul li .other {
-  width: 100%;
-  height: 100%;
-  border-radius: 5px;
-  box-shadow: 0px 0px 0px 1px var(--darkColor);
-  overflow: hidden;
-}
-
-.work > .content ul li .content {
-  display: table;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
-  padding: 20px;
-  border-radius: 5px;
-  box-sizing: border-box;
-  font-size: 20px;
-  text-align: center;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  cursor: pointer;
-  transition: opacity 0.3s;
-}
-
-.work > .content ul li .content .text {
-  display: table-cell;
-  vertical-align: middle;
-  cursor: pointer;
-}
-
-.work > .content ul li:hover .content {
-  opacity: 1;
-}
-
-.work > .content ul li .title {
-  height: 30px;
-  box-shadow: 0px 0px 0px 1px var(--darkColor);
-  font-size: 16px;
-  line-height: 30px;
-  text-align: center;
-  color: #fff;
-  background-color: var(--darkColor);
-}
-
-.work > .content ul li .middle {
-  display: block;
-  position: relative;
-  width: 100%;
-  height: calc(100% - 54px);
-  background-color: var(--lightColor);
-}
-
-.work > .content ul li .middle::before {
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: var(--fontSize);
-  color: var(--darkColor);
-  transform: translate(-50%, -50%);
-  content: var(--content);
-}
-
-.work > .content ul li .footer {
-  position: absolute;
-  bottom: 0px;
-  left: 0px;
-  width: 100%;
-  height: 24px;
-  border-radius: 5px;
-  padding: 0px 10px;
-  box-sizing: border-box;
-  color: var(--darkColor);
-  background-color: var(--lightColor);
-}
-
-.work > .content ul li .footer .date {
-  float: left;
-  font-size: 12px;
-}
-
-.work > .content ul li .footer .date::before {
-  font-size: 16px;
-  content: "\e697  ";
-}
-
-.work > .content ul li .footer .number {
-  float: right;
-  width: 40px;
-  font-size: 12px;
-}
-
-.work > .content ul li .footer .number::before {
-  font-size: 16px;
-  content: "\e654  ";
 }
 </style>
