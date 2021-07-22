@@ -49,10 +49,11 @@
 <script>
 import ElementUI from 'plugins/ElementUI';
 import { getBackground, loginTest } from 'network/Login';
+const message = ElementUI.Message;//消息提示
 
 export default {
   name: 'Login',
-  data() {
+  data () {
     return {
       // 背景
       imgUrl: '',
@@ -79,7 +80,7 @@ export default {
   },
   methods: {
     //注册
-    signIn() {
+    signIn () {
       let self = this;
       //修改title
       console.log(self.state);
@@ -90,7 +91,7 @@ export default {
       }
     },
     //登录
-    logIn() {
+    logIn () {
       let self = this;
       // 修改title
       if (self.state == 'sign') {
@@ -102,15 +103,19 @@ export default {
       this.$refs.loginFormRef.validate(async (valid) => {
         //与验证不通过则return
         if (!valid) return;
-        const res = await loginTest(this.loginForm);
-        console.log(res);
+        const { data: res } = await loginTest(this.loginForm);
+        console.log(message);
+        if (res.result.code !== 200) {
+          return message.error('该账户不存在或密码错误！')
+        }
+        message.success('登录成功！')
       })
     },
   },
   components: {
     ...ElementUI,
   },
-  created() {
+  created () {
     getBackground().then((data) => {
       this.imgUrl = "http://localhost:1523/bingImg?url=" + data;
     });
