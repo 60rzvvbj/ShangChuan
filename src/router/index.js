@@ -22,7 +22,7 @@ const routes = [{
     name: 'Course',
     component: () => import('views/course/Course.vue')
   }
-]
+];
 
 const router = new VueRouter({
   mode: 'history',

@@ -6,6 +6,9 @@
 </template>
 
 <script>
+import tool from 'common/utils.js';
+window.tool = tool;
+
 export default {
   name: "app"
 };

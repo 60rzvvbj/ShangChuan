@@ -7,13 +7,25 @@
           <span :class="tabClass('work')" @click="changeTab('work')">我的作业</span>
           <span :class="tabClass('course')" @click="changeTab('course')">我的课程</span>
         </div>
-        <div class="create iconfont">新建作业</div>
       </div>
       <div class="content">
         <div class="workList" v-if="nowTab == 'work'">
-          <work-list></work-list>
+          <work-list rowNum="5"></work-list>
         </div>
-        <div class="courseList" v-if="nowTab == 'course'">课程列表</div>
+        <div class="courseList" v-if="nowTab == 'course'">
+          <ul class="clearfix">
+            <li
+              v-for="item in courseList"
+              @click="goCourse(item)"
+              :style="{borderColor: item.color, backgroundColor: item.color}"
+            >
+              <div class="courseName">
+                <div class="text">{{item.courseName}}</div>
+              </div>
+              <div class="manager" :style="{backgroundColor: item.color}">课代表：{{item.manager}}</div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
     <h2>主页</h2>
@@ -30,6 +42,7 @@ export default {
   data () {
     return {
       nowTab: 'work',
+      courseList: [],
     };
   },
   methods: {
@@ -38,6 +51,10 @@ export default {
     },
     tabClass (tab) {
       return this.nowTab == tab ? ['now'] : [];
+    },
+    goCourse (course) {
+      console.log(course);
+      this.$router.push('/course');
     }
   },
   computed: {
@@ -47,6 +64,27 @@ export default {
     WorkList,
     Header
   },
+  created () {
+    this.courseList = [{
+      courseName: '计算机组成原理计算机组成原理计算机组成原理',
+      manager: '杨超旭'
+    }, {
+      courseName: '计算机网络',
+      manager: '蔡昊彤',
+    }, {
+      courseName: '毛概',
+      manager: '赖芷欣'
+    }, {
+      courseName: 'python程序设计',
+      manager: '郑淑萍'
+    }, {
+      courseName: 'JavaEE程序设计',
+      manager: '赖冠华'
+    }];
+    for (let item of this.courseList) {
+      item.color = tool.randomColor(80, 200);
+    }
+  }
 }
 </script>
 
@@ -96,38 +134,74 @@ export default {
   color: #444;
 }
 
-.home .work > .title .create {
-  float: right;
-  height: 30px;
-  padding: 1px 15px;
-  border-radius: 5px;
-  font-size: 16px;
-  line-height: 30px;
-  color: #fff;
-  background-color: #444;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
-
-.home .work > .title .create::before {
-  padding-right: 3px;
-  content: "\e644";
-}
-
-.home .work > .title .create:hover {
-  background-color: #000;
-}
-
 .home .work > .content {
   width: 100%;
   height: 410px;
   padding: 0px 10px 10px 10px;
   overflow-y: scroll;
   transform: translate(-10px, 0px);
-  /* background-color: rgb(255, 0, 0, 0.5); */
 }
 
 .home .work > .content::-webkit-scrollbar {
   display: none;
+}
+
+.home .work > .content .courseList ul {
+  width: 100%;
+}
+
+.home .work > .content .courseList ul li {
+  position: relative;
+  float: left;
+  width: 200px;
+  height: 180px;
+  border: 2px solid;
+  border-radius: 5px;
+  margin-right: 70px;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-align: center;
+  background-color: #fff;
+  transition: all 0.3s;
+}
+
+.home .work > .content .courseList ul li:nth-child(n + 6) {
+  margin-top: 50px;
+}
+
+.home .work > .content .courseList ul li:nth-child(5n) {
+  margin-right: 0px;
+}
+
+.home .work > .content .courseList ul li:hover {
+  box-shadow: 0px 3px 5px 0px #999;
+}
+
+.home .work > .content .courseList ul li div {
+  --managerHeight: 50px;
+}
+
+.home .work > .content .courseList ul li .courseName {
+  display: table;
+  padding: 20px;
+  width: 100%;
+  height: calc(180px - var(--managerHeight));
+  box-sizing: border-box;
+  font-size: 20px;
+  background-color: #fff;
+}
+
+.home .work > .content .courseList ul li .courseName .text {
+  display: table-cell;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.home .work > .content .courseList ul li .manager {
+  width: 100%;
+  height: var(--managerHeight);
+  font-size: 16px;
+  line-height: var(--managerHeight);
+  color: #fff;
 }
 </style>

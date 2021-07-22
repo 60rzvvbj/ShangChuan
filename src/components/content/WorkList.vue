@@ -1,55 +1,16 @@
 <template>
   <ul class="clearfix">
-    <li class="normal">
+    <li v-for="item in workList" :class="[item.type]" :style="getWorkStyle(item.index)">
       <div class="other">
-        <div class="title">计算机网络</div>
+        <div class="title">{{item.title}}</div>
         <div class="middle iconfont"></div>
         <div class="footer">
-          <div class="date iconfont">2021/7/17 22:00</div>
-          <div class="number iconfont">23</div>
+          <div class="date iconfont">{{item.date}}</div>
+          <div class="number iconfont">{{item.number}}</div>
         </div>
       </div>
       <div class="content">
-        <div class="text">实验报告三</div>
-      </div>
-    </li>
-    <li class="success">
-      <div class="other">
-        <div class="title">计算机网络</div>
-        <div class="middle iconfont"></div>
-        <div class="footer">
-          <div class="date iconfont">2021/7/17 22:00</div>
-          <div class="number iconfont">23</div>
-        </div>
-      </div>
-      <div class="content">
-        <div class="text">实验报告三</div>
-      </div>
-    </li>
-    <li class="overdue">
-      <div class="other">
-        <div class="title">计算机网络</div>
-        <div class="middle iconfont"></div>
-        <div class="footer">
-          <div class="date iconfont">2021/7/17 22:00</div>
-          <div class="number iconfont">23</div>
-        </div>
-      </div>
-      <div class="content">
-        <div class="text">实验报告三</div>
-      </div>
-    </li>
-    <li class="urgent">
-      <div class="other">
-        <div class="title">计算机网络</div>
-        <div class="middle iconfont"></div>
-        <div class="footer">
-          <div class="date iconfont">2021/7/17 22:00</div>
-          <div class="number iconfont">23</div>
-        </div>
-      </div>
-      <div class="content">
-        <div class="text">实验报告三</div>
+        <div class="text">{{item.name}}</div>
       </div>
     </li>
   </ul>
@@ -60,8 +21,63 @@ export default {
   name: 'WorkList',
   data () {
     return {
-
+      workList: [],
     };
+  },
+  props: ['rowNum'],
+  methods: {
+    getWorkStyle (index) {
+      let res = {};
+      if (index >= this.rowNum) {
+        res.marginTop = '50px';
+      }
+      if ((index + 1) % this.rowNum == 0) {
+        res.marginRight = '0px';
+      }
+      return res;
+    }
+  },
+  created () {
+    this.workList = [{
+      title: '计算机网络',
+      name: '实验报告三',
+      type: 'normal',
+      date: '2021/7/17 22:00',
+      number: 23,
+    }, {
+      title: '计算机网络',
+      name: '实验报告三',
+      type: 'success',
+      date: '2021/7/17 22:00',
+      number: 23
+    }, {
+      title: '计算机网络',
+      name: '实验报告三',
+      type: 'urgent',
+      date: '2021/7/17 22:00',
+      number: 23
+    }, {
+      title: '计算机网络',
+      name: '实验报告三',
+      type: 'overdue',
+      date: '2021/7/17 22:00',
+      number: 23
+    }, {
+      title: '计算机网络',
+      name: '实验报告三',
+      type: 'normal',
+      date: '2021/7/17 22:00',
+      number: 23
+    }, {
+      title: '计算机网络',
+      name: '实验报告三',
+      type: 'success',
+      date: '2021/7/17 22:00',
+      number: 23
+    }];
+    for (let i = 0; i < this.workList.length; i++) {
+      this.workList[i].index = i;
+    }
   }
 }
 </script>
@@ -69,6 +85,10 @@ export default {
 <style scoped>
 ul {
   width: 100%;
+}
+
+ul {
+  --rowNumber: 5;
 }
 
 ul li {
@@ -81,13 +101,13 @@ ul li {
   transition: all 0.3s;
 }
 
-ul li:nth-child(n + 6) {
+/* ul li:nth-child(n + 6) {
   margin-top: 50px;
 }
 
 ul li:nth-child(5n) {
   margin-right: 0px;
-}
+} */
 
 ul li:hover {
   box-shadow: 0px 3px 5px 0px #999;
@@ -194,7 +214,7 @@ ul li .footer {
   left: 0px;
   width: 100%;
   height: 24px;
-  border-radius: 5px;
+  border-radius: 0px 0px 5px 5px;
   padding: 0px 10px;
   box-sizing: border-box;
   color: var(--darkColor);
