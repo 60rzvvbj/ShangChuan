@@ -16,7 +16,10 @@
         </div>
         <div class="memberList">
           <ul>
-            <li></li>
+            <li v-for="item in [1,1,1,1,1,1,1, 2, 3, 4, 5]">
+              <div class="username">杨超旭</div>
+              <div class="account">学号：191543132</div>
+            </li>
           </ul>
         </div>
       </div>
@@ -52,7 +55,6 @@ export default {
   padding-top: 20px;
   margin: auto;
   box-sizing: border-box;
-  background-color: pink;
 }
 
 .content .work {
@@ -65,7 +67,6 @@ export default {
   float: right;
   width: 240px;
   height: 100%;
-  background-color: skyblue;
 }
 
 .content > div > .title {
@@ -97,5 +98,49 @@ export default {
 
 .content > div > .title .create:hover {
   background-color: #000;
+}
+
+.member .memberList {
+  width: 100%;
+  height: calc(100% - 60px);
+  padding: 5px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+}
+
+.member .memberList::-webkit-scrollbar {
+  display: none;
+}
+.member .memberList ul {
+  width: 100%;
+}
+
+.member .memberList ul li {
+  height: 39px;
+  border-radius: 5px;
+  padding: 2px;
+  margin-top: 14px;
+  box-shadow: 0px 1px 2px 0px #666;
+  box-sizing: border-box;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.member .memberList ul li:first-child {
+  margin-top: 0px;
+}
+
+.member .memberList ul li:hover {
+  box-shadow: 0px 1px 2px 1px #666;
+}
+
+.member .memberList ul li .username {
+  font-size: 16px;
+}
+
+.member .memberList ul li .account {
+  font-size: 10px;
+  color: #333;
 }
 </style>
