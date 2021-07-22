@@ -45,7 +45,7 @@ app.get('/bingImg', function (req, res) {
 // 测试登录
 app.post('/user/login', function (req, res) {
   setCrossDomain(res);
-  var text = req.body;
+  var text = req.query;
   if (text.username == '191543105' && text.password == '123456') {
     res.send({
       result: {

@@ -1,58 +1,45 @@
 <template>
   <div class="login_container">
     <!-- 背景 -->
-    <div class="bg_img"
-         :style="{backgroundImage:'url(' + imgUrl + ')'}"></div>
+    <div class="bg_img" :style="{backgroundImage:'url(' + imgUrl + ')'}"></div>
     <!-- 登录盒子 -->
     <div class="login_box">
       <div class="yun_box"></div>
       <div class="title">
-        <div class="log"
-             :style="{top:logstate}">LOG</div>
-        <div class="sign"
-             :style="{top:signstate}">SIGN</div>
+        <div class="log" :style="{top:logstate}">LOG</div>
+        <div class="sign" :style="{top:signstate}">SIGN</div>
         <div class="in">IN</div>
       </div>
       <!-- 登录表单区 -->
-      <el-form label-width="0px"
-               class="login_form"
-               :model="loginForm"
-               :rules="loginRules"
-               ref="loginFormRef">
+      <el-form
+        label-width="0px"
+        class="login_form"
+        :model="loginForm"
+        :rules="loginRules"
+        ref="loginFormRef"
+      >
         <!-- 学号 -->
         <el-form-item prop="stuNumber">
-          <el-input placeholder="请输入学号"
-                    v-model="loginForm.stuNumber">
-            <i slot="prefix"
-               class="iconfont icon-subscriber-fill"></i>
+          <el-input placeholder="请输入学号" v-model="loginForm.stuNumber">
+            <i slot="prefix" class="iconfont icon-subscriber-fill"></i>
           </el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input placeholder="请输入密码"
-                    v-model="loginForm.password"
-                    show-password>
-            <i slot="prefix"
-               class="iconfont icon-lock"></i>
+          <el-input placeholder="请输入密码" v-model="loginForm.password" show-password>
+            <i slot="prefix" class="iconfont icon-lock"></i>
           </el-input>
         </el-form-item>
         <!-- 密码 -->
-        <el-form-item prop="password_check"
-                      class="password_check"
-                      v-if="state == 'sign'">
-          <el-input placeholder="请确认密码"
-                    v-model="loginForm.password_check"
-                    show-password>
-            <i slot="prefix"
-               class="iconfont icon-lock"></i>
+        <el-form-item prop="password_check" class="password_check" v-if="state == 'sign'">
+          <el-input placeholder="请确认密码" v-model="loginForm.password_check" show-password>
+            <i slot="prefix" class="iconfont icon-lock"></i>
           </el-input>
         </el-form-item>
         <!-- 按钮 -->
         <div class="btn_box">
-          <div class="btn"
-               @click="logIn">登录</div>
-          <div class="btn"
-               @click="signIn">注册</div>
+          <div class="btn" @click="logIn">登录</div>
+          <div class="btn" @click="signIn">注册</div>
         </div>
       </el-form>
     </div>
@@ -65,7 +52,7 @@ import { getBackground, loginTest } from 'network/Login';
 
 export default {
   name: 'Login',
-  data () {
+  data() {
     return {
       // 背景
       imgUrl: '',
@@ -92,7 +79,7 @@ export default {
   },
   methods: {
     //注册
-    signIn () {
+    signIn() {
       let self = this;
       //修改title
       console.log(self.state);
@@ -103,7 +90,7 @@ export default {
       }
     },
     //登录
-    logIn () {
+    logIn() {
       let self = this;
       // 修改title
       if (self.state == 'sign') {
@@ -123,7 +110,7 @@ export default {
   components: {
     ...ElementUI,
   },
-  created () {
+  created() {
     getBackground().then((data) => {
       this.imgUrl = "http://localhost:1523/bingImg?url=" + data;
     });
