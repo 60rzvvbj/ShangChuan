@@ -54,6 +54,15 @@ const message = ElementUI.Message;//消息提示
 export default {
   name: 'Login',
   data () {
+    var checkPassword = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.loginForm.password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
     return {
       // 背景
       imgUrl: '',
@@ -74,6 +83,9 @@ export default {
         ],
         password: [
           { required: true, message: '请输入登录密码', trigger: 'blur' }
+        ],
+        password_check: [
+          { validator: checkPassword, trigger: 'blur' }
         ]
       }
     };
@@ -104,7 +116,8 @@ export default {
         //与验证不通过则return
         if (!valid) return;
         const { data: res } = await loginTest(this.loginForm);
-        console.log(message);
+        // 每次手动关闭所有弹框
+        message.closeAll()
         if (res.result.code !== 200) {
           return message.error('该账户不存在或密码错误！')
         }
