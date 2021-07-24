@@ -26,6 +26,11 @@ const routes = [{
     path: '/setting',
     name: 'Setting',
     component: () => import('views/setting/Setting.vue')
+  },
+  {
+    path: '/download',
+    name: 'Download',
+    component: () => import('views/download/Download.vue')
   }
 ];
 
