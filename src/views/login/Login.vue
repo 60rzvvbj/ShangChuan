@@ -6,9 +6,9 @@
     <div class="login_box">
       <div class="yun_box"></div>
       <div class="title">
-        <div class="log" :style="{top:logstate}">LOG</div>
-        <div class="sign" :style="{top:signstate}">SIGN</div>
-        <div class="in">IN</div>
+        <div class="sign">SIGN</div>
+        <div class="in" :style="{top:instate}">IN</div>
+        <div class="up" :style="{top:upstate}">UP</div>
       </div>
       <!-- 登录表单区 -->
       <el-form
@@ -20,19 +20,29 @@
       >
         <!-- 学号 -->
         <el-form-item prop="stuNumber">
-          <el-input placeholder="请输入学号" v-model="loginForm.stuNumber">
+          <el-input placeholder="请输入学号" v-model="loginForm.stuNumber" autocomplete="off">
             <i slot="prefix" class="iconfont icon-subscriber-fill"></i>
           </el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input placeholder="请输入密码" v-model="loginForm.password" show-password>
+          <el-input
+            placeholder="请输入密码"
+            v-model="loginForm.password"
+            show-password
+            autocomplete="off"
+          >
             <i slot="prefix" class="iconfont icon-lock"></i>
           </el-input>
         </el-form-item>
-        <!-- 密码 -->
-        <el-form-item prop="password_check" class="password_check" v-if="state == 'sign'">
-          <el-input placeholder="请确认密码" v-model="loginForm.password_check" show-password>
+        <!-- 确认密码 -->
+        <el-form-item prop="password_check" class="password_check" v-if="state == 'up'">
+          <el-input
+            placeholder="请确认密码"
+            v-model="loginForm.password_check"
+            show-password
+            autocomplete="off"
+          >
             <i slot="prefix" class="iconfont icon-lock"></i>
           </el-input>
         </el-form-item>
@@ -54,6 +64,16 @@ const message = ElementUI.Message;//消息提示
 export default {
   name: 'Login',
   data () {
+    //确认密码规则
+    var checkPassword = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.loginForm.password) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
     return {
       // 背景
       imgUrl: '',
@@ -64,9 +84,9 @@ export default {
         password_check: ''
       },
       //表单状态
-      state: 'log',
-      logstate: '0px',
-      signstate: '35px',
+      state: 'in',
+      instate: '0px',
+      upstate: '35px',
       // 验证规则
       loginRules: {
         stuNumber: [
@@ -74,6 +94,9 @@ export default {
         ],
         password: [
           { required: true, message: '请输入登录密码', trigger: 'blur' }
+        ],
+        password_check: [
+          { validator: checkPassword, trigger: 'blur' }
         ]
       }
     };
@@ -84,31 +107,36 @@ export default {
       let self = this;
       //修改title
       console.log(self.state);
-      if (self.state == 'log') {
-        self.state = 'sign';
-        self.signstate = '0px'
-        self.logstate = '35px'
+      if (self.state == 'in') {
+        self.state = 'up';
+        self.upstate = '0px'
+        self.instate = '35px'
       }
     },
     //登录
     logIn () {
       let self = this;
       // 修改title
-      if (self.state == 'sign') {
-        self.state = 'log';
-        self.signstate = '35px'
-        self.logstate = '0px'
+      if (self.state == 'up') {
+        self.state = 'in';
+        self.upstate = '35px'
+        self.instate = '0px'
       }
       // 预验证
       this.$refs.loginFormRef.validate(async (valid) => {
         //与验证不通过则return
         if (!valid) return;
         const { data: res } = await loginTest(this.loginForm);
-        console.log(message);
+        // 每次手动关闭所有弹框
+        message.closeAll()
         if (res.result.code !== 200) {
           return message.error('该账户不存在或密码错误！')
         }
         message.success('登录成功！')
+        //保存token
+        window.sessionStorage.setItem('token', res.result.authToken)
+        // 跳转地址
+        this.$router.push('/home')
       })
     },
   },
@@ -146,7 +174,6 @@ export default {
   background-color: rgba(255, 255, 255, 0.712);
   border-radius: 3px;
   transform: translate(-50%, -50%);
-  transition: all 0.3s ease;
 }
 //标题
 .title {
@@ -157,20 +184,18 @@ export default {
   font-size: 28px;
   color: rgb(0, 0, 0);
   overflow: hidden;
-  .log,
+  .up,
   .sign,
   .in {
     position: absolute;
     transition: all 0.3s ease;
   }
-  .in {
-    left: 54%;
-  }
-  .log {
-    left: 36%;
-  }
   .sign {
-    left: 35%;
+    left: 38%;
+  }
+  .in,
+  .up {
+    left: 55%;
   }
 }
 // 云图片

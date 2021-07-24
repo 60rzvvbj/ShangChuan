@@ -3,7 +3,9 @@ import {
   Form,
   FormItem,
   Input,
-  Message
+  Message,
+  Table,
+  TableColumn
 } from 'element-ui';
 
 export default {
@@ -11,5 +13,7 @@ export default {
   [Form.name]: Form,
   [FormItem.name]: FormItem,
   [Input.name]: Input,
+  [Table.name]: Table,
+  [TableColumn.name]: TableColumn,
   Message,
 };
