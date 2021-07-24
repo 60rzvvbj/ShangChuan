@@ -17,6 +17,8 @@
 </template>
 
 <script>
+import { getWorkList } from 'network/WorkList.js';
+
 export default {
   name: 'WorkList',
   data () {
@@ -38,6 +40,13 @@ export default {
     }
   },
   created () {
+    getWorkList({
+      type: 'student',
+      account: '191543105',
+      token: 'token'
+    }).then(data => {
+      console.log(data);
+    });
     this.workList = [{
       title: '计算机网络',
       name: '实验报告三',

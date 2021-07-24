@@ -161,18 +161,18 @@
   - res:
     - user:
       - 用户名
-- 获取某个学生的所有作业
+- 获取某个学生的所有作业(/getStudentAllWork)
   - req:
-    - 令牌(请求头)
-    - 账号
+    - 令牌(请求头)(String)
+    - 账号(account)(String)
   - res:
-    - list(work):
-      - 课程名
-	  - 作业号
-	  - 作业名
-	  - 截止时间
-	  - 提交人数
-	  - 当前用户是否提交
+    - list(work):(workList)(list)
+      - 课程名(courseName)(String)
+	  - 作业号(workId)(String/Number)
+	  - 作业名(workName)(String)
+	  - 截止时间(deadline)(long相对于1970年的那个毫秒值)
+	  - 提交人数(submitNumber)(Number)
+	  - 当前用户是否提交(submitted)(Bool)
 - 获取某个学生的所有课程
   - req:
     - 令牌(请求头)

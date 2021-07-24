@@ -18,5 +18,16 @@ module.exports = {
         'views': resolve('src/views'),
       }
     }
+  },
+  devServer: {
+    proxy: {
+      'api/': {
+        target: 'http://localhost:1523',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/api': '',
+        }
+      }
+    }
   }
 }
