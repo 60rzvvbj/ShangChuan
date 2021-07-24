@@ -18,6 +18,7 @@
 
 <script>
 import { getWorkList } from 'network/WorkList.js';
+import { DAY } from 'common/const.js';
 
 export default {
   name: 'WorkList',
@@ -37,6 +38,31 @@ export default {
         res.marginRight = '0px';
       }
       return res;
+    },
+    getWorkType (date, submitted) {
+      if (submitted) {
+        return 'success';
+      } else {
+        if (date - Date.now() > DAY) {
+          return 'normal';
+        } else if (date > Date.now()) {
+          return 'urgent';
+        } else {
+          return 'overdue';
+        }
+      }
+    },
+    getDateString (date) {
+      let res = '';
+      let dateObj = new Date(date);
+      res += dateObj.getMonth() + 1;
+      res += '/';
+      res += dateObj.getDate();
+      res += ' ';
+      res += dateObj.getHours();
+      res += ':';
+      res += dateObj.getMinutes();
+      return res;
     }
   },
   created () {
@@ -45,48 +71,20 @@ export default {
       account: '191543105',
       token: 'token'
     }).then(data => {
-      console.log(data);
+      let arr = data.data.workList;
+      let resArr = [];
+      for (let i = 0; i < arr.length; i++) {
+        resArr[i] = {
+          title: arr[i].courseName,
+          name: arr[i].workName,
+          type: this.getWorkType(arr[i].deadline, arr[i].submitted),
+          date: this.getDateString(arr[i].deadline),
+          number: arr[i].submitNumber,
+          index: i
+        }
+      }
+      this.workList = resArr;
     });
-    this.workList = [{
-      title: '计算机网络',
-      name: '实验报告三',
-      type: 'normal',
-      date: '2021/7/17 22:00',
-      number: 23,
-    }, {
-      title: '计算机网络',
-      name: '实验报告三',
-      type: 'success',
-      date: '2021/7/17 22:00',
-      number: 23
-    }, {
-      title: '计算机网络',
-      name: '实验报告三',
-      type: 'urgent',
-      date: '2021/7/17 22:00',
-      number: 23
-    }, {
-      title: '计算机网络',
-      name: '实验报告三',
-      type: 'overdue',
-      date: '2021/7/17 22:00',
-      number: 23
-    }, {
-      title: '计算机网络',
-      name: '实验报告三',
-      type: 'normal',
-      date: '2021/7/17 22:00',
-      number: 23
-    }, {
-      title: '计算机网络',
-      name: '实验报告三',
-      type: 'success',
-      date: '2021/7/17 22:00',
-      number: 23
-    }];
-    for (let i = 0; i < this.workList.length; i++) {
-      this.workList[i].index = i;
-    }
   }
 }
 </script>

@@ -89,8 +89,8 @@ app.get('/getStudentAllwork', function (req, res) {
           {
             courseName: '计算机组成原理',
             workID: '10002',
-            workName: '实验报告二' + 2 * DAY,
-            deadline: Date.now(),
+            workName: '实验报告二',
+            deadline: Date.now() + 2 * DAY,
             submitNumber: 17,
             submitted: false
           },
@@ -105,8 +105,8 @@ app.get('/getStudentAllwork', function (req, res) {
           {
             courseName: 'JavaEE框架程序设计',
             workID: '10004',
-            workName: '实验报告八' + DAY,
-            deadline: Date.now(),
+            workName: '实验报告八',
+            deadline: Date.now() + DAY,
             submitNumber: 21,
             submitted: true
           },
@@ -129,8 +129,8 @@ app.get('/getStudentAllwork', function (req, res) {
           {
             courseName: '计算机网络',
             workID: '10007',
-            workName: '实验报告五' + 3 * DAY,
-            deadline: Date.now(),
+            workName: '实验报告五',
+            deadline: Date.now() + 3 * DAY,
             submitNumber: 1,
             submitted: false
           },
