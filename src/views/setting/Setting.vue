@@ -12,22 +12,16 @@
           ref="setFormRef"
         >
           <!-- 旧密码 -->
-          <el-form-item prop="stuNumber" label="旧密码">
-            <el-input v-model="setForm.oldPd">
-              <i slot="prefix" class="iconfont icon-lock"></i>
-            </el-input>
+          <el-form-item prop="oldPd" label="旧密码">
+            <el-input v-model="setForm.oldPd" autocomplete="off" show-password></el-input>
           </el-form-item>
           <!-- 新密码 -->
-          <el-form-item prop="password" label="新密码">
-            <el-input v-model="setForm.newPd" show-password>
-              <i slot="prefix" class="iconfont icon-lock"></i>
-            </el-input>
+          <el-form-item prop="newPd" label="新密码">
+            <el-input v-model="setForm.newPd" autocomplete="off" show-password></el-input>
           </el-form-item>
           <!-- 确认密码 -->
-          <el-form-item prop="password_check" class="password_check" label="确认新密码">
-            <el-input v-model="setForm.surePd" show-password>
-              <i slot="prefix" class="iconfont icon-lock"></i>
-            </el-input>
+          <el-form-item prop="surePd" class="password_check" label="确认新密码">
+            <el-input v-model="setForm.surePd" autocomplete="off" show-password></el-input>
           </el-form-item>
           <!-- 按钮 -->
           <!-- <div class="btn_box">
@@ -47,11 +41,34 @@ import ElementUI from 'plugins/ElementUI';
 export default {
   name: 'Setting',
   data () {
+    //确认密码规则
+    var checkPassword = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入新密码'));
+      } else if (value !== this.setForm.newPd) {
+        callback(new Error('两次输入的新密码不一致!'));
+      } else {
+        callback();
+      }
+    };
     return {
+      // 数据绑定
       setForm: {
         oldPd: '',
         newPd: '',
         surePd: ''
+      },
+      //验证规则
+      setRules: {
+        oldPd: [
+          { required: true, message: '请输入旧密码', trigger: 'blur' }
+        ],
+        newPd: [
+          { required: true, message: '请输入新密码', trigger: 'blur' }
+        ],
+        surePd: [
+          { validator: checkPassword, required: true, trigger: 'blur' }
+        ]
       }
     };
   },

@@ -20,19 +20,29 @@
       >
         <!-- 学号 -->
         <el-form-item prop="stuNumber">
-          <el-input placeholder="请输入学号" v-model="loginForm.stuNumber">
+          <el-input placeholder="请输入学号" v-model="loginForm.stuNumber" autocomplete="off">
             <i slot="prefix" class="iconfont icon-subscriber-fill"></i>
           </el-input>
         </el-form-item>
         <!-- 密码 -->
         <el-form-item prop="password">
-          <el-input placeholder="请输入密码" v-model="loginForm.password" show-password>
+          <el-input
+            placeholder="请输入密码"
+            v-model="loginForm.password"
+            show-password
+            autocomplete="off"
+          >
             <i slot="prefix" class="iconfont icon-lock"></i>
           </el-input>
         </el-form-item>
-        <!-- 密码 -->
+        <!-- 确认密码 -->
         <el-form-item prop="password_check" class="password_check" v-if="state == 'up'">
-          <el-input placeholder="请确认密码" v-model="loginForm.password_check" show-password>
+          <el-input
+            placeholder="请确认密码"
+            v-model="loginForm.password_check"
+            show-password
+            autocomplete="off"
+          >
             <i slot="prefix" class="iconfont icon-lock"></i>
           </el-input>
         </el-form-item>
@@ -164,7 +174,6 @@ export default {
   background-color: rgba(255, 255, 255, 0.712);
   border-radius: 3px;
   transform: translate(-50%, -50%);
-  transition: all 0.3s ease;
 }
 //标题
 .title {
