@@ -2,13 +2,18 @@
   <div class="download">
     <Header></Header>
     <div class="table_box">
+      <!-- 标题 -->
       <div class="down_til">下载作业</div>
+      <!-- 表格 -->
       <el-table
         class="down_table"
+        stripe
+        border
         ref="handinTable"
         :data="tableData"
         tooltip-effect="dark"
         @selection-change="handleSelectionChange"
+        @row-click="handleRowClick"
       >
         <el-table-column type="selection" width="55"></el-table-column>
         <el-table-column type="index" width="55"></el-table-column>
@@ -18,6 +23,7 @@
         <el-table-column prop="name" label="姓名" width="120"></el-table-column>
         <el-table-column prop="address" label="文件" show-overflow-tooltip></el-table-column>
       </el-table>
+      <!-- 按钮 -->
       <div class="btn_box">
         <el-button class="btn">下载</el-button>
         <el-button class="btn" @click="toggleSelection()">取消选择</el-button>
@@ -66,17 +72,18 @@ export default {
       multipleSelection: []
     }
   }, methods: {
+    // 取消选择
     toggleSelection (rows) {
-      if (rows) {
-        rows.forEach(row => {
-          this.$refs.handinTable.toggleRowSelection(row);
-        });
-      } else {
-        this.$refs.handinTable.clearSelection();
-      }
+      this.$refs.handinTable.clearSelection();
     },
+    // 选中事件
     handleSelectionChange (val) {
       this.multipleSelection = val;
+      console.log(val);
+    },
+    //点击行触发，选中或不选中复选框
+    handleRowClick (row, column, event) {
+      this.$refs.handinTable.toggleRowSelection(row);
     }
   },
   components: {
@@ -88,6 +95,10 @@ export default {
 
 <style lang="less" scoped>
 @import url("~element-ui/lib/theme-chalk/index.css");
+body {
+  height: 100%;
+  background-color: #f0f4f7;
+}
 .download {
   --baseWidth: 1280px;
   background-color: #f0f4f7;
