@@ -12,9 +12,165 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 let url = __dirname + '\\webapp';
 
-const DAY = 86400000;
+// 相关常量
+const DAY = 86400000; // 一天的毫秒数
 
-// 设置允许跨域
+// 用户信息
+let users = [{
+  account: '191543105',
+  password: '123456',
+  username: '赖芷欣'
+}, {
+  account: '191543132',
+  password: '123',
+  username: '杨超旭'
+}, {
+  account: '191543110',
+  password: '123',
+  username: '蔡导'
+}, {
+  account: '191543109',
+  password: '123',
+  username: '郑淑萍'
+}, {
+  account: '191543118',
+  password: '123',
+  username: '赖冠华'
+}, {
+  account: '191543108',
+  password: '123',
+  username: '杨倩'
+}];
+
+// 科目消息
+let courses = [{
+  courseId: 1,
+  courseName: '计算机网络',
+  manager: '191543110',
+}, {
+  courseId: 2,
+  courseName: '计算机组成原理',
+  manager: '191543132',
+}, {
+  courseId: 3,
+  courseName: 'python程序设计',
+  manager: '191543109',
+}, {
+  courseId: 4,
+  courseName: 'JavaEE框架程序设计',
+  manager: '191543118',
+}, {
+  courseId: 5,
+  courseName: 'Oracle数据库',
+  manager: '191543108',
+}];
+
+// 作业信息
+let works = [{
+  workId: '10001',
+  workName: '实验报告三',
+  deadline: Date.now() + DAY,
+  submitNumber: 23,
+  courseId: 1,
+}, {
+  workId: '10002',
+  workName: '实验报告二',
+  deadline: Date.now() + 2 * DAY,
+  submitNumber: 17,
+  courseId: 2,
+}, {
+  workId: '10003',
+  workName: '实验报告五',
+  deadline: Date.now() - DAY,
+  submitNumber: 29,
+  courseId: 3,
+}, {
+  workId: '10004',
+  workName: '实验报告八',
+  deadline: Date.now() + DAY,
+  submitNumber: 21,
+  courseId: 4,
+}, {
+  workId: '10005',
+  workName: '实验报告四',
+  deadline: Date.now() + 2 * DAY,
+  submitNumber: 5,
+  courseId: 1,
+}, {
+  workId: '10006',
+  workName: '实验报告五',
+  deadline: Date.now(),
+  submitNumber: 30,
+  courseId: 5,
+}, {
+  workId: '10007',
+  workName: '实验报告五',
+  deadline: Date.now() + 3 * DAY,
+  submitNumber: 1,
+  courseId: 1,
+}];
+
+// 学生课程表
+let studentCourses = [{
+  account: '191543105',
+  courseId: [1, 2, 3, 4, 5]
+}, {
+  account: '191543132',
+  courseId: [1, 2, 3, 4, 5]
+}];
+
+// 学生作业表
+let studentWorks = [{
+  account: '191543105',
+  works: [{
+    workId: '10001',
+    submitted: false
+  }, {
+    workId: '10002',
+    submitted: false
+  }, {
+    workId: '10003',
+    submitted: false
+  }, {
+    workId: '10004',
+    submitted: true
+  }, {
+    workId: '10005',
+    submitted: false
+  }, {
+    workId: '10006',
+    submitted: true
+  }, {
+    workId: '10007',
+    submitted: false
+  }]
+}, {
+  account: '191543105',
+  works: [{
+    workId: '10001',
+    submitted: true
+  }, {
+    workId: '10002',
+    submitted: false
+  }, {
+    workId: '10003',
+    submitted: true
+  }, {
+    workId: '10004',
+    submitted: true
+  }, {
+    workId: '10005',
+    submitted: true
+  }, {
+    workId: '10006',
+    submitted: true
+  }, {
+    workId: '10007',
+    submitted: false
+  }]
+}];
+
+// 设置允许跨域(已启用)
 function setCrossDomain(res) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
@@ -46,7 +202,6 @@ app.get('/bingImg', function (req, res) {
 
 // 测试登录
 app.post('/user/login', function (req, res) {
-  setCrossDomain(res);
   var text = req.query;
   if (text.username == '191543105' && text.password == '123456') {
     res.send({
