@@ -146,14 +146,15 @@
 	  - 状态码
 	  - 描述信息
 	  - 令牌
-- 修改密码
+- 修改密码(POST | /user/changePd)
   - req:
-	- 令牌(请求头)
-    - 账号
-	- 原密码
-    - 新密码
+	- 令牌(请求头)(String)
+    - 账号(account)(String)
+	- 原密码(oldPd)(String)
+    - 新密码(newPd)(String)
   - res:
-    - 是否成功
+    - 是否成功(flag)(Bool)
+    - 描述信息(message)(String)
 - 获取用户信息
   - req:
     - 令牌(请求头)

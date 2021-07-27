@@ -71,6 +71,36 @@ app.post('/user/login', function (req, res) {
   }
 });
 
+// 改密码
+app.post('/user/changePd', function (req, res) {
+  let text = req.body;
+  let headers = req.headers;
+  if (headers.authorize_token == 'token') {
+    if (text.account != '191543105') {
+      res.send({
+        flag: false,
+        message: '账号异常'
+      });
+    } else if (text.oldPd == '123456' && text.newPd != '123456') {
+      res.send({
+        flag: true,
+        message: '修改成功'
+      });
+    } else {
+      res.send({
+        flag: false,
+        message: '新密码不可以和旧密码相同'
+      });
+    }
+  } else {
+    res.send({
+      flag: false,
+      message: '登录状态异常'
+    });
+  }
+});
+
+// 获取某个学生的全部作业
 app.get('/getStudentAllwork', function (req, res) {
   let text = req.query;
   let headers = req.headers;
