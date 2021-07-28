@@ -76,16 +76,23 @@ app.post('/user/changePd', function (req, res) {
   let text = req.body;
   let headers = req.headers;
   if (headers.authorize_token == 'token') {
-    if (text.account != '191543105') {
+    if (!userService.login(text.account, text.oldPd)) {
       res.send({
         flag: false,
         message: '账号异常'
       });
     } else if (text.oldPd == '123456' && text.newPd != '123456') {
-      res.send({
-        flag: true,
-        message: '修改成功'
-      });
+      if (userService.changePd(text.account, text.oldPd, text.newPd)) {
+        res.send({
+          flag: true,
+          message: '修改成功'
+        });
+      } else {
+        res.send({
+          flag: false,
+          message: '修改失败'
+        });
+      }
     } else {
       res.send({
         flag: false,
