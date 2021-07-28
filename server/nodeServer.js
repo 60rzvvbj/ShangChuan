@@ -75,36 +75,28 @@ app.post('/user/login', function (req, res) {
 app.post('/user/changePd', function (req, res) {
   let text = req.body;
   let headers = req.headers;
+  let flag = false;
+  let message = '';
   if (headers.authorize_token == 'token') {
     if (!userService.login(text.account, text.oldPd)) {
-      res.send({
-        flag: false,
-        message: '账号异常'
-      });
+      message = '账号异常';
     } else if (text.oldPd == '123456' && text.newPd != '123456') {
       if (userService.changePd(text.account, text.oldPd, text.newPd)) {
-        res.send({
-          flag: true,
-          message: '修改成功'
-        });
+        flag = true;
+        message = '修改成功';
       } else {
-        res.send({
-          flag: false,
-          message: '修改失败'
-        });
+        message = '修改失败';
       }
     } else {
-      res.send({
-        flag: false,
-        message: '新密码不可以和旧密码相同'
-      });
+      message = '新密码不可以和旧密码相同';
     }
   } else {
-    res.send({
-      flag: false,
-      message: '登录状态异常'
-    });
+    message = '登录状态异常';
   }
+  res.send({
+    flag,
+    message
+  });
 });
 
 // 获取某个学生的全部作业
