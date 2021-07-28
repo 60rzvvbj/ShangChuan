@@ -48,3 +48,39 @@ export let studentWorks = [{
     submitted: false
   }]
 }];
+
+// 添加学生作业
+function addStudentWork(studentWork) {
+  for (let student of studentWorks) {
+    if (student.account == studentWork.account) {
+      student.works.push({
+        workId: studentWork.workId,
+        submitted: studentWork.submitted
+      });
+      return true;
+    }
+  }
+  studentWorks.push({
+    account: studentWork.account,
+    works: [{
+      workId: studentWork.workId,
+      submitted: studentWork.submitted
+    }]
+  });
+  return true;
+}
+
+// 获取某个学生的所有作业
+function getStudentWork(account) {
+  for (student of studentWorks) {
+    if (student.account == account) {
+      return student.works;
+    }
+  }
+  return null;
+}
+
+export default {
+  addStudentWork,
+  getStudentWork,
+};
