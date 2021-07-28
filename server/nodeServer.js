@@ -1,19 +1,19 @@
 // 导包，初始化
-let request = require('request');
-let express = require('express');
+import request from 'request';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import fs from 'fs';
 let app = express();
-let bodyParser = require('body-parser');
-let cookieParser = require('cookie-parser');
-let fs = require('fs');
 app.use(bodyParser.urlencoded({
   extended: false
 }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-let url = __dirname + '\\webapp';
 
 // 相关常量
 const DAY = 86400000; // 一天的毫秒数
+import userService from './service/userService.js';
 
 // 设置允许跨域(已启用)
 function setCrossDomain(res) {
@@ -48,7 +48,7 @@ app.get('/bingImg', function (req, res) {
 // 测试登录
 app.post('/user/login', function (req, res) {
   var text = req.query;
-  if (text.username == '191543105' && text.password == '123456') {
+  if (userService.login(text.username, text.password)) {
     res.send({
       result: {
         flag: true,

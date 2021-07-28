@@ -62,7 +62,7 @@ function addWork(work) {
 
 // 获取作业信息
 function getWork(workId) {
-  for (work of works) {
+  for (let work of works) {
     if (work.workId == workId) {
       return {
         ...work
@@ -74,7 +74,7 @@ function getWork(workId) {
 
 // 修改作业信息
 function updateWork(work) {
-  for (w of works) {
+  for (let w of works) {
     if (w.workId == work.workId) {
       w.workName = work.workName;
       w.deadline = work.deadline;
@@ -85,7 +85,7 @@ function updateWork(work) {
 
 // 删除作业
 function removeWork(workId) {
-  for (work of works) {
+  for (let work of works) {
     if (work.workId == workId) {
       let newArr = works.filter(w => w.workId != workId);
       works = newArr;
@@ -94,3 +94,10 @@ function removeWork(workId) {
   }
   return false;
 }
+
+export default {
+  addWork,
+  updateWork,
+  getWork,
+  removeWork
+};

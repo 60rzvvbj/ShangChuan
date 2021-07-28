@@ -27,7 +27,7 @@ let users = [{
 
 // 通过账号获取用户信息
 function getUser(account) {
-  for (user of users) {
+  for (let user of users) {
     if (user.account == account) {
       return {
         ...user
@@ -39,10 +39,9 @@ function getUser(account) {
 
 // 修改用户信息
 function updateUser(user) {
-  for (u of users) {
+  for (let u of users) {
     if (user.account == u.account) {
-      u.password = user.password;
-      u.username = user.username;
+      Object.assign(u, user);
       return true;
     }
   }
