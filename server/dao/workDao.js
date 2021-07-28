@@ -2,6 +2,7 @@ import {
   DAY
 } from '../common/const.js';
 
+// 下一个作业ID
 let nextWorkId = 10008;
 
 // 作业信息
