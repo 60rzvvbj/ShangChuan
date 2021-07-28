@@ -1,0 +1,50 @@
+// 学生作业表
+export let studentWorks = [{
+  account: '191543105',
+  works: [{
+    workId: '10001',
+    submitted: false
+  }, {
+    workId: '10002',
+    submitted: false
+  }, {
+    workId: '10003',
+    submitted: false
+  }, {
+    workId: '10004',
+    submitted: true
+  }, {
+    workId: '10005',
+    submitted: false
+  }, {
+    workId: '10006',
+    submitted: true
+  }, {
+    workId: '10007',
+    submitted: false
+  }]
+}, {
+  account: '191543132',
+  works: [{
+    workId: '10001',
+    submitted: true
+  }, {
+    workId: '10002',
+    submitted: false
+  }, {
+    workId: '10003',
+    submitted: true
+  }, {
+    workId: '10004',
+    submitted: true
+  }, {
+    workId: '10005',
+    submitted: true
+  }, {
+    workId: '10006',
+    submitted: true
+  }, {
+    workId: '10007',
+    submitted: false
+  }]
+}];
