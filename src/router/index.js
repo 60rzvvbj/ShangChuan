@@ -23,9 +23,9 @@ const routes = [{
     component: () => import('views/course/Course.vue')
   },
   {
-    path: '/setting',
-    name: 'Setting',
-    component: () => import('views/setting/Setting.vue')
+    path: '/changePd/',
+    name: 'ChangePd/',
+    component: () => import('views/changePd/ChangePd.vue')
   },
   {
     path: '/download',

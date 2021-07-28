@@ -9,27 +9,29 @@
         class="down_table"
         stripe
         border
+        height="450"
+        :header-cell-style="{background:'#F5F7FA'}"
         ref="handinTable"
         :data="tableData"
         tooltip-effect="dark"
         @selection-change="handleSelectionChange"
         @row-click="handleRowClick"
       >
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column type="index" width="55"></el-table-column>
-        <el-table-column label="学号" width="120">
-          <template slot-scope="scope">{{ scope.row.num }}</template>
+        <el-table-column　label-class-name="DisabledSelection" align="center" type="selection" width="70"></el-table-column>
+        <el-table-column label="序号" type="index" width="55"
+            　　align="center"></el-table-column>
+        <el-table-column label="学号" width="120" prop="num">
+          <!-- <template slot-scope="scope">{{ scope.row.num }}</template> -->
         </el-table-column>
         <el-table-column prop="name" label="姓名" width="120"></el-table-column>
         <el-table-column prop="address" label="文件" show-overflow-tooltip></el-table-column>
       </el-table>
       <!-- 按钮 -->
       <div class="btn_box">
-        <el-button class="btn">下载</el-button>
-        <el-button class="btn" @click="toggleSelection()">取消选择</el-button>
+        <el-button type="primary" class="btn">下载</el-button>
+        <el-button type="primary" class="btn" @click="toggleSelection()">取消选择</el-button>
       </div>
     </div>
-    <div class="nullbox"></div>
   </div>
 </template>
 
@@ -42,32 +44,64 @@ export default {
     return {
       tableData: [{
         num: '191543105',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        name: '王五',
+        address: 'xxxxxxxxxxxx'
       }, {
         num: '191543105',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        name: '张三',
+        address: 'xxxxxxxxxxxxxxx'
       }, {
         num: '191543105',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        name: '李四',
+        address: 'xxxxxxxxxxxx'
       }, {
         num: '191543105',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        name: '王五',
+        address: 'xxxxxxxxxxxx'
       }, {
         num: '191543105',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        name: '张三',
+        address: 'xxxxxxxxxxxxxxx'
       }, {
         num: '191543105',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        name: '李四',
+        address: 'xxxxxxxxxxxx'
       }, {
         num: '191543105',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
+        name: '王五',
+        address: 'xxxxxxxxxxxx'
+      }, {
+        num: '191543105',
+        name: '张三',
+        address: 'xxxxxxxxxxxxxxx'
+      }, {
+        num: '191543105',
+        name: '李四',
+        address: 'xxxxxxxxxxxx'
+      }, {
+        num: '191543105',
+        name: '王五',
+        address: 'xxxxxxxxxxxx'
+      }, {
+        num: '191543105',
+        name: '张三',
+        address: 'xxxxxxxxxxxxxxx'
+      }, {
+        num: '191543105',
+        name: '李四',
+        address: 'xxxxxxxxxxxx'
+      }, {
+        num: '191543105',
+        name: '王五',
+        address: 'xxxxxxxxxxxx'
+      }, {
+        num: '191543105',
+        name: '张三',
+        address: 'xxxxxxxxxxxxxxx'
+      }, {
+        num: '191543105',
+        name: '李四',
+        address: 'xxxxxxxxxxxx'
       }],
       multipleSelection: []
     }
@@ -84,7 +118,7 @@ export default {
     //点击行触发，选中或不选中复选框
     handleRowClick (row, column, event) {
       this.$refs.handinTable.toggleRowSelection(row);
-    }
+    },
   },
   components: {
     Header,
@@ -95,17 +129,19 @@ export default {
 
 <style lang="less" scoped>
 @import url("~element-ui/lib/theme-chalk/index.css");
-body {
-  height: 100%;
-  background-color: #f0f4f7;
-}
 .download {
+  position: relative;
+  height: 100%;
   --baseWidth: 1280px;
   background-color: #f0f4f7;
 }
 // 表格盒子
 .table_box {
-  margin: 30px auto;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 70%;
+  transform: translate(-50%, -50%);
   width: var(--baseWidth);
   box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
     7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
@@ -133,16 +169,34 @@ body {
 // 表格
 .down_table {
   width: 80%;
+  height: 68% !important;
   margin: auto;
 }
+// deep覆盖ui样式
+// 全选提示
+.el-table /deep/.DisabledSelection .cell .el-checkbox__inner{
+	  margin-left: 20px;
+	  position:relative;
+	}
+.el-table /deep/.DisabledSelection .cell:before{
+	  content:"all";
+	  position:absolute;
+	  left:15px;
+	}
+  // 滚动条的宽度
+  /deep/ .el-table__body-wrapper::-webkit-scrollbar {
+    width: 6px; // 横向滚动条
+    height: 6px; // 纵向滚动条 必写
+  }
+  // 滚动条的滑块
+  /deep/ .el-table__body-wrapper::-webkit-scrollbar-thumb {
+    background-color: #ddd;
+    border-radius: 3px;
+  }
 // 按钮盒子
 .btn_box {
+  height: 50px;
   text-align: center;
   margin: 30px 0;
-}
-// 空盒子
-.nullbox {
-  width: 100%;
-  height: 30px;
 }
 </style>
