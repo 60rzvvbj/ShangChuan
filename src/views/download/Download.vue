@@ -20,11 +20,11 @@
         <el-table-column　label-class-name="DisabledSelection" align="center" type="selection" width="70"></el-table-column>
         <el-table-column label="序号" type="index" width="55"
             　　align="center"></el-table-column>
-        <el-table-column label="学号" width="120" prop="num">
+        <el-table-column align="center" label="学号" width="120" prop="num">
           <!-- <template slot-scope="scope">{{ scope.row.num }}</template> -->
         </el-table-column>
-        <el-table-column prop="name" label="姓名" width="120"></el-table-column>
-        <el-table-column prop="address" label="文件" show-overflow-tooltip></el-table-column>
+        <el-table-column align="center" prop="name" label="姓名" width="120"></el-table-column>
+        <el-table-column align="center" prop="address" label="文件" show-overflow-tooltip></el-table-column>
       </el-table>
       <!-- 按钮 -->
       <div class="btn_box">

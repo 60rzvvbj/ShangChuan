@@ -79,8 +79,8 @@ export default {
       imgUrl: '',
       // 登录表单的数据绑定对象
       loginForm: {
-        stuNumber: '191543105',
-        password: '123456',
+        stuNumber: '',
+        password: '',
         password_check: ''
       },
       //表单状态
@@ -111,6 +111,7 @@ export default {
         self.state = 'up';
         self.upstate = '0px'
         self.instate = '35px'
+        this.clearUser()
       }
     },
     //登录
@@ -121,6 +122,8 @@ export default {
         self.state = 'in';
         self.upstate = '35px'
         self.instate = '0px'
+        // 获取账号信息
+        this.setUser()
       }
       // 预验证
       this.$refs.loginFormRef.validate(async (valid) => {
@@ -133,12 +136,24 @@ export default {
           return message.error('该账户不存在或密码错误！')
         }
         message.success('登录成功！')
-        //保存token
-        window.sessionStorage.setItem('token', res.result.authToken)
+        //设置cookie
+        // window.sessionStorage.setItem('token', res.result.authToken)
+        const setDate = { token: res.result.authToken, user: this.loginForm.stuNumber, password: this.loginForm.password };
+        tool.setCookie(setDate, 7);
         // 跳转地址
         this.$router.push('/home')
       })
     },
+    //设置账号密码
+    setUser () {
+      this.loginForm.stuNumber = tool.getCookie("user");
+      this.loginForm.password = tool.getCookie("password");
+    },
+    // 清除账号密码
+    clearUser () {
+      this.loginForm.stuNumber = '';
+      this.loginForm.password = '';
+    }
   },
   components: {
     ...ElementUI,
@@ -147,6 +162,7 @@ export default {
     getBackground().then((data) => {
       this.imgUrl = "http://localhost:1523/bingImg?url=" + data;
     });
+    this.setUser()
   }
 }
 
