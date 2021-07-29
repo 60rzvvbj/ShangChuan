@@ -72,7 +72,7 @@ function addStudentWork(studentWork) {
 
 // 获取某个学生的所有作业
 function getStudentWork(account) {
-  for (student of studentWorks) {
+  for (let student of studentWorks) {
     if (student.account == account) {
       return student.works;
     }
