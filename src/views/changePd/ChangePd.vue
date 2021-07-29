@@ -27,7 +27,7 @@
           <!-- <div class="btn_box">
             <div class="btn">提交</div>
           </div>-->
-          <el-button class="btn" type="primary" plain round>提交</el-button>
+          <el-button class="btn" type="primary" plain round @click="changeClick">提交</el-button>
         </el-form>
       </div>
     </div>
@@ -37,6 +37,8 @@
 <script>
 import Header from 'components/content/Header';
 import ElementUI from 'plugins/ElementUI';
+import { changePassWord } from 'network/changePd';
+const message = ElementUI.Message;//消息提示
 
 export default {
   name: 'Setting',
@@ -54,9 +56,11 @@ export default {
     return {
       // 数据绑定
       setForm: {
+        user: '',
         oldPd: '',
         newPd: '',
-        surePd: ''
+        surePd: '',
+        token: ''
       },
       //验证规则
       setRules: {
@@ -72,9 +76,38 @@ export default {
       }
     };
   },
+  methods: {
+    // 获取信息
+    getMes () {
+      this.setForm.token = tool.getCookie("token");
+      this.setForm.user = tool.getCookie("user");
+    },
+    // 修改密码
+    changeClick () {
+      // 预验证
+      this.$refs.setFormRef.validate(async (valid) => {
+        //与验证不通过则return
+        if (!valid) return;
+        console.log(this.setForm);
+        const { data: res } = await changePassWord(this.setForm);
+        // 每次手动关闭所有弹框
+        message.closeAll()
+        if (!res.flag) {
+          return message.error(res.message + '！')
+        }
+        message.success('修改成功！')
+        // 修改cookie
+        tool.setCookie({ password: this.setForm.newPd }, 7);
+        this.getMes()
+      })
+    }
+  },
   components: {
     Header,
     ...ElementUI
+  },
+  created () {
+    this.getMes();
   }
 }
 </script>

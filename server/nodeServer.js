@@ -73,7 +73,7 @@ app.post('/user/login', function (req, res) {
 
 // 改密码
 app.post('/user/changePd', function (req, res) {
-  let text = req.body;
+  let text = req.query;
   let headers = req.headers;
   let flag = false;
   let message = '';
