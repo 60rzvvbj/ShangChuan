@@ -49,7 +49,7 @@
         <!-- 按钮 -->
         <div class="btn_box">
           <div class="btn" @click="logIn">登录</div>
-          <div class="btn" @click="signIn">注册</div>
+          <!-- <div class="btn" @click="signIn">注册</div> -->
         </div>
       </el-form>
     </div>
