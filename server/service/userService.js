@@ -18,7 +18,21 @@ function changePd(account, oldPd, newPd) {
   }
 }
 
+// 获取用户信息
+function getUserInfo(account) {
+  let user = userDao.getUser(account);
+  if (user) {
+    return {
+      account,
+      username: user.username
+    };
+  } else {
+    return null;
+  }
+}
+
 export default {
   login,
-  changePd
+  changePd,
+  getUserInfo
 };

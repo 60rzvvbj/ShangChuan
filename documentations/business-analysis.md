@@ -155,13 +155,15 @@
   - res:
     - 是否成功(flag)(Bool)
     - 描述信息(message)(String)
-- 获取用户信息
+- 获取用户信息(/user/info)
   - req:
-    - 令牌(请求头)
-	- 账号
+    - 令牌(请求头)(String)
+	- 账号(account)(String)
   - res:
     - user:
-      - 用户名
+      - 用户名(username)(String)
+    - 是否成功(flag)(Bool)
+    - 描述信息(message)(String)
 - 获取某个学生的所有作业(/getStudentAllWork)
   - req:
     - 令牌(请求头)(String)

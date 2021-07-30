@@ -5,7 +5,8 @@ import {
   Input,
   Message,
   Table,
-  TableColumn
+  TableColumn,
+  Popover,
 } from 'element-ui';
 
 export default {
@@ -15,5 +16,6 @@ export default {
   [Input.name]: Input,
   [Table.name]: Table,
   [TableColumn.name]: TableColumn,
+  [Popover.name]: Popover,
   Message,
 };

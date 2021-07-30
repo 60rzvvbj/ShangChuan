@@ -2,23 +2,42 @@
   <div class="header">
     <div class="headerMain">
       <div class="left">交作业了</div>
-      <div class="right">杨超旭</div>
+      <el-popover placement="top" width="160" trigger="hover">
+        <div class="info">
+          <span>姓名： {{username}}</span>
+          <span>学号： {{account}}</span>
+          <div class="line"></div>
+          <div class="logout" @click="logout">切换账号</div>
+        </div>
+        <div class="right" slot="reference">{{username}}</div>
+      </el-popover>
     </div>
   </div>
 </template>
 
 <script>
+import ElementUI from 'plugins/ElementUI.js';
 export default {
   name: 'Header',
   data () {
     return {
-
+      username: '杨超旭',
+      account: '191543132',
     };
+  },
+  methods: {
+    logout () {
+      this.$router.push('/login');
+    }
+  },
+  components: {
+    ...ElementUI,
   }
 }
 </script>
 
 <style scoped>
+@import url("~element-ui/lib/theme-chalk/index.css");
 .header {
   --baseWidth: 1280px;
   --headerHeight: 60px;
@@ -46,6 +65,7 @@ export default {
 }
 
 .header .right {
+  position: relative;
   float: right;
   height: 30px;
   padding: 3px 20px;
@@ -53,5 +73,41 @@ export default {
   border-radius: 50px;
   margin: calc((var(--headerHeight) - 30px) / 2) 0px;
   box-sizing: border-box;
+  cursor: pointer;
+}
+
+.info {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.info span {
+  display: block;
+  font-size: 14px;
+}
+
+.info .line {
+  position: absolute;
+  bottom: 15px;
+  width: 100%;
+  height: 0.5px;
+  background-color: #eee;
+}
+
+.info .logout {
+  position: absolute;
+  bottom: -7px;
+  right: 0px;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.info .logout:hover {
+  color: #000;
 }
 </style>

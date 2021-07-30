@@ -72,6 +72,31 @@ app.post('/user/login', function (req, res) {
   }
 });
 
+// 获取用户信息
+app.get('/user/info', function (req, res) {
+  let text = req.query;
+  let headers = req.headers;
+  let flag = false;
+  let message = '';
+  let user = {};
+  if (headers.authorize_token == 'token') {
+    user = userService.getUserInfo(text.account);
+    if (user != null) {
+      flag = true;
+      message = '获取成功';
+    } else {
+      message = '用户不存在';
+    }
+  } else {
+    message = '登录状态异常';
+  }
+  res.send({
+    flag,
+    message,
+    user
+  });
+});
+
 // 改密码
 app.post('/user/changePd', function (req, res) {
   let text = req.query;
