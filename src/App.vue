@@ -9,8 +9,8 @@
 import tool from 'common/utils.js';
 window.tool = tool;
 // 测试接口
-// import { test } from 'network/test.js';
-// test();
+import { test } from 'network/test.js';
+test();
 
 export default {
   name: "app"

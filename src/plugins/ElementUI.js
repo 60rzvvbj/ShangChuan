@@ -7,6 +7,9 @@ import {
   Table,
   TableColumn,
   Popover,
+  Dialog,
+  DatePicker,
+  Tooltip,
 } from 'element-ui';
 
 export default {
@@ -17,5 +20,8 @@ export default {
   [Table.name]: Table,
   [TableColumn.name]: TableColumn,
   [Popover.name]: Popover,
+  [Dialog.name]: Dialog,
+  [DatePicker.name]: DatePicker,
+  [Tooltip.name]: Tooltip,
   Message,
 };

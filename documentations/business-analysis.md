@@ -176,15 +176,15 @@
 	  - 截止时间(deadline)(long相对于1970年的那个毫秒值)
 	  - 提交人数(submitNumber)(Number)
 	  - 当前用户是否提交(submitted)(Bool)
-- 获取某个学生的所有课程
+- 获取某个学生的所有课程(/getStudentAllCourse)
   - req:
-    - 令牌(请求头)
-    - 账号
+    - 令牌(请求头)(String)
+    - 账号(account)(String)
   - res:
-    - list(course):
-      - 课程号
-      - 课程名
-      - 课代表名
+    - list(course):(courseList)(list)
+      - 课程号(courseId)(String)
+      - 课程名(courseName)(String)
+      - 课代表名(managerName)(String)
 - 获取作业信息
   - req:
     - 令牌(请求头)

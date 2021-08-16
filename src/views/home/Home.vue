@@ -22,7 +22,7 @@
               <div class="courseName">
                 <div class="text">{{item.courseName}}</div>
               </div>
-              <div class="manager" :style="{backgroundColor: item.color}">课代表：{{item.manager}}</div>
+              <div class="manager" :style="{backgroundColor: item.color}">课代表：{{item.managerName}}</div>
             </li>
           </ul>
         </div>
@@ -34,6 +34,7 @@
 <script>
 import Header from 'components/content/Header';
 import WorkList from 'components/content/WorkList';
+import { getStudentAllCourse } from 'network/Home.js';
 
 export default {
   name: 'Home',
@@ -51,7 +52,9 @@ export default {
       return this.nowTab == tab ? ['now'] : [];
     },
     goCourse (course) {
-      console.log(course);
+      let c = { ...course };
+      delete c.color;
+      this.$store.commit('setCourse', c);
       this.$router.push('/course');
     }
   },
@@ -62,23 +65,11 @@ export default {
     WorkList,
     Header
   },
-  created () {
-    this.courseList = [{
-      courseName: '计算机组成原理计算机组成原理计算机组成原理',
-      manager: '杨超旭'
-    }, {
-      courseName: '计算机网络',
-      manager: '蔡昊彤',
-    }, {
-      courseName: '毛概',
-      manager: '赖芷欣'
-    }, {
-      courseName: 'python程序设计',
-      manager: '郑淑萍'
-    }, {
-      courseName: 'JavaEE程序设计',
-      manager: '赖冠华'
-    }];
+  async created () {
+    this.courseList = (await getStudentAllCourse({
+      token: 'token',
+      account: '191543132'
+    })).data.courseList;
     for (let item of this.courseList) {
       item.color = tool.randomColor(80, 200);
     }

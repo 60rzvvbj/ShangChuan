@@ -31,7 +31,7 @@ export function getBackground() {
 export function loginTest(mes) {
   return request({
     method: 'POST',
-    url: '/user/login',
+    url: '/server/oauth/login',
     params: {
       username: mes.stuNumber,
       password: mes.password

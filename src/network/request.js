@@ -1,11 +1,17 @@
 import axios from "axios";
 
 export function request(config) {
-  const instance = axios.create({
-    // baseURL: 'http://localhost:1523',
-    baseURL: '/api',
-    timeout: 5000
-  });
-
+  let instance;
+  let url = config.url;
+  if (url.startsWith('/server')) {
+    instance = axios.create({
+      timeout: 5000
+    });
+  } else {
+    instance = axios.create({
+      baseURL: '/api',
+      timeout: 5000
+    });
+  }
   return instance(config);
 }

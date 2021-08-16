@@ -15,6 +15,7 @@ app.use(cookieParser());
 const DAY = 86400000; // 一天的毫秒数
 import userService from './service/userService.js';
 import workService from './service/workService.js';
+import courseService from './service/courseService.js';
 
 // 设置允许跨域(已启用)
 function setCrossDomain(res) {
@@ -143,6 +144,26 @@ app.get('/getStudentAllwork', function (req, res) {
   }
 });
 
+// 获取某个学生的全部课程
+app.get('/getStudentAllCourse', function (req, res) {
+  let text = req.query;
+  let headers = req.headers;
+  if (headers.authorize_token == 'token') {
+    let account = text.account;
+    res.send({
+      courseList: courseService.getStudentCourse(account),
+      message: '获取成功',
+    });
+  } else {
+    res.send({
+      courseList: null,
+      message: '登录状态异常',
+    });
+  }
+});
+
+
+// 测试
 app.get('/test', function (req, res) {
   let a = req.headers;
   res.send({

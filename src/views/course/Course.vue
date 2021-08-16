@@ -5,20 +5,80 @@
       <div class="work">
         <div class="title">
           <div class="text">作业</div>
-          <div class="create iconfont">新建作业</div>
+          <div class="create iconfont" @click="addWorkStatus = true">新建作业</div>
+          <el-dialog
+            custom-class="addWorkBox"
+            title="新建作业"
+            :visible.sync="addWorkStatus"
+            center
+            :show-close="false"
+          >
+            <div>
+              <div class="left">作业名称：</div>
+              <div class="right">
+                <el-input placeholder="请输入作业名称"></el-input>
+              </div>
+            </div>
+            <div>
+              <div class="left">截止时间：</div>
+              <div class="right">
+                <el-date-picker
+                  v-model="date"
+                  type="datetime"
+                  placeholder="请选择截止时间"
+                  format="MM-dd HH:mm"
+                ></el-date-picker>
+              </div>
+            </div>
+            <div>
+              <div class="left">文件格式：</div>
+              <div class="right">
+                <el-input placeholder="请输入文件格式"></el-input>
+              </div>
+            </div>
+            <div slot="footer" class="dialog-footer">
+              <el-button type="primary" @click="addWorkStatus = false">确 定</el-button>
+              <el-button @click="addWorkStatus = false">取 消</el-button>
+            </div>
+          </el-dialog>
         </div>
         <work-list rowNum="4"></work-list>
       </div>
       <div class="member">
         <div class="title">
           <div class="text">成员</div>
-          <div class="create iconfont">添加成员</div>
+          <div class="create iconfont" @click="addMemberStatus=true">添加成员</div>
+          <el-dialog
+            custom-class="addMemberBox"
+            title="添加成员"
+            :visible.sync="addMemberStatus"
+            center
+          >
+            <div>
+              <div class="left">用户账号：</div>
+              <div class="middle">
+                <el-input v-model="addMemberAccount" placeholder="请输入用户账号" @input="searchAccount"></el-input>
+                <!-- <div class="message" v-if="searchAccountStatus">姓名：{{searchAccountMessage}}</div>
+                <div class="message messageError" v-else>{{searchAccountMessage}}</div>-->
+              </div>
+              <div class="right">
+                <el-button :disabled="!searchAccountStatus" type="primary" @click="addMember">添加</el-button>
+              </div>
+            </div>
+            <div>
+              <div class="left">搜索结果：</div>
+              <div class="middle">
+                <el-input :value="searchAccountMessage"></el-input>
+              </div>
+            </div>
+          </el-dialog>
         </div>
         <div class="memberList">
           <ul>
             <li v-for="item in [1,1,1,1,1,1,1, 2, 3, 4, 5]">
               <div class="username">杨超旭</div>
               <div class="account">学号：191543132</div>
+              <div class="remove el-icon-remove-outline"></div>
             </li>
           </ul>
         </div>
@@ -30,23 +90,67 @@
 <script>
 import Header from 'components/content/Header.vue';
 import WorkList from 'components/content/WorkList.vue';
+import { mapState, mapGetters } from 'vuex';
+import ElementUI from 'plugins/ElementUI.js';
 export default {
   name: 'Course',
   data () {
     return {
-
+      addWorkStatus: false,
+      addMemberStatus: false,
+      addMemberAccount: '',
+      searchAccountTimer: null,
+      searchAccountStatus: false,
+      searchAccountMessage: '',
+      date: null,
     };
+  },
+  methods: {
+    searchAccount () {
+      clearTimeout(this.searchAccountTimer);
+      this.searchAccountTimer = setTimeout(() => {
+        console.log('请求');
+        if (this.addMemberAccount == '') {
+          this.searchAccountStatus = false;
+          this.searchAccountMessage = '';
+          return;
+        }
+        if (this.addMemberAccount == '191543132') {
+          this.searchAccountStatus = true;
+          this.searchAccountMessage = '杨超旭';
+        } else {
+          this.searchAccountStatus = false;
+          this.searchAccountMessage = '未查询到该用户';
+        }
+      }, 500);
+    },
+    addMember () {
+      console.log(`添加${this.addMemberAccount}`);
+    }
   },
   components: {
     Header,
     WorkList,
+    ...ElementUI,
   },
+  computed: {
+    ...mapState(['course']),
+  },
+  mounted () {
+    console.log(this.course);
+  }
 }
 </script>
 
 <style scoped>
+@import url("~element-ui/lib/theme-chalk/index.css");
 .course {
   --baseWidth: 1280px;
+}
+
+.course {
+  height: 100%;
+  background-color: #f9f9f9;
 }
 
 .content {
@@ -99,11 +203,145 @@ export default {
 .content > div > .title .create:hover {
   background-color: #000;
 }
+</style>
 
+<style>
+.el-dialog__wrapper .addWorkBox {
+  --itemHeight: 40px;
+}
+
+.el-dialog__wrapper .addWorkBox {
+  width: 600px;
+  border-radius: 10px;
+  /* background-color: #f00; */
+}
+
+.el-dialog__wrapper .addWorkBox > .el-dialog__header {
+  padding: 30px 0px;
+}
+
+.el-dialog__wrapper .addWorkBox .el-dialog__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+}
+
+.el-dialog__wrapper .addWorkBox > .el-dialog__body {
+  padding: 0px 60px;
+}
+
+.el-dialog__wrapper .addWorkBox > .el-dialog__body > div {
+  display: flex;
+  flex-flow: row nowrap;
+  height: var(--itemHeight);
+  margin-bottom: 30px;
+}
+
+.el-dialog__wrapper .addWorkBox > .el-dialog__body > div:last-child {
+  margin-bottom: 0px;
+}
+
+.el-dialog__wrapper .addWorkBox > .el-dialog__body > div > .left {
+  font-size: 18px;
+  line-height: var(--itemHeight);
+  color: #000;
+}
+
+.el-dialog__wrapper .addWorkBox > .el-dialog__body > div > .right {
+  flex: 1;
+}
+
+.el-dialog__wrapper .addWorkBox > .el-dialog__body > div > .right > * {
+  width: 100%;
+}
+
+.el-dialog__wrapper .addWorkBox .el-date-editor .el-input__inner {
+  padding-left: 15px;
+}
+
+.el-dialog__wrapper .addWorkBox .el-date-editor .el-input__prefix {
+  display: none;
+}
+
+.el-dialog__wrapper .addWorkBox > .el-dialog__footer {
+  padding: 30px;
+}
+
+/* ------------- */
+.el-dialog__wrapper .addMemberBox {
+  width: 600px;
+  border-radius: 10px;
+  /* background-color: #f00; */
+}
+
+.el-dialog__wrapper .addMemberBox .el-dialog__header {
+  padding: 30px 0px;
+}
+
+.el-dialog__wrapper .addMemberBox .el-dialog__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #000;
+}
+
+.el-dialog__wrapper .addMemberBox > .el-dialog__body {
+  padding: 0px 60px 60px;
+}
+
+.el-dialog__wrapper .addMemberBox > .el-dialog__body > div {
+  --height: 40px;
+}
+
+.el-dialog__wrapper .addMemberBox > .el-dialog__body > div {
+  display: flex;
+  flex-flow: row nowrap;
+  height: var(--height);
+  margin-bottom: 30px;
+}
+
+.el-dialog__wrapper .addWorkBox > .el-dialog__body > div:last-child {
+  margin-bottom: 0px;
+}
+
+.el-dialog__wrapper .addMemberBox > .el-dialog__body > div > .left {
+  font-size: 18px;
+  line-height: var(--height);
+  color: #000;
+}
+
+.el-dialog__wrapper .addMemberBox > .el-dialog__body > div > .middle {
+  flex: 1;
+  /* padding: 0px 15px; */
+}
+
+.el-dialog__wrapper .addMemberBox > .el-dialog__body > div > .middle > * {
+  width: 100%;
+}
+
+.el-dialog__wrapper .addMemberBox .el-dialog__body > div .message {
+  margin-top: 5px;
+  font-size: 12px;
+  color: #000;
+}
+
+.el-dialog__wrapper .addMemberBox > .el-dialog__body > div > .right {
+  margin-left: 15px;
+}
+
+.el-dialog__wrapper .addMemberBox .el-dialog__body > div .messageError {
+  color: #f56c6c;
+}
+
+.el-dialog__wrapper .addMemberBox > .el-diaog__footer {
+  display: none;
+}
+</style>
+
+<style scoped>
 .member .memberList {
   width: 100%;
   height: calc(100% - 60px);
-  padding: 5px;
+  /* padding: 5px; */
   box-sizing: border-box;
   overflow-y: scroll;
 }
@@ -116,12 +354,12 @@ export default {
 }
 
 .member .memberList ul li {
-  height: 39px;
-  border-radius: 5px;
-  padding: 2px;
+  position: relative;
+  height: 48px;
+  padding: 5px 0px 5px 20px;
   margin-top: 14px;
-  box-shadow: 0px 1px 2px 0px #666;
   box-sizing: border-box;
+  border-left: 4px solid #5896fb;
   background-color: #fff;
   cursor: pointer;
   transition: all 0.3s;
@@ -132,7 +370,7 @@ export default {
 }
 
 .member .memberList ul li:hover {
-  box-shadow: 0px 1px 2px 1px #666;
+  background-color: #e4ecfc;
 }
 
 .member .memberList ul li .username {
@@ -142,5 +380,25 @@ export default {
 .member .memberList ul li .account {
   font-size: 10px;
   color: #333;
+}
+
+.member .memberList ul li .remove {
+  display: none;
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  font-size: 20px;
+  color: #999;
+  cursor: pointer;
+  transform: translate(0%, -50%);
+  transition: color 0.3s;
+}
+
+.member .memberList ul li:hover .remove {
+  display: block;
+}
+
+.member .memberList ul li .remove:hover {
+  color: #111;
 }
 </style>

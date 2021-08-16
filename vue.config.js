@@ -4,11 +4,10 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-// 配置路径别名
 module.exports = {
   configureWebpack: {
     resolve: {
-      alias: {
+      alias: { // 配置路径别名
         '@': resolve('src'),
         'assets': resolve('src/assets'),
         'common': resolve('src/common'),
@@ -20,14 +19,21 @@ module.exports = {
     }
   },
   devServer: {
-    proxy: {
+    proxy: { // 反向代理
       'api/': {
         target: 'http://localhost:1523',
         changeOrigin: true,
         pathRewrite: {
           '^/api': '',
         }
-      }
+      },
+      'server/': {
+        target: 'http://121.4.135.163:8001/api',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/server': '',
+        }
+      },
     }
   }
 }
