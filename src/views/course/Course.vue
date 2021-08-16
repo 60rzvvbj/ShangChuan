@@ -5,43 +5,13 @@
       <div class="work">
         <div class="title">
           <div class="text">作业</div>
-          <div class="create iconfont" @click="addWorkStatus = true">新建作业</div>
-          <el-dialog
-            custom-class="addWorkBox"
-            title="新建作业"
-            :visible.sync="addWorkStatus"
-            center
-            :show-close="false"
-          >
-            <div>
-              <div class="left">作业名称：</div>
-              <div class="right">
-                <el-input placeholder="请输入作业名称"></el-input>
-              </div>
-            </div>
-            <div>
-              <div class="left">截止时间：</div>
-              <div class="right">
-                <el-date-picker
-                  v-model="date"
-                  type="datetime"
-                  placeholder="请选择截止时间"
-                  format="MM-dd HH:mm"
-                ></el-date-picker>
-              </div>
-            </div>
-            <div>
-              <div class="left">文件格式：</div>
-              <div class="right">
-                <el-input placeholder="请输入文件格式"></el-input>
-              </div>
-            </div>
-            <div slot="footer" class="dialog-footer">
-              <el-button type="primary" @click="addWorkStatus = false">确 定</el-button>
-              <el-button @click="addWorkStatus = false">取 消</el-button>
-            </div>
-          </el-dialog>
+          <div class="create iconfont" @click="addWorkShow">新建作业</div>
         </div>
+        <work-config
+          ref="workConfigBox"
+          :defaultValue="addWorkDefaultValue"
+          @submit="addWorkSubmit"
+        ></work-config>
         <work-list rowNum="4"></work-list>
       </div>
       <div class="member">
@@ -92,11 +62,16 @@ import Header from 'components/content/Header.vue';
 import WorkList from 'components/content/WorkList.vue';
 import { mapState, mapGetters } from 'vuex';
 import ElementUI from 'plugins/ElementUI.js';
+import WorkConfig from 'components/content/WorkConfig.vue';
 export default {
   name: 'Course',
   data () {
     return {
-      addWorkStatus: false,
+      addWorkDefaultValue: {
+        workName: 'nnn',
+        ddl: new Date(),
+        workFormat: 'xxx',
+      },
       addMemberStatus: false,
       addMemberAccount: '',
       searchAccountTimer: null,
@@ -106,6 +81,12 @@ export default {
     };
   },
   methods: {
+    addWorkShow () {
+      this.$refs.workConfigBox.show();
+    },
+    addWorkSubmit (work) {
+      console.log(work);
+    },
     searchAccount () {
       clearTimeout(this.searchAccountTimer);
       this.searchAccountTimer = setTimeout(() => {
@@ -128,7 +109,9 @@ export default {
       console.log(`添加${this.addMemberAccount}`);
     }
   },
-  components: {
+  components:
+  {
+    WorkConfig,
     Header,
     WorkList,
     ...ElementUI,
@@ -206,67 +189,6 @@ export default {
 </style>
 
 <style>
-.el-dialog__wrapper .addWorkBox {
-  --itemHeight: 40px;
-}
-
-.el-dialog__wrapper .addWorkBox {
-  width: 600px;
-  border-radius: 10px;
-  /* background-color: #f00; */
-}
-
-.el-dialog__wrapper .addWorkBox > .el-dialog__header {
-  padding: 30px 0px;
-}
-
-.el-dialog__wrapper .addWorkBox .el-dialog__title {
-  font-size: 24px;
-  font-weight: 700;
-  color: #000;
-}
-
-.el-dialog__wrapper .addWorkBox > .el-dialog__body {
-  padding: 0px 60px;
-}
-
-.el-dialog__wrapper .addWorkBox > .el-dialog__body > div {
-  display: flex;
-  flex-flow: row nowrap;
-  height: var(--itemHeight);
-  margin-bottom: 30px;
-}
-
-.el-dialog__wrapper .addWorkBox > .el-dialog__body > div:last-child {
-  margin-bottom: 0px;
-}
-
-.el-dialog__wrapper .addWorkBox > .el-dialog__body > div > .left {
-  font-size: 18px;
-  line-height: var(--itemHeight);
-  color: #000;
-}
-
-.el-dialog__wrapper .addWorkBox > .el-dialog__body > div > .right {
-  flex: 1;
-}
-
-.el-dialog__wrapper .addWorkBox > .el-dialog__body > div > .right > * {
-  width: 100%;
-}
-
-.el-dialog__wrapper .addWorkBox .el-date-editor .el-input__inner {
-  padding-left: 15px;
-}
-
-.el-dialog__wrapper .addWorkBox .el-date-editor .el-input__prefix {
-  display: none;
-}
-
-.el-dialog__wrapper .addWorkBox > .el-dialog__footer {
-  padding: 30px;
-}
-
 /* ------------- */
 .el-dialog__wrapper .addMemberBox {
   width: 600px;
