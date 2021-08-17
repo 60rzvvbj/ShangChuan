@@ -130,15 +130,16 @@ export default {
         //与验证不通过则return
         if (!valid) return;
         const { data: res } = await loginTest(this.loginForm);
+        console.log(res.flag);
         // 每次手动关闭所有弹框
         message.closeAll()
-        if (res.result.code !== 200) {
+        if (!res.flag) {
           return message.error('该账户不存在或密码错误！')
         }
         message.success('登录成功！')
         //设置cookie
         // window.sessionStorage.setItem('token', res.result.authToken)
-        const setDate = { token: res.result.authToken, user: this.loginForm.stuNumber, password: this.loginForm.password };
+        const setDate = { token: res.data, user: this.loginForm.stuNumber, password: this.loginForm.password };
         tool.setCookie(setDate, 7);
         // 跳转地址
         this.$router.push('/home')
