@@ -58,7 +58,7 @@
 
 <script>
 import ElementUI from 'plugins/ElementUI';
-import { getBackground, loginTest } from 'network/Login';
+import { getBackgroundTest, loginTest, getBackground } from 'network/Login';
 const message = ElementUI.Message;//消息提示
 
 export default {
@@ -130,7 +130,6 @@ export default {
         //与验证不通过则return
         if (!valid) return;
         const { data: res } = await loginTest(this.loginForm);
-        console.log(res.flag);
         // 每次手动关闭所有弹框
         message.closeAll()
         if (!res.flag) {
@@ -161,8 +160,13 @@ export default {
   },
   created () {
     getBackground().then((data) => {
-      this.imgUrl = "http://localhost:1523/bingImg?url=" + data;
-    });
+      this.imgUrl = data.data;
+    })
+    // 测试壁纸
+    // getBackgroundTest().then((data) => {
+    //   this.imgUrl = "http://localhost:1523/bingImg?url=" + data;
+    // });
+    // 获取账号信息
     this.setUser()
   }
 }

@@ -6,9 +6,9 @@ import {
 } from './jsonp.js';
 
 /**
- * 获取背景图片url
+ * 测试获取背景图片url
  */
-export function getBackground() {
+export function getBackgroundTest() {
   return new Promise(function (resolve, reject) {
     jsonp({
       url: 'http://bing.ioliu.cn/v1/rand',
@@ -24,7 +24,15 @@ export function getBackground() {
     });
   });
 }
-
+/**
+ * 获取背景图片url
+ */
+export function getBackground() {
+  return request({
+    method: 'GET',
+    url: '/server/file/bingImg'
+  });
+}
 /**
  * 登录测试
  */
