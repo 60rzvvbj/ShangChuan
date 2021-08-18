@@ -8,14 +8,13 @@ import {
 export function changePassWord(mes) {
   return request({
     method: 'POST',
-    url: '/user/changePd',
+    url: '/server/user/changePassword',
     headers: {
-      AUTHORIZE_TOKEN: mes.token
+      token: mes.token
     },
     params: {
-      account: mes.user,
-      oldPd: mes.oldPd,
-      newPd: mes.newPd
+      oldPassword: mes.oldPd,
+      password: mes.newPd
     }
   });
 }

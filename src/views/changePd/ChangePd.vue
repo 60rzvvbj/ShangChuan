@@ -53,6 +53,16 @@ export default {
         callback();
       }
     };
+    //确认旧密码
+    // var checkOldPassword = (rule, value, callback) => {
+    //   if (value === '') {
+    //     callback(new Error('请输入旧密码'));
+    //   } else if (value !== tool.getCookie("password")) {
+    //     callback(new Error('旧密码错误!'));
+    //   } else {
+    //     callback();
+    //   }
+    // };
     return {
       // 数据绑定
       setForm: {
@@ -88,8 +98,8 @@ export default {
       this.$refs.setFormRef.validate(async (valid) => {
         //与验证不通过则return
         if (!valid) return;
-        console.log(this.setForm);
         const { data: res } = await changePassWord(this.setForm);
+        console.log(res);
         // 每次手动关闭所有弹框
         message.closeAll()
         if (!res.flag) {
