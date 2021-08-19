@@ -138,16 +138,18 @@ export default {
         message.success('登录成功！')
         //设置cookie
         // window.sessionStorage.setItem('token', res.result.authToken)
-        const setDate = { token: res.data, user: this.loginForm.stuNumber, password: this.loginForm.password };
+        const setDate = { token: res.data, user: this.loginForm.stuNumber };
         tool.setCookie(setDate, 7);
         // 跳转地址
         this.$router.push('/home')
       })
     },
-    //设置账号密码
-    setUser () {
-      this.loginForm.stuNumber = tool.getCookie("user");
-      this.loginForm.password = tool.getCookie("password");
+    //判断token直接跳转
+    goHome () {
+      if (tool.getCookie("token")) {
+        // 跳转地址
+        this.$router.push('/home')
+      }
     },
     // 清除账号密码
     clearUser () {
@@ -159,6 +161,9 @@ export default {
     ...ElementUI,
   },
   created () {
+    //跳转
+    this.goHome()
+    //背景
     getBackground().then((data) => {
       this.imgUrl = data.data;
     })
@@ -166,8 +171,6 @@ export default {
     // getBackgroundTest().then((data) => {
     //   this.imgUrl = "http://localhost:1523/bingImg?url=" + data;
     // });
-    // 获取账号信息
-    this.setUser()
   }
 }
 
