@@ -9,6 +9,7 @@
         </div>
         <work-config
           ref="workConfigBox"
+          :title="'新建作业'"
           :defaultValue="addWorkDefaultValue"
           @submit="addWorkSubmit"
         ></work-config>

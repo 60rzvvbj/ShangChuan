@@ -1,7 +1,7 @@
 <template>
   <el-dialog
     custom-class="addWorkBox"
-    title="新建作业"
+    :title="title"
     :visible.sync="status"
     center
     :show-close="false"
@@ -44,6 +44,7 @@ export default {
     }
   },
   props: [
+    'title',
     'defaultValue',
   ],
   components:
