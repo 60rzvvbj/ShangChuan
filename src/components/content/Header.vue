@@ -40,8 +40,11 @@ export default {
     ...ElementUI,
   },
   async created () {
-    this.sno = this.$store.state.user.sno;
-    this.username = this.$store.state.user.username;
+    if (this.$store.state.user.sno == undefined) {
+      await this.$root.$children[0].initUser();
+      this.sno = this.$store.state.user.sno;
+      this.username = this.$store.state.user.username;
+    }
   }
 }
 </script>

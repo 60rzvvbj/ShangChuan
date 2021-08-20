@@ -28,7 +28,6 @@ async function initUser () {
       tool.removeCookie('token');
       router.push('/login');
     }
-    console.log(userInfo);
     store.commit('setUser', {
       sno: userInfo.stuId,
       userId: userInfo.userId,
@@ -37,8 +36,6 @@ async function initUser () {
     });
   }
 }
-
-initUser();
 
 export default {
   name: "app",
