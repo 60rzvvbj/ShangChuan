@@ -5,11 +5,13 @@
       <!-- 标题 -->
       <div class="titleBox">
         <div class="down_til">下载作业</div>
-        <div class="workConfig">
+        <div class="workConfig" @click="addWorkShow">
           <i class="iconfont icon-xiugai"></i>
         </div>
-        
       </div>
+       <work-config
+          ref="workConfigBox"
+        ></work-config>
       
       <!-- 表格 -->
       <el-table
@@ -63,6 +65,10 @@ export default {
       multipleSelection: []
     }
   }, methods: {
+    // 修改盒子
+    addWorkShow () {
+      this.$refs.workConfigBox.show();
+    },
     // 取消选择
     toggleSelection (rows) {
       this.$refs.handinTable.clearSelection();
