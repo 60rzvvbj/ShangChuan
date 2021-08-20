@@ -4,13 +4,10 @@ import {
 
 export function getStudentAllCourse(data) {
   return request({
-    method: 'GET',
-    url: '/getStudentAllCourse',
+    method: 'POST',
+    url: '/server/subject/selectStuSubject',
     headers: {
       AUTHORIZE_TOKEN: data.token
     },
-    params: {
-      account: data.account
-    }
   });
 }

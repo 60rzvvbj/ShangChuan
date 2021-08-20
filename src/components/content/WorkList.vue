@@ -1,30 +1,59 @@
 <template>
-  <ul class="clearfix">
-    <li v-for="item in workList" :class="[item.type]" :style="getWorkStyle(item.index)">
-      <div class="other">
-        <div class="title">{{item.title}}</div>
-        <div class="middle iconfont"></div>
-        <div class="footer">
-          <div class="date iconfont">{{item.date}}</div>
-          <div class="number iconfont">{{item.number}}</div>
+  <div class="workList">
+    <ul class="clearfix">
+      <li
+        v-for="item in workList"
+        :class="[item.type]"
+        :style="getWorkStyle(item.index)"
+        @click="uploadBoxShow(item)"
+      >
+        <div class="other">
+          <div class="title">{{item.title}}</div>
+          <div class="middle iconfont"></div>
+          <div class="footer">
+            <div class="date iconfont">{{item.date}}</div>
+            <div class="number iconfont">{{item.number}}</div>
+          </div>
         </div>
+        <div class="content">
+          <div class="text">{{item.name}}</div>
+        </div>
+      </li>
+    </ul>
+    <el-dialog
+      custom-class="uploadBox"
+      :title="nowWork.name"
+      :visible.sync="uploadBoxStatus"
+      center
+      :show-close="false"
+    >
+      <el-upload class="upload" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+        <i class="el-icon-upload"></i>
+        <div class="el-upload__text">
+          将文件拖到此处，或
+          <em>点击上传</em>
+        </div>
+      </el-upload>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="upload">确 定</el-button>
+        <el-button @click="uploadBoxStatus = false">取 消</el-button>
       </div>
-      <div class="content">
-        <div class="text">{{item.name}}</div>
-      </div>
-    </li>
-  </ul>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
 import { getWorkList } from 'network/WorkList.js';
 import { DAY } from 'common/const.js';
+import ElementUI from 'plugins/ElementUI.js';
 
 export default {
   name: 'WorkList',
   data () {
     return {
       workList: [],
+      nowWork: {},
+      uploadBoxStatus: false,
     };
   },
   props: ['rowNum'],
@@ -63,7 +92,25 @@ export default {
       res += ':';
       res += dateObj.getMinutes();
       return res;
+    },
+    uploadBoxShow (work) {
+      if (work.type == 'overdue') {
+        ElementUI.Message({
+          message: '都过期了，还交个屁',
+          type: 'error'
+        });
+        return;
+      }
+      this.nowWork = work;
+      this.uploadBoxStatus = true;
+    },
+    upload () {
+      console.log('upload');
+      this.uploadBoxStatus = false;
     }
+  },
+  components: {
+    ...ElementUI,
   },
   created () {
     getWorkList({
@@ -90,6 +137,7 @@ export default {
 </script>
 
 <style scoped>
+@import url("~element-ui/lib/theme-chalk/index.css");
 ul {
   width: 100%;
 }
@@ -247,5 +295,24 @@ ul li .footer .number {
 ul li .footer .number::before {
   font-size: 16px;
   content: "\e654  ";
+}
+</style>
+
+<style>
+.workList .uploadBox {
+  width: 500px;
+  height: 320px;
+}
+
+.workList .uploadBox .upload {
+  text-align: center;
+}
+
+.workList .el-dialog__wrapper .el-dialog__body {
+  padding: 10px;
+}
+
+.workList .el-dialog__wrapper .el-dialog__footer {
+  padding: 0px 10px 10px;
 }
 </style>

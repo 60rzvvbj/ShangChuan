@@ -28,17 +28,13 @@
               <div class="left">用户账号：</div>
               <div class="middle">
                 <el-input v-model="addMemberAccount" placeholder="请输入用户账号" @input="searchAccount"></el-input>
-                <!-- <div class="message" v-if="searchAccountStatus">姓名：{{searchAccountMessage}}</div>
-                <div class="message messageError" v-else>{{searchAccountMessage}}</div>-->
+                <div v-if="searchAccountResult">
+                  <div class="message" v-if="searchAccountStatus">{{searchAccountMessage}}</div>
+                  <div class="message messageError" v-else>{{searchAccountMessage}}</div>
+                </div>
               </div>
               <div class="right">
                 <el-button :disabled="!searchAccountStatus" type="primary" @click="addMember">添加</el-button>
-              </div>
-            </div>
-            <div>
-              <div class="left">搜索结果：</div>
-              <div class="middle">
-                <el-input :value="searchAccountMessage"></el-input>
               </div>
             </div>
           </el-dialog>
@@ -72,12 +68,12 @@ export default {
         ddl: new Date(),
         workFormat: 'xxx',
       },
-      addMemberStatus: false,
-      addMemberAccount: '',
-      searchAccountTimer: null,
-      searchAccountStatus: false,
-      searchAccountMessage: '',
-      date: null,
+      addMemberStatus: false, // 是否显示添加成员
+      addMemberAccount: '', // 添加成员用户账号
+      searchAccountTimer: null, // 防抖计时器
+      searchAccountResult: false, // 是否显示搜索结果
+      searchAccountStatus: false, // 用户是否可添加
+      searchAccountMessage: '', // 信息
     };
   },
   methods: {
@@ -93,7 +89,7 @@ export default {
         console.log('请求');
         if (this.addMemberAccount == '') {
           this.searchAccountStatus = false;
-          this.searchAccountMessage = '';
+          this.searchAccountResult = false;
           return;
         }
         if (this.addMemberAccount == '191543132') {
@@ -103,6 +99,7 @@ export default {
           this.searchAccountStatus = false;
           this.searchAccountMessage = '未查询到该用户';
         }
+        this.searchAccountResult = true;
       }, 500);
     },
     addMember () {
@@ -189,7 +186,6 @@ export default {
 </style>
 
 <style>
-/* ------------- */
 .el-dialog__wrapper .addMemberBox {
   width: 600px;
   border-radius: 10px;
@@ -207,7 +203,7 @@ export default {
 }
 
 .el-dialog__wrapper .addMemberBox > .el-dialog__body {
-  padding: 0px 60px 60px;
+  padding: 0px 60px 80px;
 }
 
 .el-dialog__wrapper .addMemberBox > .el-dialog__body > div {
@@ -218,11 +214,6 @@ export default {
   display: flex;
   flex-flow: row nowrap;
   height: var(--height);
-  margin-bottom: 30px;
-}
-
-.el-dialog__wrapper .addWorkBox > .el-dialog__body > div:last-child {
-  margin-bottom: 0px;
 }
 
 .el-dialog__wrapper .addMemberBox > .el-dialog__body > div > .left {
@@ -233,6 +224,7 @@ export default {
 
 .el-dialog__wrapper .addMemberBox > .el-dialog__body > div > .middle {
   flex: 1;
+  position: relative;
   /* padding: 0px 15px; */
 }
 
@@ -241,8 +233,15 @@ export default {
 }
 
 .el-dialog__wrapper .addMemberBox .el-dialog__body > div .message {
-  margin-top: 5px;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  padding: 0px 15px;
+  border-radius: 5px;
+  box-shadow: 0px 1px 2px 1px #999;
+  box-sizing: border-box;
   font-size: 12px;
+  line-height: var(--height);
   color: #000;
 }
 
