@@ -25,7 +25,6 @@ async function initUser () {
         token: tool.getCookie('token')
       });
     } catch (e) {
-      tool.removeCookie('token');
       router.push('/login');
     }
     store.commit('setUser', {
