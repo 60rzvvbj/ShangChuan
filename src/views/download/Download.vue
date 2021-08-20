@@ -3,7 +3,14 @@
     <Header></Header>
     <div class="table_box">
       <!-- 标题 -->
-      <div class="down_til">下载作业</div>
+      <div class="titleBox">
+        <div class="down_til">下载作业</div>
+        <div class="workConfig">
+          <i class="iconfont icon-xiugai"></i>
+        </div>
+        
+      </div>
+      
       <!-- 表格 -->
       <el-table
         class="down_table"
@@ -37,6 +44,7 @@
 
 <script>
 import Header from 'components/content/Header';
+import WorkConfig from 'components/content/WorkConfig';
 import ElementUI from 'plugins/ElementUI';
 import { getWorkList } from'network/Download'
 
@@ -71,6 +79,7 @@ export default {
   },
   components: {
     Header,
+    WorkConfig,
     ...ElementUI
   },
   created(){
@@ -103,6 +112,10 @@ export default {
   box-sizing: border-box;
   overflow: hidden;
 }
+// 标题盒子
+.titleBox{
+  display: flex;
+}
 // 标题
 .down_til {
   position: relative;
@@ -118,6 +131,18 @@ export default {
   left: 0;
   top: 0;
   height: 100%;
+}
+//修改
+.workConfig{
+  padding-top: 20px;
+}
+.workConfig i{
+  color: rgb(182, 179, 179);
+  font-size: 50px;
+  cursor: pointer;
+}
+.workConfig i:hover{
+  color: #000;
 }
 // 表格
 .down_table {
