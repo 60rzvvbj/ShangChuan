@@ -8,6 +8,7 @@
           <span>学号： {{account}}</span>
           <div class="line"></div>
           <div class="logout" @click="logout">切换账号</div>
+          <div class="changePd" @click="changePd">修改密码</div>
         </div>
         <div class="right" slot="reference">{{username}}</div>
       </el-popover>
@@ -28,6 +29,9 @@ export default {
   methods: {
     logout () {
       this.$router.push('/login');
+    },
+    changePd () {
+      this.$router.push('/changePd');
     }
   },
   components: {
@@ -98,6 +102,20 @@ export default {
 }
 
 .info .logout {
+  position: absolute;
+  bottom: -7px;
+  left: 0px;
+  font-size: 12px;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.info .changePd:hover {
+  color: #000;
+}
+
+.info .changePd {
   position: absolute;
   bottom: -7px;
   right: 0px;

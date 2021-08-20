@@ -63,7 +63,7 @@ export default {
   },
   components: {
     WorkList,
-    Header
+    Header,
   },
   async created () {
     this.courseList = (await getStudentAllCourse({
