@@ -38,63 +38,12 @@
 <script>
 import Header from 'components/content/Header';
 import ElementUI from 'plugins/ElementUI';
+import { getWorkList } from'network/Download'
 
 export default {
   data () {
     return {
-      tableData: [{
-        num: '191543105',
-        name: '王五',
-        address: 'xxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '张三',
-        address: 'xxxxxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '李四',
-        address: 'xxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '王五',
-        address: 'xxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '张三',
-        address: 'xxxxxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '李四',
-        address: 'xxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '王五',
-        address: 'xxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '张三',
-        address: 'xxxxxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '李四',
-        address: 'xxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '王五',
-        address: 'xxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '张三',
-        address: 'xxxxxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '李四',
-        address: 'xxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '王五',
-        address: 'xxxxxxxxxxxx'
-      }, {
+      tableData: [ {
         num: '191543105',
         name: '张三',
         address: 'xxxxxxxxxxxxxxx'
@@ -123,6 +72,10 @@ export default {
   components: {
     Header,
     ...ElementUI
+  },
+  created(){
+      console.log(this.$store.state.course);
+    
   }
 }
 </script>

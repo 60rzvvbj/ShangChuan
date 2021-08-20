@@ -144,13 +144,6 @@ export default {
         this.$router.push('/home')
       })
     },
-    //判断token直接跳转
-    goHome () {
-      if (tool.getCookie("token")) {
-        // 跳转地址
-        this.$router.push('/home')
-      }
-    },
     // 清除账号密码
     clearUser () {
       this.loginForm.stuNumber = '';
@@ -161,8 +154,6 @@ export default {
     ...ElementUI,
   },
   created () {
-    //跳转
-    this.goHome()
     //背景
     getBackground().then((data) => {
       this.imgUrl = data.data;
