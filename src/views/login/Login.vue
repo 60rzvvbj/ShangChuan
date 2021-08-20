@@ -17,6 +17,7 @@
         :model="loginForm"
         :rules="loginRules"
         ref="loginFormRef"
+        @keyup.enter.native="logIn()"
       >
         <!-- 学号 -->
         <el-form-item prop="stuNumber">
