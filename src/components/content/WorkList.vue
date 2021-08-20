@@ -1,5 +1,5 @@
 <template>
-  <div class="workList">
+  <div class="workListBox">
     <ul class="clearfix">
       <li
         v-for="item in workList"
@@ -299,20 +299,24 @@ ul li .footer .number::before {
 </style>
 
 <style>
-.workList .uploadBox {
+.workListBox .uploadBox {
   width: 500px;
   height: 320px;
 }
 
-.workList .uploadBox .upload {
+.workListBox .uploadBox .upload {
   text-align: center;
 }
 
-.workList .el-dialog__wrapper .el-dialog__body {
+.workListBox .el-dialog__wrapper .uploadBox .el-dialog__body {
+  position: relative;
+}
+
+.workListBox .el-dialog__wrapper .uploadBox .el-dialog__body {
   padding: 10px;
 }
 
-.workList .el-dialog__wrapper .el-dialog__footer {
+.workListBox .el-dialog__wrapper .uploadBox .el-dialog__footer {
   padding: 0px 10px 10px;
 }
 </style>

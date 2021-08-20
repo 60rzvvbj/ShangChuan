@@ -9,11 +9,42 @@
 import tool from 'common/utils.js';
 window.tool = tool;
 // 测试接口
+import router from './router/index';
+import store from './store/index';
 import { test } from 'network/test.js';
+import { getUserInfo } from 'network/public.js';
 test();
 
+// 初始化User
+async function initUser () {
+  if (tool.getCookie('token') != null) {
+    let userInfo;
+    try {
+      userInfo = await getUserInfo({
+        account: tool.getCookie('user'),
+        token: tool.getCookie('token')
+      });
+    } catch (e) {
+      tool.removeCookie('token');
+      router.push('/login');
+    }
+    console.log(userInfo);
+    store.commit('setUser', {
+      sno: userInfo.stuId,
+      userId: userInfo.userId,
+      username: userInfo.name,
+      account: userInfo.username
+    });
+  }
+}
+
+initUser();
+
 export default {
-  name: "app"
+  name: "app",
+  methods: {
+    initUser
+  },
 };
 </script>
 

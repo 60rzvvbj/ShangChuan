@@ -66,12 +66,16 @@ export default {
     Header,
   },
   async created () {
-    this.courseList = (await getStudentAllCourse({
-      token: 'token',
-      account: '191543132'
-    })).data.courseList;
-    for (let item of this.courseList) {
-      item.color = tool.randomColor(80, 200);
+    let courseListData = (await getStudentAllCourse({
+      token: tool.getCookie('token'),
+    })).data.data;
+    for (let i = 0; i < courseListData.length; i++) {
+      this.courseList.push({
+        courseName: courseListData[i].subjectName,
+        courseId: courseListData[i].subjectId,
+        managerName: courseListData[i].subjectTeacher,
+        color: tool.randomColor(80, 200)
+      });
     }
   }
 }
@@ -127,8 +131,10 @@ export default {
   width: 100%;
   height: 410px;
   padding: 0px 10px 10px 10px;
+  margin-left: -10px;
   overflow-y: scroll;
-  transform: translate(-10px, 0px);
+  /* 加了transform之后Element中的dialog会出问题 */
+  /* transform: translate(-10px, 0px); */
 }
 
 .home .work > .content::-webkit-scrollbar {

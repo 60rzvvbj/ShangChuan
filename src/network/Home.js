@@ -7,7 +7,7 @@ export function getStudentAllCourse(data) {
     method: 'POST',
     url: '/server/subject/selectStuSubject',
     headers: {
-      AUTHORIZE_TOKEN: data.token
+      token: data.token
     },
   });
 }

@@ -5,7 +5,7 @@
       <el-popover placement="top" width="160" trigger="hover">
         <div class="info">
           <span>姓名： {{username}}</span>
-          <span>学号： {{account}}</span>
+          <span>学号： {{sno}}</span>
           <div class="line"></div>
           <div class="logout" @click="logout">切换账号</div>
           <div class="changePd" @click="changePd">修改密码</div>
@@ -18,12 +18,14 @@
 
 <script>
 import ElementUI from 'plugins/ElementUI.js';
+import { getUserInfo } from 'network/public.js';
+
 export default {
   name: 'Header',
   data () {
     return {
-      username: '杨超旭',
-      account: '191543132',
+      username: '加载中',
+      sno: '加载中',
     };
   },
   methods: {
@@ -36,6 +38,10 @@ export default {
   },
   components: {
     ...ElementUI,
+  },
+  async created () {
+    this.sno = this.$store.state.user.sno;
+    this.username = this.$store.state.user.username;
   }
 }
 </script>
