@@ -11,6 +11,8 @@
       </div>
        <work-config
           ref="workConfigBox"
+          :title="'修改作业'"
+          :defaultValue="workDefaultValue"
         ></work-config>
       
       <!-- 表格 -->
@@ -53,6 +55,11 @@ import { getWorkList } from'network/Download'
 export default {
   data () {
     return {
+      workDefaultValue: {
+        workName: 'nnn',
+        ddl: new Date(),
+        workFormat: 'xxx',
+      },
       tableData: [ {
         num: '191543105',
         name: '张三',
@@ -105,11 +112,8 @@ export default {
 }
 // 表格盒子
 .table_box {
-  position: absolute;
-  left: 50%;
-  top: 50%;
+  margin: 60px auto;
   height: 70%;
-  transform: translate(-50%, -50%);
   width: var(--baseWidth);
   box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
     7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
