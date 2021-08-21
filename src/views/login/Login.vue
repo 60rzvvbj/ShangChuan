@@ -141,6 +141,8 @@ export default {
         // window.sessionStorage.setItem('token', res.result.authToken)
         const setDate = { token: res.data, user: this.loginForm.stuNumber };
         tool.setCookie(setDate, 7);
+        //初始化信息
+        this.$parent.initUser();
         // 跳转地址
         this.$router.push('/home')
       })
