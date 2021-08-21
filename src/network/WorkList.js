@@ -6,17 +6,26 @@ export function getWorkList(data) {
   if (data.type == 'student') {
     // 获取某学生的所有作业
     return request({
-      method: 'GET',
-      url: '/getStudentAllwork',
+      method: 'POST',
+      url: '/server/homework/selectStuHomework',
       headers: {
-        AUTHORIZE_TOKEN: data.token
+        token: data.token
       },
       params: {
-        account: data.account
+        userId: data.id
       }
     });
   } else if (data.type == 'course') {
-    // 待开发
+    return request({
+      method: 'POST',
+      url: '/server/homework/selectStuHomeworkBySubjectIdAndToken',
+      headers: {
+        token: data.token
+      },
+      params: {
+        subjectId: data.id
+      }
+    });
   } else {
     throw new Error('getWorkList参数错误');
   }

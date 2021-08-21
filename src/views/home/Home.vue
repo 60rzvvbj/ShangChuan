@@ -10,7 +10,7 @@
       </div>
       <div class="content">
         <div class="workList" v-if="nowTab == 'work'">
-          <work-list rowNum="5"></work-list>
+          <work-list rowNum="5" :type="'student'" :id="user.userId"></work-list>
         </div>
         <div class="courseList" v-if="nowTab == 'course'">
           <ul class="clearfix">
@@ -35,6 +35,7 @@
 import Header from 'components/content/Header';
 import WorkList from 'components/content/WorkList';
 import { getStudentAllCourse } from 'network/Home.js';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'Home',
@@ -54,12 +55,16 @@ export default {
     goCourse (course) {
       let c = { ...course };
       delete c.color;
-      this.$store.commit('setCourse', c);
-      this.$router.push('/course');
+      this.$router.push({
+        path: '/course',
+        query: {
+          ...c,
+        }
+      });
     }
   },
   computed: {
-
+    ...mapState(['user']),
   },
   components: {
     WorkList,
@@ -74,6 +79,7 @@ export default {
         courseName: courseListData[i].subjectName,
         courseId: courseListData[i].subjectId,
         managerName: courseListData[i].subjectTeacher,
+        menagerId: courseListData[i].userId,
         color: tool.randomColor(80, 200)
       });
     }
