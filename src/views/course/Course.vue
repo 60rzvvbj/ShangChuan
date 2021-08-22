@@ -5,7 +5,11 @@
       <div class="work">
         <div class="title">
           <div class="text">作业</div>
-          <div class="create iconfont" @click="addWorkShow">新建作业</div>
+          <div
+            v-if="user.userId == course.menagerId"
+            class="create iconfont"
+            @click="addWorkShow"
+          >新建作业</div>
         </div>
         <work-config
           ref="workConfigBox"
@@ -13,12 +17,16 @@
           :defaultValue="addWorkDefaultValue"
           @submit="addWorkSubmit"
         ></work-config>
-        <work-list rowNum="4"></work-list>
+        <work-list rowNum="4" :type="'course'" :id="course.courseId"></work-list>
       </div>
       <div class="member">
         <div class="title">
           <div class="text">成员</div>
-          <div class="create iconfont" @click="addMemberStatus=true">添加成员</div>
+          <div
+            v-if="user.userId == course.menagerId"
+            class="create iconfont"
+            @click="addMemberStatus=true"
+          >添加成员</div>
           <el-dialog
             custom-class="addMemberBox"
             title="添加成员"
@@ -42,9 +50,9 @@
         </div>
         <div class="memberList">
           <ul>
-            <li v-for="item in [1,1,1,1,1,1,1, 2, 3, 4, 5]">
-              <div class="username">杨超旭</div>
-              <div class="account">学号：191543132</div>
+            <li v-for="item in memberList">
+              <div class="username">{{item.username}}</div>
+              <div class="account">学号：{{item.sno}}</div>
               <div class="remove el-icon-remove-outline"></div>
             </li>
           </ul>
@@ -60,10 +68,13 @@ import WorkList from 'components/content/WorkList.vue';
 import { mapState, mapGetters } from 'vuex';
 import ElementUI from 'plugins/ElementUI.js';
 import WorkConfig from 'components/content/WorkConfig.vue';
+import { getCourseStudents } from 'network/Course.js';
+
 export default {
   name: 'Course',
   data () {
     return {
+      course: {},
       addWorkDefaultValue: {
         workName: 'nnn',
         ddl: new Date(),
@@ -75,6 +86,7 @@ export default {
       searchAccountResult: false, // 是否显示搜索结果
       searchAccountStatus: false, // 用户是否可添加
       searchAccountMessage: '', // 信息
+      memberList: [],
     };
   },
   methods: {
@@ -115,10 +127,23 @@ export default {
     ...ElementUI,
   },
   computed: {
-    ...mapState(['course']),
+    ...mapState(['user']),
   },
-  mounted () {
-    console.log(this.course);
+  async created () {
+    this.course = this.$route.query;
+    let stuList = (await getCourseStudents({
+      courseId: this.course.courseId,
+      token: tool.getCookie('token')
+    })).data.data;
+    let ml = [];
+    for (let i = 0; i < stuList.length; i++) {
+      ml.push({
+        userId: stuList[i].userId,
+        username: stuList[i].name,
+        sno: stuList[i].stuId,
+      });
+    }
+    this.memberList = ml;
   }
 }
 </script>

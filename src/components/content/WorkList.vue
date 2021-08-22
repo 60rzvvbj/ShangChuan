@@ -5,7 +5,7 @@
         v-for="item in workList"
         :class="[item.type]"
         :style="getWorkStyle(item.index)"
-        @click="uploadBoxShow(item)"
+        @click="clickWork(item)"
       >
         <div class="other">
           <div class="title">{{item.title}}</div>
@@ -39,25 +39,56 @@
         <el-button @click="uploadBoxStatus = false">取 消</el-button>
       </div>
     </el-dialog>
+    <div style="display: none">{{id}}</div>
   </div>
 </template>
 
 <script>
 import { getWorkList } from 'network/WorkList.js';
 import { DAY } from 'common/const.js';
+import { mapState, mapGetters } from 'vuex';
 import ElementUI from 'plugins/ElementUI.js';
 
 export default {
   name: 'WorkList',
   data () {
     return {
+      workListReqId: undefined,
       workList: [],
       nowWork: {},
       uploadBoxStatus: false,
     };
   },
-  props: ['rowNum'],
+  props: ['rowNum', 'type', 'id'],
   methods: {
+    async loadWorkList () {
+      if (this.id != this.workListReqId) {
+        this.workListReqId = this.id;
+      } else {
+        return;
+      }
+      let res = await getWorkList({
+        type: this.type,
+        id: this.id,
+        token: tool.getCookie('token')
+      });
+      let arr = res.data.data;
+      let resArr = [];
+      for (let i = 0; i < arr.length; i++) {
+        resArr[i] = {
+          workId: arr[i].homeworkId,
+          workSubmitId: arr[i].stuHomeworkId,
+          managerId: arr[i].subjectUserId,
+          title: arr[i].subjectName,
+          name: arr[i].homeworkName,
+          type: this.getWorkType(arr[i].time, arr[i].submit),
+          date: this.getDateString(arr[i].time),
+          number: arr[i].number,
+          index: i
+        }
+      }
+      this.workList = resArr;
+    },
     getWorkStyle (index) {
       let res = {};
       if (index >= this.rowNum) {
@@ -82,6 +113,7 @@ export default {
       }
     },
     getDateString (date) {
+      date = parseInt(date);
       let res = '';
       let dateObj = new Date(date);
       res += dateObj.getMonth() + 1;
@@ -92,6 +124,18 @@ export default {
       res += ':';
       res += dateObj.getMinutes();
       return res;
+    },
+    clickWork (work) {
+      if (work.managerId == this.user.userId) {
+        this.$router.push({
+          path: '/download',
+          query: {
+            workId: work.workId,
+          }
+        });
+      } else {
+        this.uploadBoxShow(work);
+      }
     },
     uploadBoxShow (work) {
       if (work.type == 'overdue') {
@@ -107,31 +151,19 @@ export default {
     upload () {
       console.log('upload');
       this.uploadBoxStatus = false;
-    }
+    },
   },
   components: {
     ...ElementUI,
   },
-  created () {
-    getWorkList({
-      type: 'student',
-      account: '191543105',
-      token: 'token'
-    }).then(data => {
-      let arr = data.data.workList;
-      let resArr = [];
-      for (let i = 0; i < arr.length; i++) {
-        resArr[i] = {
-          title: arr[i].courseName,
-          name: arr[i].workName,
-          type: this.getWorkType(arr[i].deadline, arr[i].submitted),
-          date: this.getDateString(arr[i].deadline),
-          number: arr[i].submitNumber,
-          index: i
-        }
-      }
-      this.workList = resArr;
-    });
+  computed: {
+    ...mapState(['user']),
+  },
+  mounted () {
+    this.loadWorkList();
+  },
+  updated () {
+    this.loadWorkList();
   }
 }
 </script>

@@ -41,6 +41,9 @@ export default {
   methods: {
     initUser
   },
+  async created () {
+    this.initUser();
+  }
 };
 </script>
 

@@ -5,7 +5,6 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    course: {},
     user: {
       sno: undefined, // 学号
       userId: undefined, // 用户ID
@@ -14,9 +13,6 @@ export default new Vuex.Store({
     },
   },
   mutations: {
-    setCourse(state, course) {
-      state.course = course;
-    },
     setUser(state, user) {
       state.user = user;
     }

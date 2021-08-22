@@ -1,16 +1,16 @@
 <template>
   <div class="header">
     <div class="headerMain">
-      <div class="left">交作业了</div>
+      <div class="left" @click="goHome">交作业了</div>
       <el-popover placement="top" width="160" trigger="hover">
         <div class="info">
-          <span>姓名： {{username}}</span>
-          <span>学号： {{sno}}</span>
+          <span>姓名： {{user.username}}</span>
+          <span>学号： {{user.sno}}</span>
           <div class="line"></div>
           <div class="logout" @click="logout">切换账号</div>
           <div class="changePd" @click="changePd">修改密码</div>
         </div>
-        <div class="right" slot="reference">{{username}}</div>
+        <div class="right" slot="reference">{{user.username}}</div>
       </el-popover>
     </div>
   </div>
@@ -18,17 +18,18 @@
 
 <script>
 import ElementUI from 'plugins/ElementUI.js';
-import { getUserInfo } from 'network/public.js';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'Header',
   data () {
     return {
-      username: '加载中',
-      sno: '加载中',
     };
   },
   methods: {
+    goHome () {
+      this.$router.push('/home');
+    },
     logout () {
       this.$router.push('/login');
     },
@@ -39,13 +40,9 @@ export default {
   components: {
     ...ElementUI,
   },
-  async created () {
-    if (this.$store.state.user.sno == undefined) {
-      await this.$root.$children[0].initUser();
-      this.sno = this.$store.state.user.sno;
-      this.username = this.$store.state.user.username;
-    }
-  }
+  computed: {
+    ...mapState(['user']),
+  },
 }
 </script>
 
@@ -75,6 +72,7 @@ export default {
   font-size: 24px;
   font-weight: 700;
   line-height: var(--headerHeight);
+  cursor: default;
 }
 
 .header .right {
