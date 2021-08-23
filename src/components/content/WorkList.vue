@@ -27,7 +27,20 @@
       center
       :show-close="false"
     >
-      <el-upload class="upload" drag action="https://jsonplaceholder.typicode.com/posts/" multiple>
+      <el-upload
+        ref="upload"
+        class="upload"
+        drag
+        :headers="getUploadHeader()"
+        action="/server/homework/uploadHomework"
+        :data="{stuHomeworkId: nowWork.workSubmitId}"
+        :name="'file'"
+        multiple
+        :on-success="upLoadSeccess"
+        :on-exceed="exceed"
+        :auto-upload="false"
+        :limit="1"
+      >
         <i class="el-icon-upload"></i>
         <div class="el-upload__text">
           将文件拖到此处，或
@@ -48,7 +61,6 @@ import { getWorkList } from 'network/WorkList.js';
 import { DAY } from 'common/const.js';
 import { mapState, mapGetters } from 'vuex';
 import ElementUI from 'plugins/ElementUI.js';
-import NewsVue from '../../../../../VueDemo/VueRouter/vuerouterdemo1/src/views/News.vue';
 
 export default {
   name: 'WorkList',
@@ -121,7 +133,6 @@ export default {
       }
     },
     getDateString (date) {
-      console.log(date);
       date = parseInt(date);
       let res = '';
       let dateObj = new Date(date);
@@ -146,6 +157,63 @@ export default {
         this.uploadBoxShow(work);
       }
     },
+    addNewWork (newWork) {
+      let nw = { ...newWork };
+      delete nw.ddl;
+      delete nw.submit;
+      this.workList.push({
+        ...nw,
+        type: this.getWorkType(newWork.ddl, newWork.submit),
+        date: this.getDateString(newWork.ddl),
+        index: this.workList.length,
+      });
+    },
+    getUploadHeader () {
+      return {
+        token: tool.getCookie('token'),
+      }
+    },
+    exceed (files, fileList) {
+      ElementUI.Message({
+        message: tool.randomData([{
+          rank: 3,
+          data: '只可以选择一个文件'
+        }, {
+          rank: 1,
+          data: '已经拥有了一个，怎么还想要另一个，要专一才行'
+        }]),
+        type: 'error'
+      });
+    },
+    upLoadSeccess (response, file, fileList) {
+      console.log({ response, file, fileList });
+      if (response.flag) {
+        ElementUI.Message({
+          message: tool.randomData([{
+            rank: 3,
+            data: '上传成功'
+          }, {
+            rank: 1,
+            data: '离梦想又进了一步呢'
+          }]),
+          type: 'success'
+        });
+      } else {
+        ElementUI.Message({
+          message: tool.randomData([{
+            rank: 3,
+            data: '上传失败'
+          }, {
+            rank: 1,
+            data: '服务器正忙，看来天要亡你'
+          }]),
+          type: 'error'
+        });
+      }
+      this.nowWork.number++;
+      this.nowWork.type = this.getWorkType(this.nowWork.ddl, true);
+      this.uploadBoxStatus = false;
+    },
     uploadBoxShow (work) {
       if (work.type == 'overdue') {
         ElementUI.Message({
@@ -164,20 +232,8 @@ export default {
       this.uploadBoxStatus = true;
     },
     upload () {
-      console.log('upload');
-      this.uploadBoxStatus = false;
+      this.$refs.upload.submit();
     },
-    addNewWork (newWork) {
-      let nw = { ...newWork };
-      delete nw.ddl;
-      delete nw.submit;
-      this.workList.push({
-        ...nw,
-        type: this.getWorkType(newWork.ddl, newWork.submit),
-        date: this.getDateString(newWork.ddl + ''),
-        index: this.workList.length,
-      });
-    }
   },
   components: {
     ...ElementUI,
@@ -359,11 +415,15 @@ ul li .footer .number::before {
 <style>
 .workListBox .uploadBox {
   width: 500px;
-  height: 320px;
+  height: 360px;
 }
 
 .workListBox .uploadBox .upload {
   text-align: center;
+}
+
+.workListBox .el-dialog__wrapper .uploadBox {
+  position: relative;
 }
 
 .workListBox .el-dialog__wrapper .uploadBox .el-dialog__body {
@@ -375,6 +435,10 @@ ul li .footer .number::before {
 }
 
 .workListBox .el-dialog__wrapper .uploadBox .el-dialog__footer {
-  padding: 0px 10px 10px;
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  padding: 0px 10px 20px;
 }
 </style>
