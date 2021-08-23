@@ -11,6 +11,7 @@ import {
   DatePicker,
   Tooltip,
   Upload,
+  MessageBox
 } from 'element-ui';
 
 export default {
@@ -26,4 +27,5 @@ export default {
   [Tooltip.name]: Tooltip,
   [Upload.name]: Upload,
   Message,
+  MessageBox
 };
