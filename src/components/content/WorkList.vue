@@ -62,32 +62,39 @@ export default {
   props: ['rowNum', 'type', 'id'],
   methods: {
     async loadWorkList () {
-      if (this.id != this.workListReqId) {
-        this.workListReqId = this.id;
-      } else {
-        return;
-      }
-      let res = await getWorkList({
-        type: this.type,
-        id: this.id,
-        token: tool.getCookie('token')
-      });
-      let arr = res.data.data;
-      let resArr = [];
-      for (let i = 0; i < arr.length; i++) {
-        resArr[i] = {
-          workId: arr[i].homeworkId,
-          workSubmitId: arr[i].stuHomeworkId,
-          managerId: arr[i].subjectUserId,
-          title: arr[i].subjectName,
-          name: arr[i].homeworkName,
-          type: this.getWorkType(arr[i].time, arr[i].submit),
-          date: this.getDateString(arr[i].time),
-          number: arr[i].number,
-          index: i
+      try {
+        if (this.id != this.workListReqId) {
+          this.workListReqId = this.id;
+        } else {
+          return;
         }
+        let res = await getWorkList({
+          type: this.type,
+          id: this.id,
+          token: tool.getCookie('token')
+        });
+        let arr = res.data.data;
+        let resArr = [];
+        for (let i = 0; i < arr.length; i++) {
+          resArr[i] = {
+            workId: arr[i].homeworkId,
+            workSubmitId: arr[i].stuHomeworkId,
+            managerId: arr[i].subjectUserId,
+            title: arr[i].subjectName,
+            name: arr[i].homeworkName,
+            type: this.getWorkType(arr[i].time, arr[i].submit),
+            date: this.getDateString(arr[i].time),
+            number: arr[i].number,
+            index: i
+          }
+        }
+        this.workList = resArr;
+      } catch (e) {
+        ElementUI.Message({
+          type: 'error',
+          message: e.message,
+        });
       }
-      this.workList = resArr;
     },
     getWorkStyle (index) {
       let res = {};
@@ -140,7 +147,13 @@ export default {
     uploadBoxShow (work) {
       if (work.type == 'overdue') {
         ElementUI.Message({
-          message: '都过期了，还交个屁',
+          message: tool.randomData([{
+            rank: 4,
+            data: '已经过期的作业不可以提交了嗷'
+          }, {
+            rank: 1,
+            data: '都过期了，还交个屁'
+          }]),
           type: 'error'
         });
         return;
