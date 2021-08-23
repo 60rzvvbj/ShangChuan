@@ -2,7 +2,19 @@ import {
   request
 } from "./request.js";
 
-
+// 获取作业信息
+export function getWorkMessage(data) {
+  return request({
+    method: 'POST',
+    url: '/server/homework/selectHomeworkByHomeworkId',
+    headers: {
+      token: data.token
+    },
+    params: {
+      homeworkId: data.hwID
+    }
+  })
+}
 //获取作业列表
 export function getWorkList(data) {
   return request({

@@ -157,6 +157,27 @@ function randomData(messages) {
   return messages[messages.length - 1].data;
 }
 
+/**
+ * 
+ * 函数功能：转换时间格式
+ * 
+ * @param date 时间串
+ * @author 60rzvvbj
+ */
+function getDateString(date) {
+  date = parseInt(date);
+  let res = '';
+  let dateObj = new Date(date);
+  res += dateObj.getMonth() + 1;
+  res += '/';
+  res += dateObj.getDate();
+  res += ' ';
+  res += dateObj.getHours();
+  res += ':';
+  res += dateObj.getMinutes();
+  return res;
+}
+
 export default {
   getCookie,
   setCookie,
@@ -165,4 +186,5 @@ export default {
   getIntRandom,
   randomColor,
   randomData,
+  getDateString
 };

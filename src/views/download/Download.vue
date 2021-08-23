@@ -88,7 +88,7 @@
 import Header from 'components/content/Header';
 import WorkConfig from 'components/content/WorkConfig';
 import ElementUI from 'plugins/ElementUI';
-import { getWorkList, deleteWork } from 'network/Download'
+import { getWorkList, deleteWork, getWorkMessage } from 'network/Download'
 const message = ElementUI.Message;
 const messageBox = ElementUI.MessageBox;
 
@@ -148,7 +148,8 @@ export default {
       }).catch(() => {
         message.info('已取消删除')
       });
-    }
+    },
+
   },
   components: {
     Header,
@@ -157,9 +158,21 @@ export default {
   },
   created () {
     const data = { token: tool.getCookie('token'), hwID: this.$route.query.workId };
-    console.log(data.hwID);
-    getWorkList(data).then((res) => {
-      console.log(res.data);
+    // getWorkList(data).then((res) => {
+    //   console.log(res.data);
+    // })
+    // 获取作业信息
+    getWorkMessage(data).then((res) => {
+      // 获取的信息
+      const mes = res.data.data[0];
+      console.log(mes);
+      // 转换时间格式
+      const changeTime = tool.getDateString(mes.homeworkDeadtime);
+      //赋值
+      this.workDefaultValue.workName = mes.homeworkName;
+      this.workDefaultValue.ddl = changeTime;
+      this.workDefaultValue.workFormat = mes.homeworkNamed;
+      console.log(this.workDefaultValue);
     })
   }
 }
