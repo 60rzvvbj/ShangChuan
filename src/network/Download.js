@@ -45,3 +45,29 @@ export function updateWork(data) {
     }
   })
 }
+// 下载一个作业
+export function downloadOne(data) {
+  return request({
+    method: 'POST',
+    url: '/server/file/downloadOne',
+    headers: {
+      token: data.token
+    },
+    params: {
+      stuHomeworkId: data.stuWorkId
+    }
+  })
+}
+// 打包下载
+export function downloadZip(data) {
+  return request({
+    method: 'POST',
+    url: '/server/file/downloadZip',
+    headers: {
+      token: data
+    },
+    params: {
+
+    }
+  })
+}
