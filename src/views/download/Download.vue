@@ -52,7 +52,7 @@
 import Header from 'components/content/Header';
 import WorkConfig from 'components/content/WorkConfig';
 import ElementUI from 'plugins/ElementUI';
-import { getWorkList } from'network/Download'
+import { getWorkList,deleteWork } from'network/Download'
 const message = ElementUI.Message;
 const messageBox = ElementUI.MessageBox;
 
@@ -100,7 +100,13 @@ export default {
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          message.success('删除成功')
+          // 请求删除
+          deleteWork(tool.getCookie('token')).then((res) => {
+            if(!res.data.flag){
+              return message.error('删除失败')
+            }
+            message.success('删除成功')
+          })
         }).catch(() => {
           message.info('已取消删除')        
         });

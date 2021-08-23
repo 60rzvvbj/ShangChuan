@@ -16,3 +16,14 @@ export function getWorkList(data) {
     }
   })
 }
+
+//删除作业
+export function deleteWork(data) {
+  return request({
+    method: 'POST',
+    url: '/server/homework/deleteHomework',
+    headers: {
+      token: data
+    }
+  })
+}
