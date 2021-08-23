@@ -59,3 +59,20 @@ export function removeMember(data) {
     }
   });
 }
+
+// 添加作业
+export function addWork(data) {
+  return request({
+    method: 'POST',
+    url: '/server/homework/layOutHomework',
+    headers: {
+      token: data.token
+    },
+    data: {
+      homeworkDeadtime: data.ddl,
+      subjectId: data.courseId,
+      homeworkName: data.workName,
+      homeworkNamed: data.workFormat,
+    }
+  });
+}

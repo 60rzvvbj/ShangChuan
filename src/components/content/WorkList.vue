@@ -48,6 +48,7 @@ import { getWorkList } from 'network/WorkList.js';
 import { DAY } from 'common/const.js';
 import { mapState, mapGetters } from 'vuex';
 import ElementUI from 'plugins/ElementUI.js';
+import NewsVue from '../../../../../VueDemo/VueRouter/vuerouterdemo1/src/views/News.vue';
 
 export default {
   name: 'WorkList',
@@ -120,6 +121,7 @@ export default {
       }
     },
     getDateString (date) {
+      console.log(date);
       date = parseInt(date);
       let res = '';
       let dateObj = new Date(date);
@@ -165,6 +167,17 @@ export default {
       console.log('upload');
       this.uploadBoxStatus = false;
     },
+    addNewWork (newWork) {
+      let nw = { ...newWork };
+      delete nw.ddl;
+      delete nw.submit;
+      this.workList.push({
+        ...nw,
+        type: this.getWorkType(newWork.ddl, newWork.submit),
+        date: this.getDateString(newWork.ddl + ''),
+        index: this.workList.length,
+      });
+    }
   },
   components: {
     ...ElementUI,

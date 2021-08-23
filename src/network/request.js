@@ -5,7 +5,7 @@ export function request(config) {
   let url = config.url;
   if (url.startsWith('/server')) {
     instance = axios.create({
-      timeout: 5000
+      timeout: 20000
     });
   } else {
     instance = axios.create({

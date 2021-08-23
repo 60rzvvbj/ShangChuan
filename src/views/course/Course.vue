@@ -17,7 +17,9 @@
           :defaultValue="addWorkDefaultValue"
           @submit="addWorkSubmit"
         ></work-config>
-        <work-list rowNum="4" :type="'course'" :id="course.courseId"></work-list>
+        <div class="workList">
+          <work-list ref="workList" rowNum="4" :type="'course'" :id="course.courseId"></work-list>
+        </div>
       </div>
       <div class="member">
         <div class="title">
@@ -91,7 +93,7 @@ import WorkList from 'components/content/WorkList.vue';
 import { mapState, mapGetters } from 'vuex';
 import ElementUI from 'plugins/ElementUI.js';
 import WorkConfig from 'components/content/WorkConfig.vue';
-import { getCourseStudents, searchUser, removeMember, addMember } from 'network/Course.js';
+import { getCourseStudents, searchUser, removeMember, addMember, addWork } from 'network/Course.js';
 
 export default {
   name: 'Course',
@@ -99,9 +101,9 @@ export default {
     return {
       course: {},
       addWorkDefaultValue: {
-        workName: 'nnn',
-        ddl: new Date(),
-        workFormat: 'xxx',
+        workName: '',
+        ddl: null,
+        workFormat: '',
       },
       addMemberData: {
         status: false, // 是否显示添加成员
@@ -123,8 +125,47 @@ export default {
     addWorkShow () {
       this.$refs.workConfigBox.show();
     },
-    addWorkSubmit (work) {
-      console.log(work);
+    async addWorkSubmit (work) {
+      let addRes = (await addWork({
+        token: tool.getCookie('token'),
+        workName: work.workName,
+        ddl: '' + work.ddl,
+        workFormat: work.workFormat,
+        courseId: this.course.courseId
+      })).data;
+      if (addRes.flag) {
+        this.$refs.workList.addNewWork({
+          workId: addRes.data.homeworkId,
+          workSubmitId: '',
+          managerId: this.user.userId,
+          title: this.course.courseName,
+          name: work.workName,
+          ddl: work.ddl,
+          submit: false,
+          number: 0,
+        });
+        ElementUI.Message({
+          type: 'success',
+          message: tool.randomData([{
+            rank: 3,
+            data: '布置作业成功'
+          }, {
+            rank: 1,
+            data: '又多了一份作业，又多了一份罪恶'
+          }]),
+        });
+      } else {
+        ElementUI.Message({
+          type: 'error',
+          message: tool.randomData([{
+            rank: 3,
+            data: '布置作业失败'
+          }, {
+            rank: 1,
+            data: '服务器正忙，看来老天不想让你布置作业呢'
+          }]),
+        });
+      }
     },
     searchAccount () {
       clearTimeout(this.addMemberData.timer);
@@ -293,6 +334,18 @@ export default {
   float: left;
   width: 1010px;
   height: 100%;
+}
+
+.content .work > .workList {
+  width: 100%;
+  height: 420px;
+  padding: 0px 10px 10px 10px;
+  margin-left: -10px;
+  overflow-y: scroll;
+}
+
+.content .work .workList::-webkit-scrollbar {
+  display: none;
 }
 
 .member {
