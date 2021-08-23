@@ -21,6 +21,7 @@
         ref="workConfigBox"
         :title="'修改作业'"
         :defaultValue="workDefaultValue"
+        v-if="state == 'T'"
       ></work-config>
 
       <!-- 表格 -->
@@ -95,11 +96,15 @@ const messageBox = ElementUI.MessageBox;
 export default {
   data () {
     return {
+      // 状态
+      state: 'F',
+      // 作业信息
       workDefaultValue: {
         workName: 'nnn',
         ddl: new Date(),
         workFormat: 'xxx',
       },
+      // 作业列表
       tableData: [{
         num: '191543105',
         name: '张三',
@@ -172,6 +177,7 @@ export default {
       this.workDefaultValue.workName = mes.homeworkName;
       this.workDefaultValue.ddl = changeTime;
       this.workDefaultValue.workFormat = mes.homeworkNamed;
+      this.state = 'T'
       console.log(this.workDefaultValue);
     })
   }
