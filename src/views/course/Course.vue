@@ -25,25 +25,32 @@
           <div
             v-if="user.userId == course.menagerId"
             class="create iconfont"
-            @click="addMemberStatus=true"
+            @click="addMemberData.status=true"
           >添加成员</div>
           <el-dialog
             custom-class="addMemberBox"
             title="添加成员"
-            :visible.sync="addMemberStatus"
+            :visible.sync="addMemberData.status"
             center
           >
             <div>
               <div class="left">用户账号：</div>
               <div class="middle">
-                <el-input v-model="addMemberAccount" placeholder="请输入用户账号" @input="searchAccount"></el-input>
-                <div v-if="searchAccountResult">
-                  <div class="message" v-if="searchAccountStatus">{{searchAccountMessage}}</div>
-                  <div class="message messageError" v-else>{{searchAccountMessage}}</div>
+                <el-input v-model="addMemberData.sno" placeholder="请输入用户账号" @input="searchAccount"></el-input>
+                <div v-if="addMemberData.result">
+                  <div class="message" v-if="addMemberData.searchStatus">
+                    {{addMemberData.message}}
+                    <div class="add iconfont icon-jia" @click="addMember"></div>
+                  </div>
+                  <div class="message messageError" v-else>{{addMemberData.message}}</div>
                 </div>
               </div>
               <div class="right">
-                <el-button :disabled="!searchAccountStatus" type="primary" @click="addMember">添加</el-button>
+                <el-button
+                  :disabled="!addMemberData.searchStatus"
+                  type="primary"
+                  @click="addMember"
+                >添加</el-button>
               </div>
             </div>
           </el-dialog>
@@ -53,9 +60,25 @@
             <li v-for="item in memberList">
               <div class="username">{{item.username}}</div>
               <div class="account">学号：{{item.sno}}</div>
-              <div class="remove el-icon-remove-outline"></div>
+              <div
+                v-if="user.userId == course.menagerId"
+                class="remove el-icon-remove-outline"
+                @click="removeMemberBoxShow(item)"
+              ></div>
             </li>
           </ul>
+          <el-dialog
+            custom-class="removeMemberBox"
+            :visible.sync="removeMemberData.status"
+            center
+            :show-close="false"
+          >
+            <div>确定要移除成员{{removeMemberData.nowMember.username}}吗</div>
+            <div slot="footer" class="dialog-footer">
+              <el-button type="primary" @click="removeMember">确 定</el-button>
+              <el-button @click="removeMemberData.status= false">取 消</el-button>
+            </div>
+          </el-dialog>
         </div>
       </div>
     </div>
@@ -68,7 +91,7 @@ import WorkList from 'components/content/WorkList.vue';
 import { mapState, mapGetters } from 'vuex';
 import ElementUI from 'plugins/ElementUI.js';
 import WorkConfig from 'components/content/WorkConfig.vue';
-import { getCourseStudents } from 'network/Course.js';
+import { getCourseStudents, searchUser, removeMember, addMember } from 'network/Course.js';
 
 export default {
   name: 'Course',
@@ -80,12 +103,19 @@ export default {
         ddl: new Date(),
         workFormat: 'xxx',
       },
-      addMemberStatus: false, // 是否显示添加成员
-      addMemberAccount: '', // 添加成员用户账号
-      searchAccountTimer: null, // 防抖计时器
-      searchAccountResult: false, // 是否显示搜索结果
-      searchAccountStatus: false, // 用户是否可添加
-      searchAccountMessage: '', // 信息
+      addMemberData: {
+        status: false, // 是否显示添加成员
+        sno: '', // 添加成员用户学号
+        userId: '', // 用户ID 
+        timer: null, // 防抖计时器
+        result: false, // 是否显示搜索结果
+        searchStatus: false, // 用户是否可添加
+        message: '', // 信息
+      },
+      removeMemberData: {
+        status: false,
+        nowMember: {},
+      },
       memberList: [],
     };
   },
@@ -97,26 +127,118 @@ export default {
       console.log(work);
     },
     searchAccount () {
-      clearTimeout(this.searchAccountTimer);
-      this.searchAccountTimer = setTimeout(() => {
-        console.log('请求');
-        if (this.addMemberAccount == '') {
-          this.searchAccountStatus = false;
-          this.searchAccountResult = false;
+      clearTimeout(this.addMemberData.timer);
+      // timeout防抖
+      this.addMemberData.timer = setTimeout(async () => {
+
+        // 判断输入框是否为空
+        if (this.addMemberData.sno == '') {
+          this.addMemberData.searchStatus = false;
+          this.addMemberData.result = false;
           return;
         }
-        if (this.addMemberAccount == '191543132') {
-          this.searchAccountStatus = true;
-          this.searchAccountMessage = '杨超旭';
+
+        // 请求
+        let userList = (await searchUser({
+          token: tool.getCookie('token'),
+          sno: this.addMemberData.sno
+        })).data.data;
+
+        // 判断是否查到了
+        if (userList.length != 0) {
+          this.addMemberData.searchStatus = true;
+          this.addMemberData.message = userList[0].name;
+          this.addMemberData.userId = userList[0].userId;
         } else {
-          this.searchAccountStatus = false;
-          this.searchAccountMessage = '未查询到该用户';
+          this.addMemberData.searchStatus = false;
+          this.addMemberData.message = '未查询到该用户';
         }
-        this.searchAccountResult = true;
+        this.addMemberData.result = true;
       }, 500);
     },
-    addMember () {
-      console.log(`添加${this.addMemberAccount}`);
+    async addMember () {
+      let addRes = (await addMember({
+        token: tool.getCookie('token'),
+        courseId: this.course.courseId,
+        userId: this.addMemberData.userId,
+      })).data;
+      if (addRes.flag) {
+        this.memberList.push({
+          userId: this.addMemberData.userId,
+          username: this.addMemberData.message,
+          sno: this.addMemberData.sno,
+        });
+        ElementUI.Message({
+          type: 'success',
+          message: tool.randomData([{
+            rank: 3,
+            data: '添加成功'
+          }, {
+            rank: 1,
+            data: '又来了一个小可爱'
+          }]),
+        });
+      } else {
+        ElementUI.Message({
+          type: 'error',
+          message: tool.randomData([{
+            rank: 3,
+            data: '添加失败'
+          }, {
+            rank: 1,
+            data: '服务器正忙，请下辈子再试'
+          }]),
+        });
+      }
+    },
+    removeMemberBoxShow (item) {
+      this.removeMemberData.nowMember = item;
+      this.removeMemberData.status = true;
+    },
+    async removeMember () {
+      let removeRes = (await removeMember({
+        token: tool.getCookie('token'),
+        userId: this.removeMemberData.nowMember.userId,
+        courseId: this.course.courseId,
+      })).data;
+      this.removeMemberData.status = false;
+      let status = true;
+      if (!removeRes.flag) {
+        status = false;
+      }
+      if (this.removeMemberData.nowMember.sno == this.user.sno) {
+        status = false;
+      }
+      if (status) {
+        let newArr = [];
+        for (let item of this.memberList) {
+          if (this.removeMemberData.nowMember != item) {
+            newArr.push(item);
+          }
+        }
+        this.memberList = newArr;
+        ElementUI.Message({
+          type: 'success',
+          message: tool.randomData([{
+            rank: 3,
+            data: '移除成功'
+          }, {
+            rank: 1,
+            data: '恭喜恭喜，移除成功了'
+          }]),
+        });
+      } else {
+        ElementUI.Message({
+          type: 'error',
+          message: tool.randomData([{
+            rank: 3,
+            data: '移除失败'
+          }, {
+            rank: 1,
+            data: '移不动，除不掉'
+          }]),
+        });
+      }
     }
   },
   components:
@@ -213,7 +335,7 @@ export default {
 
 <style>
 .el-dialog__wrapper .addMemberBox {
-  width: 600px;
+  width: 500px;
   border-radius: 10px;
   /* background-color: #f00; */
 }
@@ -271,7 +393,26 @@ export default {
   color: #000;
 }
 
+.el-dialog__wrapper .addMemberBox .el-dialog__body > div .message:hover {
+  background-color: #e4ecfc;
+}
+
+.el-dialog__wrapper .addMemberBox .el-dialog__body > div .message .add {
+  position: absolute;
+  top: 0px;
+  right: 15px;
+  height: 100%;
+  font-size: 14px;
+  color: #666;
+  cursor: pointer;
+}
+
+.el-dialog__wrapper .addMemberBox .el-dialog__body > div .message .add:hover {
+  color: #000;
+}
+
 .el-dialog__wrapper .addMemberBox > .el-dialog__body > div > .right {
+  display: none;
   margin-left: 15px;
 }
 
@@ -347,5 +488,26 @@ export default {
 
 .member .memberList ul li .remove:hover {
   color: #111;
+}
+</style>
+
+<style>
+.el-dialog__wrapper .removeMemberBox {
+  width: 400px;
+  height: 180px;
+}
+
+.el-dialog__wrapper .removeMemberBox .el-dialog__header {
+  padding: 20px 15px 0px;
+}
+
+.el-dialog__wrapper .removeMemberBox .el-dialog__body {
+  font-size: 24px;
+  text-align: center;
+  color: #000;
+}
+
+.el-dialog__wrapper .removeMemberBox .el-dialog__footer {
+  padding: 0px;
 }
 </style>

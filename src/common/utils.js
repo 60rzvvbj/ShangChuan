@@ -134,11 +134,35 @@ function randomColor(l, r) {
   return 'rgb(' + getIntRandom(l, r) + ',' + getIntRandom(l, r) + ',' + getIntRandom(l, r) + ')';
 }
 
+/**
+ * 
+ * 函数功能：根据概率生成对应的字符串
+ * 
+ * @param {Array({rank, data})} messages 字符串们
+ * @author 60rzvvbj
+ */
+function randomData(messages) {
+  let sum = 0;
+  for (let i = 0; i < messages.length; i++) {
+    sum += messages[i].rank;
+  }
+  let randNum = getDoubleRandom(0, sum);
+  for (let i = 0; i < messages.length - 1; i++) {
+    if (randNum <= messages[i].rank) {
+      return messages[i].data;
+    } else {
+      randNum -= messages[i].rank;
+    }
+  }
+  return messages[messages.length - 1].data;
+}
+
 export default {
   getCookie,
   setCookie,
   removeCookie,
   getDoubleRandom,
   getIntRandom,
-  randomColor
+  randomColor,
+  randomData,
 };

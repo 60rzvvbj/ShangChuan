@@ -72,7 +72,7 @@ export default {
   font-size: 24px;
   font-weight: 700;
   line-height: var(--headerHeight);
-  cursor: default;
+  cursor: pointer;
 }
 
 .header .right {
