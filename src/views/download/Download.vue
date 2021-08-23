@@ -4,10 +4,12 @@
     <div class="table_box">
       <!-- 标题 -->
       <div class="titleBox">
-        <div class="down_til">下载作业</div>
+        <div class="down_til">作业详情</div>
         <div class="workConfig" @click="addWorkShow">
+          <!-- 修改 -->
           <i class="iconfont icon-xiugai"></i>
         </div>
+        <div class="delete" @click=" deleteSure">×删除</div>
       </div>
        <work-config
           ref="workConfigBox"
@@ -51,6 +53,8 @@ import Header from 'components/content/Header';
 import WorkConfig from 'components/content/WorkConfig';
 import ElementUI from 'plugins/ElementUI';
 import { getWorkList } from'network/Download'
+const message = ElementUI.Message;
+const messageBox = ElementUI.MessageBox;
 
 export default {
   data () {
@@ -89,6 +93,18 @@ export default {
     handleRowClick (row, column, event) {
       this.$refs.handinTable.toggleRowSelection(row);
     },
+    // 删除确认
+    deleteSure() {
+        messageBox.confirm('此操作将永久删除该作业, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          message.success('删除成功')
+        }).catch(() => {
+          message.info('已取消删除')        
+        });
+      } 
   },
   components: {
     Header,
@@ -96,8 +112,9 @@ export default {
     ...ElementUI
   },
   created(){
-      console.log(this.$store.state.course);
-    
+     const { data: res } = getWorkList({token: tool.getCookie('token'),workId:this.$route.query.workId});
+       console.log(res);
+      console.log(this.$route.query.workId);
   }
 }
 </script>
@@ -152,6 +169,18 @@ export default {
   cursor: pointer;
 }
 .workConfig i:hover{
+  color: #000;
+}
+// 删除
+.delete{
+  padding-top: 7px;
+  margin: 30px 10px;
+  font-size: 14.5px;
+  letter-spacing: 1px;
+  color: rgb(182, 179, 179);
+  cursor: pointer;
+}
+.delete:hover{
   color: #000;
 }
 // 表格
