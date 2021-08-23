@@ -7,7 +7,7 @@ import {
 export function getWorkList(data) {
   return request({
     method: 'POST',
-    url: '/getStudentAllCourse',
+    url: '/server/homework/selectStuHomeworkByHomeworkId',
     headers: {
       token: data.token
     },

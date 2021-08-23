@@ -112,9 +112,10 @@ export default {
     ...ElementUI
   },
   created(){
-     const { data: res } = getWorkList({token: tool.getCookie('token'),workId:this.$route.query.workId});
-       console.log(res);
-      console.log(this.$route.query.workId);
+    const data = {token: tool.getCookie('token'),hwID:this.$route.query.workId};
+    getWorkList(data).then((res) => {
+      console.log(res.data);
+    })
   }
 }
 </script>
