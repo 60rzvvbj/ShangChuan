@@ -5,18 +5,24 @@
       <!-- 标题 -->
       <div class="titleBox">
         <div class="down_til">作业详情</div>
-        <div class="workConfig" @click="addWorkShow">
+        <div
+          class="workConfig"
+          @click="addWorkShow"
+        >
           <!-- 修改 -->
           <i class="iconfont icon-xiugai"></i>
         </div>
-        <div class="delete" @click=" deleteSure">×删除</div>
+        <div
+          class="delete"
+          @click=" deleteSure"
+        >×删除</div>
       </div>
-       <work-config
-          ref="workConfigBox"
-          :title="'修改作业'"
-          :defaultValue="workDefaultValue"
-        ></work-config>
-      
+      <work-config
+        ref="workConfigBox"
+        :title="'修改作业'"
+        :defaultValue="workDefaultValue"
+      ></work-config>
+
       <!-- 表格 -->
       <el-table
         class="down_table"
@@ -30,19 +36,49 @@
         @selection-change="handleSelectionChange"
         @row-click="handleRowClick"
       >
-        <el-table-column　label-class-name="DisabledSelection" align="center" type="selection" width="70"></el-table-column>
-        <el-table-column label="序号" type="index" width="55"
-            　　align="center"></el-table-column>
-        <el-table-column align="center" label="学号" width="120" prop="num">
+        <el-table-column　label-class-name="DisabledSelection"
+          align="center"
+          type="selection"
+          width="70"
+        ></el-table-column>
+        <el-table-column
+          label="序号"
+          type="index"
+          width="55"
+          　　align="center"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          label="学号"
+          width="120"
+          prop="num"
+        >
           <!-- <template slot-scope="scope">{{ scope.row.num }}</template> -->
         </el-table-column>
-        <el-table-column align="center" prop="name" label="姓名" width="120"></el-table-column>
-        <el-table-column align="center" prop="address" label="文件" show-overflow-tooltip></el-table-column>
+        <el-table-column
+          align="center"
+          prop="name"
+          label="姓名"
+          width="120"
+        ></el-table-column>
+        <el-table-column
+          align="center"
+          prop="address"
+          label="文件"
+          show-overflow-tooltip
+        ></el-table-column>
       </el-table>
       <!-- 按钮 -->
       <div class="btn_box">
-        <el-button type="primary" class="btn">下载</el-button>
-        <el-button type="primary" class="btn" @click="toggleSelection()">取消选择</el-button>
+        <el-button
+          type="primary"
+          class="btn"
+        >下载</el-button>
+        <el-button
+          type="primary"
+          class="btn"
+          @click="toggleSelection()"
+        >取消选择</el-button>
       </div>
     </div>
   </div>
@@ -52,7 +88,7 @@
 import Header from 'components/content/Header';
 import WorkConfig from 'components/content/WorkConfig';
 import ElementUI from 'plugins/ElementUI';
-import { getWorkList,deleteWork } from'network/Download'
+import { getWorkList, deleteWork } from 'network/Download'
 const message = ElementUI.Message;
 const messageBox = ElementUI.MessageBox;
 
@@ -64,7 +100,7 @@ export default {
         ddl: new Date(),
         workFormat: 'xxx',
       },
-      tableData: [ {
+      tableData: [{
         num: '191543105',
         name: '张三',
         address: 'xxxxxxxxxxxxxxx'
@@ -94,31 +130,32 @@ export default {
       this.$refs.handinTable.toggleRowSelection(row);
     },
     // 删除确认
-    deleteSure() {
-        messageBox.confirm('此操作将永久删除该作业, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          // 请求删除
-          deleteWork(tool.getCookie('token')).then((res) => {
-            if(!res.data.flag){
-              return message.error('删除失败')
-            }
-            message.success('删除成功')
-          })
-        }).catch(() => {
-          message.info('已取消删除')        
-        });
-      } 
+    deleteSure () {
+      messageBox.confirm('此操作将永久删除该作业, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        // 请求删除
+        deleteWork(tool.getCookie('token')).then((res) => {
+          if (!res.data.flag) {
+            return message.error('删除失败')
+          }
+          message.success('删除成功')
+        })
+      }).catch(() => {
+        message.info('已取消删除')
+      });
+    }
   },
   components: {
     Header,
     WorkConfig,
     ...ElementUI
   },
-  created(){
-    const data = {token: tool.getCookie('token'),hwID:this.$route.query.workId};
+  created () {
+    const data = { token: tool.getCookie('token'), hwID: this.$route.query.workId };
+    console.log(data.hwID);
     getWorkList(data).then((res) => {
       console.log(res.data);
     })
@@ -147,7 +184,7 @@ export default {
   overflow: hidden;
 }
 // 标题盒子
-.titleBox{
+.titleBox {
   display: flex;
 }
 // 标题
@@ -167,19 +204,19 @@ export default {
   height: 100%;
 }
 //修改
-.workConfig{
+.workConfig {
   padding-top: 20px;
 }
-.workConfig i{
+.workConfig i {
   color: rgb(182, 179, 179);
   font-size: 50px;
   cursor: pointer;
 }
-.workConfig i:hover{
+.workConfig i:hover {
   color: #000;
 }
 // 删除
-.delete{
+.delete {
   padding-top: 7px;
   margin: 30px 10px;
   font-size: 14.5px;
@@ -187,7 +224,7 @@ export default {
   color: rgb(182, 179, 179);
   cursor: pointer;
 }
-.delete:hover{
+.delete:hover {
   color: #000;
 }
 // 表格
@@ -198,25 +235,25 @@ export default {
 }
 // deep覆盖ui样式
 // 全选提示
-.el-table /deep/.DisabledSelection .cell .el-checkbox__inner{
-	  margin-left: 20px;
-	  position:relative;
-	}
-.el-table /deep/.DisabledSelection .cell:before{
-	  content:"all";
-	  position:absolute;
-	  left:15px;
-	}
-  // 滚动条的宽度
-  /deep/ .el-table__body-wrapper::-webkit-scrollbar {
-    width: 6px; // 横向滚动条
-    height: 6px; // 纵向滚动条 必写
-  }
-  // 滚动条的滑块
-  /deep/ .el-table__body-wrapper::-webkit-scrollbar-thumb {
-    background-color: #ddd;
-    border-radius: 3px;
-  }
+.el-table /deep/.DisabledSelection .cell .el-checkbox__inner {
+  margin-left: 20px;
+  position: relative;
+}
+.el-table /deep/.DisabledSelection .cell:before {
+  content: "all";
+  position: absolute;
+  left: 15px;
+}
+// 滚动条的宽度
+/deep/ .el-table__body-wrapper::-webkit-scrollbar {
+  width: 6px; // 横向滚动条
+  height: 6px; // 纵向滚动条 必写
+}
+// 滚动条的滑块
+/deep/ .el-table__body-wrapper::-webkit-scrollbar-thumb {
+  background-color: #ddd;
+  border-radius: 3px;
+}
 // 按钮盒子
 .btn_box {
   height: 50px;

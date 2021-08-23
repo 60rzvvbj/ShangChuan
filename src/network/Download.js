@@ -27,3 +27,21 @@ export function deleteWork(data) {
     }
   })
 }
+
+//修改作业
+export function updateWork(data) {
+  return request({
+    method: 'POST',
+    url: '/server/homework/updateHomework',
+    headers: {
+      token: data.token
+    },
+    params: {
+      homeworkId: data.hwID,
+      homeworkName: data.hwName,
+      homeworkDeadtime: data.hw,
+      homeworkNamed: data.hwNamed,
+      homeworkIntroduction: dataIntro
+    }
+  })
+}
