@@ -142,6 +142,8 @@ export default {
             return message.error('删除失败')
           }
           message.success('删除成功')
+          // 跳转地址
+          this.$router.push('/home')
         })
       }).catch(() => {
         message.info('已取消删除')
