@@ -21,7 +21,13 @@
     <div>
       <div class="left">文件格式：</div>
       <div class="right">
-        <el-input v-model="workFormat" placeholder="请输入文件格式"></el-input>
+        <el-autocomplete
+          v-model="workFormat"
+          placeholder="请输入文件格式"
+          :trigger-on-focus="false"
+          :fetch-suggestions="inputProposal"
+          @select="selectEvent"
+        ></el-autocomplete>
       </div>
     </div>
     <div slot="footer" class="dialog-footer">
@@ -63,6 +69,17 @@ export default {
         workFormat: this.workFormat,
       });
     },
+    inputProposal (inputContent, callback) {
+      console.log(inputContent);
+      if (inputContent.endsWith('$')) {
+        callback([{ value: inputContent + '{sno}' }, { value: inputContent + '{name}' }]);
+      } else {
+        callback([]);
+      }
+    },
+    selectEvent (item) {
+      console.log(item);
+    }
   },
   mounted () {
     if (this.defaultValue) {
