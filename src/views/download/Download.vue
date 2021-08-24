@@ -12,10 +12,11 @@
           <!-- 修改 -->
           <i class="iconfont icon-xiugai"></i>
         </div>
+        <!-- 删除 -->
         <div
           class="delete"
           @click=" deleteSure"
-        >×删除</div>
+        ><i class="iconfont icon-shanchu"></i>删除</div>
       </div>
       <work-config
         ref="workConfigBox"
