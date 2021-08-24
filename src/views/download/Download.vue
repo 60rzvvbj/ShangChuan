@@ -69,13 +69,18 @@
           label="文件"
           show-overflow-tooltip
         ></el-table-column>
+        <el-table-column
+          align="center"
+          label="下载"
+          width="120"
+        ><i class="iconfont icon-xiazai4"></i></el-table-column>
       </el-table>
       <!-- 按钮 -->
       <div class="btn_box">
         <el-button
           type="primary"
           class="btn"
-        >下载</el-button>
+        >批量下载</el-button>
         <el-button
           type="primary"
           class="btn"
@@ -123,7 +128,7 @@ export default {
       this.$refs.workConfigBox.show();
     },
     // 取消选择
-    toggleSelection (rows) {
+    toggleSelection () {
       this.$refs.handinTable.clearSelection();
     },
     // 选中事件
@@ -134,6 +139,7 @@ export default {
     //点击行触发，选中或不选中复选框
     handleRowClick (row, column, event) {
       this.$refs.handinTable.toggleRowSelection(row);
+      console.log(row);
     },
     // 删除确认
     deleteSure () {
@@ -163,15 +169,15 @@ export default {
     ...ElementUI
   },
   created () {
+    //传参
     const data = { token: tool.getCookie('token'), hwID: this.$route.query.workId };
-    // getWorkList(data).then((res) => {
-    //   console.log(res.data);
-    // })
+    getWorkList(data).then((res) => {
+      console.log(res.data);
+    })
     // 获取作业信息
     getWorkMessage(data).then((res) => {
       // 获取的信息
       const mes = res.data.data[0];
-      console.log(mes);
       // 转换时间格式
       const changeTime = tool.getDateString(mes.homeworkDeadtime);
       //赋值
@@ -179,7 +185,6 @@ export default {
       this.workDefaultValue.ddl = changeTime;
       this.workDefaultValue.workFormat = mes.homeworkNamed;
       this.state = 'T'
-      console.log(this.workDefaultValue);
     })
   }
 }
@@ -281,5 +286,13 @@ export default {
   height: 50px;
   text-align: center;
   margin: 30px 0;
+}
+// 下载按钮
+.icon-xiazai4 {
+  color: #ddd;
+  cursor: pointer;
+}
+.icon-xiazai4:hover {
+  color: #000;
 }
 </style>
