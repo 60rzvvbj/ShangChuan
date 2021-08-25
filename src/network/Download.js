@@ -19,7 +19,7 @@ export function getWorkMessage(data) {
 export function getWorkList(data) {
   return request({
     method: 'POST',
-    url: '/server/homework/selectStuHomeworkByHomeworkId',
+    url: '/server/homework/selectDownloadStuHomeworkByHomeworkId',
     headers: {
       token: data.token
     },

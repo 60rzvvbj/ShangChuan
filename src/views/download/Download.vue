@@ -53,9 +53,8 @@
           align="center"
           label="学号"
           width="120"
-          prop="num"
+          prop="stuId"
         >
-          <!-- <template slot-scope="scope">{{ scope.row.num }}</template> -->
         </el-table-column>
         <el-table-column
           align="center"
@@ -65,7 +64,7 @@
         ></el-table-column>
         <el-table-column
           align="center"
-          prop="address"
+          prop="stuHomeworkName"
           label="文件"
           show-overflow-tooltip
         ></el-table-column>
@@ -73,7 +72,9 @@
           align="center"
           label="下载"
           width="120"
-        ><i class="iconfont icon-xiazai4"></i></el-table-column>
+        ><i class="iconfont icon-xiazai4">
+            <!-- <template slot-scope="scope">{{ scope.row.num }}</template> -->
+          </i></el-table-column>
       </el-table>
       <!-- 按钮 -->
       <div class="btn_box">
@@ -111,15 +112,7 @@ export default {
         workFormat: 'xxx',
       },
       // 作业列表
-      tableData: [{
-        num: '191543105',
-        name: '张三',
-        address: 'xxxxxxxxxxxxxxx'
-      }, {
-        num: '191543105',
-        name: '李四',
-        address: 'xxxxxxxxxxxx'
-      }],
+      tableData: [],
       multipleSelection: []
     }
   }, methods: {
@@ -161,7 +154,15 @@ export default {
         message.info('已取消删除')
       });
     },
-
+    // 过滤已交作业
+    handUpList (list) {
+      console.log(list);
+      if (list) {
+        return list.filter(data => {
+          return data.submit == true;
+        })
+      }
+    }
   },
   components: {
     Header,
@@ -172,7 +173,8 @@ export default {
     //传参
     const data = { token: tool.getCookie('token'), hwID: this.$route.query.workId };
     getWorkList(data).then((res) => {
-      console.log(res.data);
+      // 获取已交名单
+      this.tableData = this.handUpList(res.data.data)
     })
     // 获取作业信息
     getWorkMessage(data).then((res) => {
