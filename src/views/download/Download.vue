@@ -72,15 +72,20 @@
           align="center"
           label="下载"
           width="120"
-        ><i class="iconfont icon-xiazai4">
-            <!-- <template slot-scope="scope">{{ scope.row.num }}</template> -->
-          </i></el-table-column>
+        >
+          <!-- 作用域插槽获取当前行数据 -->
+          <template slot-scope="scope"><i
+              class="iconfont icon-xiazai4"
+              @click="downloadOne(scope.row.stuHomeworkId)"
+            ></i></template>
+        </el-table-column>
       </el-table>
       <!-- 按钮 -->
       <div class="btn_box">
         <el-button
           type="primary"
           class="btn"
+          @click="downloadZip"
         >批量下载</el-button>
         <el-button
           type="primary"
@@ -96,7 +101,7 @@
 import Header from 'components/content/Header';
 import WorkConfig from 'components/content/WorkConfig';
 import ElementUI from 'plugins/ElementUI';
-import { getWorkList, deleteWork, getWorkMessage } from 'network/Download'
+import { getWorkList, deleteWork, getWorkMessage, downloadOne, downloadZip } from 'network/Download'
 const message = ElementUI.Message;
 const messageBox = ElementUI.MessageBox;
 
@@ -113,7 +118,7 @@ export default {
       },
       // 作业列表
       tableData: [],
-      multipleSelection: []
+      multipleSelection: ['1429985388734197760']
     }
   }, methods: {
     // 修改盒子
@@ -127,12 +132,11 @@ export default {
     // 选中事件
     handleSelectionChange (val) {
       this.multipleSelection = val;
-      console.log(val);
+      console.log(this.multipleSelection);
     },
     //点击行触发，选中或不选中复选框
     handleRowClick (row, column, event) {
       this.$refs.handinTable.toggleRowSelection(row);
-      console.log(row);
     },
     // 删除确认
     deleteSure () {
@@ -156,12 +160,62 @@ export default {
     },
     // 过滤已交作业
     handUpList (list) {
-      console.log(list);
       if (list) {
         return list.filter(data => {
           return data.submit == true;
         })
       }
+    },
+    // 单个下载
+    downloadOne (homeWorkId) {
+      console.log(homeWorkId);
+      messageBox.confirm('此操作将下载该作业, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.toggleSelection();
+        // 请求下载
+        downloadOne({ token: tool.getCookie('token'), stuHomeworkId: homeWorkId }).then((res) => {
+
+        })
+      }).catch(() => {
+        this.toggleSelection();
+        message.info('已取消')
+      });
+    },
+    //打包下载
+    downloadZip () {
+      messageBox.confirm('此操作将打包下载作业, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.toggleSelection();
+        // 请求下载
+        downloadZip({ token: 'f50954a9-0157-4592-9e4e-9fe5c8c006f5', stuHomeworkId: this.multipleSelection }).then(res => {
+          this.downloadFile(res.data);
+        })
+      }).catch(() => {
+        this.toggleSelection();
+        message.info('已取消')
+      });
+
+    },
+    // 下载文件
+    downloadFile (data) {
+      // 文件导出
+      if (!data) {
+        return
+      }
+      let url = window.URL.createObjectURL(new Blob([data]));
+      let link = document.createElement('a');
+      link.style.display = 'none';
+      link.href = url;
+      link.download = '123.zip';
+
+      // document.body.appendChild(link);
+      link.click()
     }
   },
   components: {
@@ -291,6 +345,7 @@ export default {
 }
 // 下载按钮
 .icon-xiazai4 {
+  padding: 0 10px;
   color: #ddd;
   cursor: pointer;
 }

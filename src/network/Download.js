@@ -60,26 +60,28 @@ export function updateWork(data) {
 // 下载一个作业
 export function downloadOne(data) {
   return request({
-    method: 'POST',
+    method: 'GET',
     url: '/server/file/downloadOne',
     headers: {
       token: data.token
     },
     params: {
-      stuHomeworkId: data.stuWorkId
+      stuHomeworkId: data.stuHomeworkId
     }
   })
 }
 // 打包下载
-export function downloadZip(data) {
+export function downloadZip(req) {
   return request({
     method: 'POST',
     url: '/server/file/downloadZip',
+    responseType: 'blob',
     headers: {
-      token: data
+      token: req.token,
+      'Content-Type': 'application/json'
     },
-    params: {
-
-    }
+    data: JSON.stringify(
+      req.stuHomeworkId
+    )
   })
 }
