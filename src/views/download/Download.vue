@@ -118,7 +118,10 @@ export default {
       },
       // 作业列表
       tableData: [],
-      multipleSelection: ['1429985388734197760']
+      // 选择行对象
+      multipleSelection: [],
+      // id列表
+      selectId: []
     }
   }, methods: {
     // 修改盒子
@@ -132,7 +135,6 @@ export default {
     // 选中事件
     handleSelectionChange (val) {
       this.multipleSelection = val;
-      console.log(this.multipleSelection);
     },
     //点击行触发，选中或不选中复选框
     handleRowClick (row, column, event) {
@@ -168,42 +170,54 @@ export default {
     },
     // 单个下载
     downloadOne (homeWorkId) {
-      console.log(homeWorkId);
       messageBox.confirm('此操作将下载该作业, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.toggleSelection();
         // 请求下载
         downloadOne({ token: tool.getCookie('token'), stuHomeworkId: homeWorkId }).then((res) => {
-
+          const name = (res.headers.filename);
+          this.downloadFile(res.data, name);
         })
+        this.toggleSelection();
       }).catch(() => {
         this.toggleSelection();
         message.info('已取消')
       });
     },
+    //获取Id列表
+    getIdList () {
+      // 清空列表
+      this.selectId = []
+      this.multipleSelection.forEach(x => {
+        this.selectId.push(x.stuHomeworkId)
+      })
+    },
     //打包下载
     downloadZip () {
+      if (this.multipleSelection.length == 0) {
+        return message.error('请选择作业')
+      }
       messageBox.confirm('此操作将打包下载作业, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.toggleSelection();
         // 请求下载
-        downloadZip({ token: 'f50954a9-0157-4592-9e4e-9fe5c8c006f5', stuHomeworkId: this.multipleSelection }).then(res => {
-          this.downloadFile(res.data);
+        this.getIdList();
+        downloadZip({ token: tool.getCookie('token'), stuHomeworkId: this.selectId }).then(res => {
+          const name = (res.headers.filename);
+          this.downloadFile(res.data, name);
         })
-      }).catch(() => {
         this.toggleSelection();
+      }).catch(() => {
         message.info('已取消')
       });
 
     },
     // 下载文件
-    downloadFile (data) {
+    downloadFile (data, name) {
       // 文件导出
       if (!data) {
         return
@@ -212,7 +226,7 @@ export default {
       let link = document.createElement('a');
       link.style.display = 'none';
       link.href = url;
-      link.download = '123.zip';
+      link.download = name;
 
       // document.body.appendChild(link);
       link.click()
