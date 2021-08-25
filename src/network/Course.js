@@ -69,10 +69,13 @@ export function addWork(data) {
       token: data.token
     },
     data: {
-      homeworkDeadtime: data.ddl,
-      subjectId: data.courseId,
-      homeworkName: data.workName,
-      homeworkNamed: data.workFormat,
+      homework: {
+        homeworkDeadtime: data.ddl,
+        subjectId: data.courseId,
+        homeworkName: data.workName,
+        homeworkNamed: data.workFormat,
+      },
+      named: data.named
     }
   });
 }

@@ -131,7 +131,8 @@ export default {
         workName: work.workName,
         ddl: '' + work.ddl,
         workFormat: work.workFormat,
-        courseId: this.course.courseId
+        courseId: this.course.courseId,
+        named: work.named
       })).data;
       if (addRes.flag) {
         this.$refs.workList.addNewWork({

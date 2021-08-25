@@ -47,6 +47,15 @@ export default {
       workName: '',
       ddl: null,
       workFormat: '',
+      named: [{
+        attribute: 'name',
+        name: '姓名',
+        uuid: '',
+      }, {
+        attribute: 'stuid',
+        name: '学号',
+        uuid: '',
+      }],
     }
   },
   props: [
@@ -61,24 +70,46 @@ export default {
     show () {
       this.status = true;
     },
+    // 提交处理函数
     submit () {
-      this.status = false;
+      this.status = false; // 关闭显示
+      let createVariable = ''; // 创建变量的语句
+      for (let namedItem of this.named) {
+        // 生成每一个变量的随机字符串
+        while (true) {
+          namedItem.uuid = tool.randomString('abcdefghijklmnopqrstuvwxyz', 5); // 生成随机字符串
+          if (this.workFormat.indexOf(namedItem.uuid) == -1) { // 如果随机字符串不是文件格式字符串的子串则生成完毕
+            break;
+          }
+        }
+        // 上述生成随机字符串有变量间字符串重复的安全隐患(待修改)
+        createVariable += 'let ' + namedItem.name + ' = \'' + namedItem.uuid + '\';\n'; // 拼接创建变量的语句
+      }
+      eval(createVariable + 'this.workFormat = `' + this.workFormat + '`;'); // 创建变量并且根据随机字符串重设文件名格式字符串
+
+      // 上述方法存在用户使用的变量名不是规定的变量名时会出现 变量名 is not defind 异常的bug(待修改)
+      // 不过运气不是太差的话以上代码时没有问题的
+
+      // 提交到父组件
       this.$emit('submit', {
         workName: this.workName,
         ddl: this.ddl.getTime(),
         workFormat: this.workFormat,
+        named: this.named,
       });
     },
     inputProposal (inputContent, callback) {
-      console.log(inputContent);
       if (inputContent.endsWith('$')) {
-        callback([{ value: inputContent + '{sno}' }, { value: inputContent + '{name}' }]);
+        let resArr = [];
+        for (let namedItem of this.named) {
+          resArr.push({ value: inputContent + '{' + namedItem.name + '}' });
+        }
+        callback(resArr);
       } else {
         callback([]);
       }
     },
     selectEvent (item) {
-      console.log(item);
     }
   },
   mounted () {
@@ -91,6 +122,9 @@ export default {
       }
       if (this.defaultValue.workFormat != undefined) {
         this.workFormat = this.defaultValue.workFormat;
+      }
+      if (this.defaultValue.named != undefined) {
+        this.named = this.defaultValue.named;
       }
     }
   }
