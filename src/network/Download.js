@@ -66,8 +66,9 @@ export function updateWork(data) {
 // 下载一个作业
 export function downloadOne(data) {
   return request({
-    method: 'GET',
+    method: 'POST',
     url: '/server/file/downloadOne',
+    responseType: 'blob',
     headers: {
       token: data.token
     },
