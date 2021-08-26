@@ -149,6 +149,7 @@ export default {
         ddl: '' + work.ddl,
         workFormat: work.workFormat,
         courseId: this.course.courseId,
+        workId: this.$route.query.workId,
         named: work.named
       })).data;
       if (addRes.flag) {
