@@ -23,6 +23,7 @@
         :title="'修改作业'"
         :defaultValue="workDefaultValue"
         v-if="state == 'T'"
+        @submit="addWorkSubmit"
       ></work-config>
 
       <!-- 表格 -->
@@ -101,7 +102,7 @@
 import Header from 'components/content/Header';
 import WorkConfig from 'components/content/WorkConfig';
 import ElementUI from 'plugins/ElementUI';
-import { getWorkList, deleteWork, getWorkMessage, downloadOne, downloadZip } from 'network/Download'
+import { getWorkList, deleteWork, getWorkMessage, downloadOne, downloadZip, updateHomework } from 'network/Download'
 const message = ElementUI.Message;
 const messageBox = ElementUI.MessageBox;
 
@@ -139,6 +140,50 @@ export default {
     //点击行触发，选中或不选中复选框
     handleRowClick (row, column, event) {
       this.$refs.handinTable.toggleRowSelection(row);
+    },
+    // 修改作业
+    async addWorkSubmit (work) {
+      let addRes = (await updateHomework({
+        token: tool.getCookie('token'),
+        workName: work.workName,
+        ddl: '' + work.ddl,
+        workFormat: work.workFormat,
+        courseId: this.course.courseId,
+        named: work.named
+      })).data;
+      if (addRes.flag) {
+        this.$refs.workList.addNewWork({
+          workId: addRes.data,
+          workSubmitId: '',
+          managerId: this.user.userId,
+          title: this.course.courseName,
+          name: work.workName,
+          ddl: work.ddl,
+          submit: false,
+          number: 0,
+        });
+        ElementUI.Message({
+          type: 'success',
+          message: tool.randomData([{
+            rank: 3,
+            data: '布置作业成功'
+          }, {
+            rank: 1,
+            data: '又多了一份作业，又多了一份罪恶'
+          }]),
+        });
+      } else {
+        ElementUI.Message({
+          type: 'error',
+          message: tool.randomData([{
+            rank: 3,
+            data: '布置作业失败'
+          }, {
+            rank: 1,
+            data: '服务器正忙，看来老天不想让你布置作业呢'
+          }]),
+        });
+      }
     },
     // 删除确认
     deleteSure () {

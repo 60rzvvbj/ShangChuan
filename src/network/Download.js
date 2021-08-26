@@ -51,12 +51,15 @@ export function updateWork(data) {
     headers: {
       token: data.token
     },
-    params: {
-      homeworkId: data.hwID,
-      homeworkName: data.hwName,
-      homeworkDeadtime: data.hw,
-      homeworkNamed: data.hwNamed,
-      homeworkIntroduction: dataIntro
+    data: {
+      homework: {
+        homeworkDeadtime: data.ddl,
+        homeworkId: data.workId,
+        homeworkName: data.workName,
+        homeworkNamed: data.workFormat,
+        subjectId: data.courseId
+      },
+      named: data.named
     }
   })
 }
