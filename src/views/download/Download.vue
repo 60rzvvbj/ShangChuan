@@ -102,7 +102,7 @@
 import Header from 'components/content/Header';
 import WorkConfig from 'components/content/WorkConfig';
 import ElementUI from 'plugins/ElementUI';
-import { getWorkList, deleteWork, getWorkMessage, downloadOne, downloadZip, updateHomework } from 'network/Download'
+import { getWorkList, deleteWork, getWorkMessage, downloadOne, downloadZip, updateWork } from 'network/Download'
 const message = ElementUI.Message;
 const messageBox = ElementUI.MessageBox;
 
@@ -111,7 +111,9 @@ export default {
     return {
       // 状态
       state: 'F',
-      // 作业信息
+      // 所有信息
+      allMessage: {},
+      // 修改作业信息
       workDefaultValue: {
         workName: 'nnn',
         ddl: new Date(),
@@ -143,47 +145,20 @@ export default {
     },
     // 修改作业
     async addWorkSubmit (work) {
-      let addRes = (await updateHomework({
+      let addRes = (await updateWork({
         token: tool.getCookie('token'),
         workName: work.workName,
         ddl: '' + work.ddl,
         workFormat: work.workFormat,
-        courseId: this.course.courseId,
+        courseId: this.allMessage.subjectId,
         workId: this.$route.query.workId,
         named: work.named
       })).data;
+      console.log(addRes);
       if (addRes.flag) {
-        this.$refs.workList.addNewWork({
-          workId: addRes.data,
-          workSubmitId: '',
-          managerId: this.user.userId,
-          title: this.course.courseName,
-          name: work.workName,
-          ddl: work.ddl,
-          submit: false,
-          number: 0,
-        });
-        ElementUI.Message({
-          type: 'success',
-          message: tool.randomData([{
-            rank: 3,
-            data: '布置作业成功'
-          }, {
-            rank: 1,
-            data: '又多了一份作业，又多了一份罪恶'
-          }]),
-        });
+        message.success('修改成功')
       } else {
-        ElementUI.Message({
-          type: 'error',
-          message: tool.randomData([{
-            rank: 3,
-            data: '布置作业失败'
-          }, {
-            rank: 1,
-            data: '服务器正忙，看来老天不想让你布置作业呢'
-          }]),
-        });
+        message.error('修改失败')
       }
     },
     // 删除确认
@@ -297,8 +272,10 @@ export default {
     getWorkMessage(data).then((res) => {
       // 获取的信息
       const mes = res.data.data[0];
+      this.allMessage = mes;
       // 转换时间格式
-      const changeTime = tool.getDateString(mes.homeworkDeadtime);
+      const changeTime = new Date(parseInt(mes.homeworkDeadtime));
+      console.log(this.allMessage);
       //赋值
       this.workDefaultValue.workName = mes.homeworkName;
       this.workDefaultValue.ddl = changeTime;
