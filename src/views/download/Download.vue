@@ -165,7 +165,6 @@ export default {
         workId: this.$route.query.workId,
         named: work.named
       })).data;
-      console.log(addRes);
       if (addRes.flag) {
         message.success('修改成功')
       } else {
@@ -286,7 +285,6 @@ export default {
       this.allMessage = mes;
       // 转换时间格式
       const changeTime = new Date(parseInt(mes.homeworkDeadtime));
-      console.log(this.allMessage);
       //赋值
       this.workDefaultValue.workName = mes.homeworkName;
       this.workDefaultValue.ddl = changeTime;
@@ -357,18 +355,9 @@ export default {
   font-size: 30px;
 }
 .delete:hover,
-.delete i:hover,
 .workConfig:hover,
-.workConfig i:hover,
 .callback i:hover {
   color: #000;
-}
-
-.workConfig i,
-.delete i,
-.callback i {
-  color: rgb(182, 179, 179);
-  cursor: pointer;
 }
 // 表格
 .down_table {
