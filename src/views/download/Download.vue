@@ -357,7 +357,9 @@ export default {
   font-size: 30px;
 }
 .delete:hover,
+.delete i:hover,
 .workConfig:hover,
+.workConfig i:hover,
 .callback i:hover {
   color: #000;
 }
