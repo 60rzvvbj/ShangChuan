@@ -52,7 +52,7 @@ export default {
         name: '姓名',
         uuid: '',
       }, {
-        attribute: 'stuid',
+        attribute: 'stuId',
         name: '学号',
         uuid: '',
       }],
@@ -74,18 +74,28 @@ export default {
     submit () {
       this.status = false; // 关闭显示
       let createVariable = ''; // 创建变量的语句
+      let randStrArr = [];
+
+      // 生成每一个变量的随机字符串
       for (let namedItem of this.named) {
-        // 生成每一个变量的随机字符串
         while (true) {
-          namedItem.uuid = tool.randomString('abcdefghijklmnopqrstuvwxyz', 5); // 生成随机字符串
-          if (this.workFormat.indexOf(namedItem.uuid) == -1) { // 如果随机字符串不是文件格式字符串的子串则生成完毕
+
+          // 生成随机字符串
+          namedItem.uuid = tool.randomString('abcdefghijklmnopqrstuvwxyz', 5);
+
+          // 如果随机字符串不是文件格式字符串的子串且和已经出现的字符串不重复则生成完毕
+          if (this.workFormat.indexOf(namedItem.uuid) == -1 && randStrArr.indexOf(namedItem.uuid) == -1) {
+            randStrArr.push(namedItem.uuid);
             break;
           }
         }
-        // 上述生成随机字符串有变量间字符串重复的安全隐患(待修改)
-        createVariable += 'let ' + namedItem.name + ' = \'' + namedItem.uuid + '\';\n'; // 拼接创建变量的语句
+
+        // 拼接创建变量的语句
+        createVariable += 'let ' + namedItem.name + ' = \'' + namedItem.uuid + '\';\n';
       }
-      eval(createVariable + 'this.workFormat = `' + this.workFormat + '`;'); // 创建变量并且根据随机字符串重设文件名格式字符串
+
+      // 创建变量并且根据随机字符串重设文件名格式字符串
+      eval(createVariable + 'this.workFormat = `' + this.workFormat + '`;');
 
       // 上述方法存在用户使用的变量名不是规定的变量名时会出现 变量名 is not defind 异常的bug(待修改)
       // 不过运气不是太差的话以上代码时没有问题的

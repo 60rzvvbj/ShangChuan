@@ -136,7 +136,7 @@ export default {
       })).data;
       if (addRes.flag) {
         this.$refs.workList.addNewWork({
-          workId: addRes.data.homeworkId,
+          workId: addRes.data,
           workSubmitId: '',
           managerId: this.user.userId,
           title: this.course.courseName,
