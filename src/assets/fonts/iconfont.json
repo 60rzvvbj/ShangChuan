@@ -6,25 +6,25 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7674916",
+      "name": "修改2",
+      "font_class": "xiugai",
+      "unicode": "e71a",
+      "unicode_decimal": 59162
+    },
+    {
+      "icon_id": "5651475",
+      "name": "删除",
+      "font_class": "shanchu1",
+      "unicode": "e66c",
+      "unicode_decimal": 58988
+    },
+    {
       "icon_id": "14929707",
       "name": "下载 (4)",
       "font_class": "xiazai4",
       "unicode": "e67b",
       "unicode_decimal": 59003
-    },
-    {
-      "icon_id": "15765352",
-      "name": "删 除",
-      "font_class": "shanchu",
-      "unicode": "e696",
-      "unicode_decimal": 59030
-    },
-    {
-      "icon_id": "7674926",
-      "name": "修改",
-      "font_class": "xiugai",
-      "unicode": "e71b",
-      "unicode_decimal": 59163
     },
     {
       "icon_id": "167188",

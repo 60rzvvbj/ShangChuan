@@ -10,13 +10,13 @@
           @click="addWorkShow"
         >
           <!-- 修改 -->
-          <i class="iconfont icon-xiugai"></i>
+          <i class="iconfont icon-xiugai"></i>修改
         </div>
         <!-- 删除 -->
         <div
           class="delete"
           @click=" deleteSure"
-        ><i class="iconfont icon-shanchu"></i>删除</div>
+        ><i class="iconfont icon-shanchu1"></i>删除</div>
       </div>
       <work-config
         ref="workConfigBox"
@@ -326,29 +326,25 @@ export default {
   top: 0;
   height: 100%;
 }
-//修改
+// 修改删除
+.delete,
 .workConfig {
-  padding-top: 20px;
-}
-.workConfig i {
-  color: rgb(182, 179, 179);
-  font-size: 50px;
-  cursor: pointer;
-}
-.workConfig i:hover {
-  color: #000;
-}
-// 删除
-.delete {
   padding-top: 7px;
-  margin: 30px 10px;
+  margin: 30px 5px;
   font-size: 14.5px;
   letter-spacing: 1px;
   color: rgb(182, 179, 179);
   cursor: pointer;
 }
-.delete:hover {
+.delete:hover,
+.workConfig:hover {
   color: #000;
+}
+
+.workConfig i,
+.delete i {
+  color: rgb(182, 179, 179);
+  cursor: pointer;
 }
 // 表格
 .down_table {
