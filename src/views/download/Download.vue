@@ -17,6 +17,13 @@
           class="delete"
           @click=" deleteSure"
         ><i class="iconfont icon-shanchu1"></i>删除</div>
+        <!-- 返回 -->
+        <div
+          class="callback"
+          @click="backHistory"
+        >
+          <i class="iconfont icon-return"></i>
+        </div>
       </div>
       <work-config
         ref="workConfigBox"
@@ -142,6 +149,10 @@ export default {
     //点击行触发，选中或不选中复选框
     handleRowClick (row, column, event) {
       this.$refs.handinTable.toggleRowSelection(row);
+    },
+    //返回上一层
+    backHistory () {
+      this.$router.go(-1);
     },
     // 修改作业
     async addWorkSubmit (work) {
@@ -326,7 +337,7 @@ export default {
   top: 0;
   height: 100%;
 }
-// 修改删除
+// 修改删除返回
 .delete,
 .workConfig {
   padding-top: 7px;
@@ -336,13 +347,24 @@ export default {
   color: rgb(182, 179, 179);
   cursor: pointer;
 }
+.callback {
+  margin: 25px 30px 20px auto;
+  size: 50px;
+  color: rgb(182, 179, 179);
+  cursor: pointer;
+}
+.callback i {
+  font-size: 30px;
+}
 .delete:hover,
-.workConfig:hover {
+.workConfig:hover,
+.callback i:hover {
   color: #000;
 }
 
 .workConfig i,
-.delete i {
+.delete i,
+.callback i {
   color: rgb(182, 179, 179);
   cursor: pointer;
 }
