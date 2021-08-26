@@ -186,8 +186,13 @@ export default {
       });
     },
     upLoadSeccess (response, file, fileList) {
-      console.log({ response, file, fileList });
+      this.$refs.upload.clearFiles();
       if (response.flag) {
+        if (this.nowWork.type != 'success') {
+          this.nowWork.number++;
+          this.nowWork.type = this.getWorkType(this.nowWork.ddl, true);
+        }
+        this.uploadBoxStatus = false;
         ElementUI.Message({
           message: tool.randomData([{
             rank: 3,
@@ -210,15 +215,12 @@ export default {
           type: 'error'
         });
       }
-      this.nowWork.number++;
-      this.nowWork.type = this.getWorkType(this.nowWork.ddl, true);
-      this.uploadBoxStatus = false;
     },
     uploadBoxShow (work) {
       if (work.type == 'overdue') {
         ElementUI.Message({
           message: tool.randomData([{
-            rank: 4,
+            rank: 3,
             data: '已经过期的作业不可以提交了嗷'
           }, {
             rank: 1,

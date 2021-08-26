@@ -178,6 +178,22 @@ function getDateString(date) {
   return res;
 }
 
+/**
+ * 
+ * 函数功能：获取随机字符串
+ * 
+ * @param {string} str 字符串字符范围
+ * @param {number} len 要生成的字符串的长度
+ * @author 60rzvvbj
+ */
+function randomString(str, len) {
+  let res = '';
+  for (let i = 0; i < len; i++) {
+    res += str[getIntRandom(0, str.length)];
+  }
+  return res;
+}
+
 export default {
   getCookie,
   setCookie,
@@ -186,5 +202,6 @@ export default {
   getIntRandom,
   randomColor,
   randomData,
-  getDateString
+  getDateString,
+  randomString,
 };
