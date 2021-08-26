@@ -356,7 +356,7 @@ export default {
 }
 .delete:hover,
 .workConfig:hover,
-.callback i:hover {
+.callback:hover {
   color: #000;
 }
 // 表格

@@ -3,6 +3,13 @@
     <Header></Header>
     <div class="change_box">
       <div class="change_til">修改密码</div>
+      <!-- 返回 -->
+      <div
+        class="callback"
+        @click="backHistory"
+      >
+        <i class="iconfont icon-return"></i>
+      </div>
       <div class="form_box">
         <el-form
           label-width="100px"
@@ -12,22 +19,50 @@
           ref="setFormRef"
         >
           <!-- 旧密码 -->
-          <el-form-item prop="oldPd" label="旧密码">
-            <el-input v-model="setForm.oldPd" autocomplete="off" show-password></el-input>
+          <el-form-item
+            prop="oldPd"
+            label="旧密码"
+          >
+            <el-input
+              v-model="setForm.oldPd"
+              autocomplete="off"
+              show-password
+            ></el-input>
           </el-form-item>
           <!-- 新密码 -->
-          <el-form-item prop="newPd" label="新密码">
-            <el-input v-model="setForm.newPd" autocomplete="off" show-password></el-input>
+          <el-form-item
+            prop="newPd"
+            label="新密码"
+          >
+            <el-input
+              v-model="setForm.newPd"
+              autocomplete="off"
+              show-password
+            ></el-input>
           </el-form-item>
           <!-- 确认密码 -->
-          <el-form-item prop="surePd" class="password_check" label="确认新密码">
-            <el-input v-model="setForm.surePd" autocomplete="off" show-password></el-input>
+          <el-form-item
+            prop="surePd"
+            class="password_check"
+            label="确认新密码"
+          >
+            <el-input
+              v-model="setForm.surePd"
+              autocomplete="off"
+              show-password
+            ></el-input>
           </el-form-item>
           <!-- 按钮 -->
           <!-- <div class="btn_box">
             <div class="btn">提交</div>
           </div>-->
-          <el-button class="btn" type="primary" plain round @click="changeClick">提交</el-button>
+          <el-button
+            class="btn"
+            type="primary"
+            plain
+            round
+            @click="changeClick"
+          >提交</el-button>
         </el-form>
       </div>
     </div>
@@ -87,6 +122,10 @@ export default {
     };
   },
   methods: {
+    //返回上一层
+    backHistory () {
+      this.$router.go(-1);
+    },
     // 获取信息
     getMes () {
       this.setForm.token = tool.getCookie("token");
@@ -183,5 +222,20 @@ export default {
   text-indent: 10px; //缩进解决文字居中
   //   background-color: cadetblue;
   //   cursor: pointer;
+}
+//返回
+.callback {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  size: 50px;
+  color: rgb(182, 179, 179);
+  cursor: pointer;
+}
+.callback i {
+  font-size: 30px;
+}
+.callback:hover {
+  color: #000;
 }
 </style>
