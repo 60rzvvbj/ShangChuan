@@ -148,7 +148,7 @@ export default {
         type: 'warning'
       }).then(() => {
         // 请求删除
-        deleteWork(tool.getCookie('token')).then((res) => {
+        deleteWork({ token: tool.getCookie('token'), homeworkId: this.$route.query.workId }).then((res) => {
           if (!res.data.flag) {
             return message.error('删除失败')
           }
@@ -196,7 +196,10 @@ export default {
     },
     //打包下载
     downloadZip () {
+      // 判断是否有选择作业
       if (this.multipleSelection.length == 0) {
+        // 每次手动关闭所有弹框
+        message.closeAll()
         return message.error('请选择作业')
       }
       messageBox.confirm('此操作将打包下载作业, 是否继续?', '提示', {

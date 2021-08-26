@@ -35,7 +35,10 @@ export function deleteWork(data) {
     method: 'POST',
     url: '/server/homework/deleteHomework',
     headers: {
-      token: data
+      token: data.token
+    },
+    params: {
+      homeworkId: data.homeworkId
     }
   })
 }
