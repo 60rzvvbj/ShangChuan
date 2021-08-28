@@ -1,6 +1,15 @@
 import {
-  request
+  request,
+  status
 } from './request.js';
+
+export let uploadBaseUrl = 'default';
+
+if (status == 'dev') {
+  uploadBaseUrl = '/server'; // dev
+} else {
+  uploadBaseUrl = '/api'; // build
+}
 
 export function getWorkList(data) {
   if (data.type == 'student') {

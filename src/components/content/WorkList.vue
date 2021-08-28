@@ -32,7 +32,7 @@
         class="upload"
         drag
         :headers="getUploadHeader()"
-        action="/server/homework/uploadHomework"
+        :action="uploadBaseUrl + '/homework/uploadHomework'"
         :data="{stuHomeworkId: nowWork.workSubmitId}"
         :name="'file'"
         multiple
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import { getWorkList } from 'network/WorkList.js';
+import { getWorkList, uploadBaseUrl } from 'network/WorkList.js';
 import { DAY } from 'common/const.js';
 import { mapState, mapGetters } from 'vuex';
 import ElementUI from 'plugins/ElementUI.js';
@@ -70,6 +70,7 @@ export default {
       workList: [],
       nowWork: {},
       uploadBoxStatus: false,
+      uploadBaseUrl
     };
   },
   props: ['rowNum', 'type', 'id'],
