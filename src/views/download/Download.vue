@@ -132,7 +132,9 @@ export default {
       // 选择行对象
       multipleSelection: [],
       // id列表
-      selectId: []
+      selectId: [],
+      // name列表
+      selectName: []
     }
   }, methods: {
     // 修改盒子
@@ -232,6 +234,14 @@ export default {
         this.selectId.push(x.stuHomeworkId)
       })
     },
+    //获取name列表
+    getNameList () {
+      // 清空列表
+      this.selectName = []
+      this.multipleSelection.forEach(x => {
+        this.selectName.push(x.stuHomeworkName)
+      })
+    },
     //打包下载
     downloadZip () {
       // 判断是否有选择作业
@@ -247,11 +257,13 @@ export default {
       }).then(() => {
         // 请求下载
         this.getIdList();
+        this.getNameList();
         downloadZip({
           token: tool.getCookie('token'),
-          stuHomeworkId: this.selectId
+          stuHomeworkId: this.selectId,
+          stuHomeworkName: this.selectName
         }).then(res => {
-          const name = (res.headers.filename);
+          const name = '作业'
           this.downloadFile(res.data, name);
         })
         this.toggleSelection();

@@ -85,10 +85,10 @@ export function downloadZip(req) {
     responseType: 'blob',
     headers: {
       token: req.token,
-      'Content-Type': 'application/json'
     },
-    data: JSON.stringify(
-      req.stuHomeworkId
-    )
+    data: {
+      stuHomeworkId: req.stuHomeworkId,
+      stuHomeworkName: req.stuHomeworkName
+    }
   })
 }
