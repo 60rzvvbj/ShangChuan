@@ -172,9 +172,11 @@ function getDateString(date) {
   res += '/';
   res += dateObj.getDate();
   res += ' ';
-  res += dateObj.getHours();
+  let h = dateObj.getHours();
+  res += h < 10 ? '0' + h : h;
   res += ':';
-  res += dateObj.getMinutes();
+  let m = dateObj.getMinutes();
+  res += m < 10 ? '0' + m : m;
   return res;
 }
 

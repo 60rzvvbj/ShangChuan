@@ -12,6 +12,9 @@
         </div>
         <div class="right" slot="reference">{{user.username}}</div>
       </el-popover>
+      <el-tooltip effect="dark" content="使用说明" placement="bottom">
+        <div class="help el-icon-question" @click="goHelp"></div>
+      </el-tooltip>
     </div>
   </div>
 </template>
@@ -29,6 +32,9 @@ export default {
   methods: {
     goHome () {
       this.$router.push('/home');
+    },
+    goHelp () {
+      window.open('https://blog.csdn.net/ycx60rzvvbj/article/details/119975165');
     },
     logout () {
       this.$router.push('/login');
@@ -73,6 +79,21 @@ export default {
   font-weight: 700;
   line-height: var(--headerHeight);
   cursor: pointer;
+}
+
+.header .help {
+  float: right;
+  width: 30px;
+  height: 30px;
+  margin: calc((var(--headerHeight) - 30px) / 2) 0px;
+  margin-right: 10px;
+  font-size: 30px;
+  color: #666;
+  cursor: pointer;
+}
+
+.header .help:hover {
+  color: #333;
 }
 
 .header .right {

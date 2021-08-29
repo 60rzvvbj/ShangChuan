@@ -13,6 +13,7 @@ import {
   Upload,
   MessageBox,
   Autocomplete,
+  Empty,
 } from 'element-ui';
 
 export default {
@@ -28,6 +29,7 @@ export default {
   [Tooltip.name]: Tooltip,
   [Upload.name]: Upload,
   [Autocomplete.name]: Autocomplete,
+  [Empty.name]: Empty,
   Message,
   MessageBox
 };

@@ -2,6 +2,7 @@
   <div class="workListBox">
     <ul class="clearfix">
       <li
+        v-if="workList[0] != false"
         v-for="item in workList"
         :class="[item.type]"
         :style="getWorkStyle(item.index)"
@@ -19,6 +20,7 @@
           <div class="text">{{item.name}}</div>
         </div>
       </li>
+      <el-empty v-if="workList.length == 0" description="暂无作业"></el-empty>
     </ul>
     <el-dialog
       custom-class="uploadBox"
@@ -67,7 +69,7 @@ export default {
   data () {
     return {
       workListReqId: undefined,
-      workList: [],
+      workList: [false],
       nowWork: {},
       uploadBoxStatus: false,
       uploadBaseUrl
@@ -97,7 +99,7 @@ export default {
             title: arr[i].subjectName,
             name: arr[i].homeworkName,
             type: this.getWorkType(arr[i].time, arr[i].submit),
-            date: this.getDateString(arr[i].time),
+            date: tool.getDateString(arr[i].time),
             number: arr[i].number,
             index: i
           }
@@ -132,19 +134,6 @@ export default {
           return 'overdue';
         }
       }
-    },
-    getDateString (date) {
-      date = parseInt(date);
-      let res = '';
-      let dateObj = new Date(date);
-      res += dateObj.getMonth() + 1;
-      res += '/';
-      res += dateObj.getDate();
-      res += ' ';
-      res += dateObj.getHours();
-      res += ':';
-      res += dateObj.getMinutes();
-      return res;
     },
     clickWork (work) {
       if (work.managerId == this.user.userId) {
