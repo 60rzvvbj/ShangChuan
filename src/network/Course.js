@@ -75,7 +75,6 @@ export function addWork(data) {
         homeworkName: data.workName,
         homeworkNamed: data.workFormat,
       },
-      named: data.named
     }
   });
 }
