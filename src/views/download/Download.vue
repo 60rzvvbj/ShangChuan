@@ -84,7 +84,7 @@
           <!-- 作用域插槽获取当前行数据 -->
           <template slot-scope="scope"><i
               class="iconfont icon-xiazai4"
-              @click="downloadOne(scope.row.stuHomeworkId)"
+              @click="downloadOne(scope.row.stuHomeworkId,scope.row)"
             ></i></template>
         </el-table-column>
       </el-table>
@@ -204,7 +204,7 @@ export default {
     //   }
     // },
     // 单个下载
-    downloadOne (homeWorkId) {
+    downloadOne (homeWorkId, stuName) {
       messageBox.confirm('此操作将下载该作业, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -215,7 +215,7 @@ export default {
           token: tool.getCookie('token'),
           stuHomeworkId: homeWorkId
         }).then((res) => {
-          const name = (res.headers.filename);
+          const name = stuName.stuHomeworkName;
           this.downloadFile(res.data, name);
         })
         this.toggleSelection();
