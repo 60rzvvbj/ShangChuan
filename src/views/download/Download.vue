@@ -166,7 +166,6 @@ export default {
         workFormat: work.workFormat,
         courseId: this.allMessage.subjectId,
         workId: this.$route.query.workId,
-        named: work.named
       })).data;
       if (addRes.flag) {
         message.success('修改成功')

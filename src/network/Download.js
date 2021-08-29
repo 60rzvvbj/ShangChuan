@@ -15,6 +15,7 @@ export function getWorkMessage(data) {
     }
   })
 }
+
 //获取作业列表
 export function getWorkList(data) {
   return request({
@@ -52,17 +53,15 @@ export function updateWork(data) {
       token: data.token
     },
     data: {
-      homework: {
-        homeworkDeadtime: data.ddl,
-        homeworkId: data.workId,
-        homeworkName: data.workName,
-        homeworkNamed: data.workFormat,
-        subjectId: data.courseId
-      },
-      named: data.named
+      homeworkDeadtime: data.ddl,
+      homeworkId: data.workId,
+      homeworkName: data.workName,
+      homeworkNamed: data.workFormat,
+      subjectId: data.courseId
     }
   })
 }
+
 // 下载一个作业
 export function downloadOne(data) {
   return request({
@@ -77,6 +76,7 @@ export function downloadOne(data) {
     }
   })
 }
+
 // 打包下载
 export function downloadZip(req) {
   return request({
