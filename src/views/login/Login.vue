@@ -1,14 +1,23 @@
 <template>
   <div class="login_container">
     <!-- 背景 -->
-    <div class="bg_img" :style="{backgroundImage:'url(' + imgUrl + ')'}"></div>
+    <div
+      class="bg_img"
+      :style="{backgroundImage:'url(' + imgUrl + ')'}"
+    ></div>
     <!-- 登录盒子 -->
     <div class="login_box">
       <div class="yun_box"></div>
       <div class="title">
         <div class="sign">SIGN</div>
-        <div class="in" :style="{top:instate}">IN</div>
-        <div class="up" :style="{top:upstate}">UP</div>
+        <div
+          class="in"
+          :style="{top:instate}"
+        >IN</div>
+        <div
+          class="up"
+          :style="{top:upstate}"
+        >UP</div>
       </div>
       <!-- 登录表单区 -->
       <el-form
@@ -21,8 +30,15 @@
       >
         <!-- 学号 -->
         <el-form-item prop="stuNumber">
-          <el-input placeholder="请输入学号" v-model="loginForm.stuNumber" autocomplete="off">
-            <i slot="prefix" class="iconfont icon-subscriber-fill"></i>
+          <el-input
+            placeholder="请输入学号"
+            v-model="loginForm.stuNumber"
+            autocomplete="off"
+          >
+            <i
+              slot="prefix"
+              class="iconfont icon-subscriber-fill"
+            ></i>
           </el-input>
         </el-form-item>
         <!-- 密码 -->
@@ -33,23 +49,36 @@
             show-password
             autocomplete="off"
           >
-            <i slot="prefix" class="iconfont icon-lock"></i>
+            <i
+              slot="prefix"
+              class="iconfont icon-lock"
+            ></i>
           </el-input>
         </el-form-item>
         <!-- 确认密码 -->
-        <el-form-item prop="password_check" class="password_check" v-if="state == 'up'">
+        <el-form-item
+          prop="password_check"
+          class="password_check"
+          v-if="state == 'up'"
+        >
           <el-input
             placeholder="请确认密码"
             v-model="loginForm.password_check"
             show-password
             autocomplete="off"
           >
-            <i slot="prefix" class="iconfont icon-lock"></i>
+            <i
+              slot="prefix"
+              class="iconfont icon-lock"
+            ></i>
           </el-input>
         </el-form-item>
         <!-- 按钮 -->
         <div class="btn_box">
-          <div class="btn" @click="logIn">登录</div>
+          <div
+            class="btn"
+            @click="logIn"
+          >登录</div>
           <!-- <div class="btn" @click="signIn">注册</div> -->
         </div>
       </el-form>
@@ -139,7 +168,10 @@ export default {
         message.success('登录成功！')
         //设置cookie
         // window.sessionStorage.setItem('token', res.result.authToken)
-        const setDate = { token: res.data, user: this.loginForm.stuNumber };
+        const setDate = {
+          token: res.data,
+          user: this.loginForm.stuNumber
+        };
         tool.setCookie(setDate, 7);
         //调用主组件方法初始化信息
         this.$parent.initUser();

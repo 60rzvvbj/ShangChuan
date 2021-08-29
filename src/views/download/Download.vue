@@ -179,13 +179,16 @@ export default {
         type: 'warning'
       }).then(() => {
         // 请求删除
-        deleteWork({ token: tool.getCookie('token'), homeworkId: this.$route.query.workId }).then((res) => {
+        deleteWork({
+          token: tool.getCookie('token'),
+          homeworkId: this.$route.query.workId
+        }).then((res) => {
           if (!res.data.flag) {
             return message.error('删除失败')
           }
           message.success('删除成功')
-          // 跳转地址
-          this.$router.push('/home')
+          // 跳转回上一页
+          this.$router.go(-1);
         })
       }).catch(() => {
         message.info('已取消删除')
@@ -207,7 +210,10 @@ export default {
         type: 'warning'
       }).then(() => {
         // 请求下载
-        downloadOne({ token: tool.getCookie('token'), stuHomeworkId: homeWorkId }).then((res) => {
+        downloadOne({
+          token: tool.getCookie('token'),
+          stuHomeworkId: homeWorkId
+        }).then((res) => {
           const name = (res.headers.filename);
           this.downloadFile(res.data, name);
         })
@@ -240,7 +246,10 @@ export default {
       }).then(() => {
         // 请求下载
         this.getIdList();
-        downloadZip({ token: tool.getCookie('token'), stuHomeworkId: this.selectId }).then(res => {
+        downloadZip({
+          token: tool.getCookie('token'),
+          stuHomeworkId: this.selectId
+        }).then(res => {
           const name = (res.headers.filename);
           this.downloadFile(res.data, name);
         })
@@ -273,7 +282,10 @@ export default {
   },
   created () {
     //传参
-    const data = { token: tool.getCookie('token'), hwID: this.$route.query.workId };
+    const data = {
+      token: tool.getCookie('token'),
+      hwID: this.$route.query.workId
+    };
     getWorkList(data).then((res) => {
       // 获取已交名单
       this.tableData = this.handUpList(res.data.data)
