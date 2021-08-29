@@ -110,6 +110,7 @@ import Header from 'components/content/Header';
 import WorkConfig from 'components/content/WorkConfig';
 import ElementUI from 'plugins/ElementUI';
 import { getWorkList, deleteWork, getWorkMessage, downloadOne, downloadZip, updateWork } from 'network/Download'
+import getFileName from './fileNameUtil.js'
 const message = ElementUI.Message;
 const messageBox = ElementUI.MessageBox;
 
@@ -195,13 +196,13 @@ export default {
       });
     },
     // 过滤已交作业
-    handUpList (list) {
-      if (list) {
-        return list.filter(data => {
-          return data.submit == true;
-        })
-      }
-    },
+    // handUpList (list) {
+    //   if (list) {
+    //     return list.filter(data => {
+    //       return data.submit == true;
+    //     })
+    //   }
+    // },
     // 单个下载
     downloadOne (homeWorkId) {
       messageBox.confirm('此操作将下载该作业, 是否继续?', '提示', {
@@ -273,6 +274,36 @@ export default {
 
       // document.body.appendChild(link);
       link.click()
+    },
+    //获取初始作业信息
+    async getInit () {
+      //传参
+      const req = {
+        token: tool.getCookie('token'),
+        hwID: this.$route.query.workId
+      };
+      let mesRes = (await getWorkMessage(req)).data;
+      if (mesRes.flag) {
+        const mes = mesRes.data[0];
+        this.allMessage = mes;
+        // 转换时间格式
+        const changeTime = new Date(parseInt(mes.homeworkDeadtime));
+        //赋值
+        this.workDefaultValue.workName = mes.homeworkName;
+        this.workDefaultValue.ddl = changeTime;
+        this.workDefaultValue.workFormat = mes.homeworkNamed;
+        this.state = 'T'
+
+        // 获取作业列表
+        let listRes = (await getWorkList(req)).data;
+        if (listRes.flag) {
+          this.tableData = listRes.data
+          //生成文件名
+          this.tableData.forEach(x => {
+            x.stuHomeworkName = getFileName.getFileName({ stuId: x.stuId, name: x.name }, mes.homeworkNamed)
+          })
+        }
+      }
     }
   },
   components: {
@@ -281,28 +312,7 @@ export default {
     ...ElementUI
   },
   created () {
-    //传参
-    const data = {
-      token: tool.getCookie('token'),
-      hwID: this.$route.query.workId
-    };
-    getWorkList(data).then((res) => {
-      // 获取已交名单
-      this.tableData = this.handUpList(res.data.data)
-    })
-    // 获取作业信息
-    getWorkMessage(data).then((res) => {
-      // 获取的信息
-      const mes = res.data.data[0];
-      this.allMessage = mes;
-      // 转换时间格式
-      const changeTime = new Date(parseInt(mes.homeworkDeadtime));
-      //赋值
-      this.workDefaultValue.workName = mes.homeworkName;
-      this.workDefaultValue.ddl = changeTime;
-      this.workDefaultValue.workFormat = mes.homeworkNamed;
-      this.state = 'T'
-    })
+    this.getInit()
   }
 }
 </script>
