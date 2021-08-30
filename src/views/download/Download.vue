@@ -218,6 +218,7 @@ export default {
         }).then((res) => {
           const name = stuName.stuHomeworkName;
           this.downloadFile(res.data, name);
+          // console.log(res.headers.extendsname);
         })
         this.toggleSelection();
       }).catch(() => {
@@ -262,7 +263,7 @@ export default {
           stuHomeworkId: this.selectId,
           stuHomeworkName: this.selectName
         }).then(res => {
-          const name = '作业'
+          const name = this.workDefaultValue.workName + '.zip'
           this.downloadFile(res.data, name);
         })
         this.toggleSelection();
@@ -311,7 +312,11 @@ export default {
           this.tableData = listRes.data
           //生成文件名
           this.tableData.forEach(x => {
-            x.stuHomeworkName = getFileName.getFileName({ stuId: x.stuId, name: x.name }, mes.homeworkNamed)
+            console.log(x);
+            x.stuHomeworkName = getFileName.getFileName({
+              stuId: x.stuId,
+              name: x.name
+            }, mes.homeworkNamed, x.extendsName)
           })
         }
       }
