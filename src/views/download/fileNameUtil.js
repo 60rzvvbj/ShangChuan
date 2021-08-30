@@ -13,9 +13,10 @@ let named = [{
  * 
  * @param {Object} user 用户对象{stuId, name}
  * @param {String} nameFormat 文件名格式
+ * @param {String} suffix 文件后缀名
  * @returns 文件名
  */
-function getFileName(user, nameFormat) {
+function getFileName(user, nameFormat, suffix) {
   let res = nameFormat;
   let createVariable = ''; // 创建变量的语句
 
@@ -33,6 +34,7 @@ function getFileName(user, nameFormat) {
 
   // 上述方法存在用户使用的变量名不是规定的变量名时会出现 变量名 is not defind 异常的bug(待修改)
   // 不过运气不是太差的话以上代码时没有问题的
+  res += suffix;
 
   return res;
 }

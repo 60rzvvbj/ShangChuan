@@ -42,6 +42,7 @@ export default {
     initUser
   },
   async created () {
+    document.title = '课代帮';
     this.initUser();
   }
 };
