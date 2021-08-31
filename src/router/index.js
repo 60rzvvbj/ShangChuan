@@ -23,8 +23,8 @@ const routes = [{
     component: () => import('views/course/Course.vue')
   },
   {
-    path: '/changePd/',
-    name: 'ChangePd/',
+    path: '/changePd',
+    name: 'ChangePd',
     component: () => import('views/changePd/ChangePd.vue')
   },
   {

@@ -154,7 +154,7 @@ export default {
       this.workList.push({
         ...nw,
         type: this.getWorkType(newWork.ddl, newWork.submit),
-        date: this.getDateString(newWork.ddl),
+        date: tool.getDateString(newWork.ddl),
         index: this.workList.length,
       });
     },
