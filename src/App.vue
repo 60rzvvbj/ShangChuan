@@ -44,12 +44,24 @@ export default {
   async created () {
     document.title = '课代帮';
     this.initUser();
+    document.body.style.zoom = window.screen.availWidth / 1536;
+  },
+  computed: {
+    zoom () {
+      let w = window.screen.width;
+      return w / 1536;
+    }
   }
 };
 </script>
 
-
 <style>
 @import url("assets/css/base.css");
 @import url("assets/fonts/iconfont.css");
+</style>
+
+<style scoped>
+#app {
+  background-color: #f9f9f9;
+}
 </style>
