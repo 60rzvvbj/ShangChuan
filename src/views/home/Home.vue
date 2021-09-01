@@ -25,6 +25,7 @@
               <div class="manager" :style="{backgroundColor: item.color}">课代表：{{item.managerName}}</div>
             </li>
           </ul>
+          <el-empty v-if="courseList.length == 0" description="暂无课程"></el-empty>
         </div>
       </div>
     </div>
@@ -36,6 +37,7 @@ import Header from 'components/content/Header';
 import WorkList from 'components/content/WorkList';
 import { getStudentAllCourse } from 'network/Home.js';
 import { mapState, mapGetters } from 'vuex';
+import ElementUI from 'plugins/ElementUI.js';
 
 export default {
   name: 'Home',
@@ -69,6 +71,7 @@ export default {
   components: {
     WorkList,
     Header,
+    ...ElementUI,
   },
   async created () {
     let courseListData = (await getStudentAllCourse({
@@ -88,6 +91,7 @@ export default {
 </script>
 
 <style scoped>
+@import url("~element-ui/lib/theme-chalk/index.css");
 .home {
   --baseWidth: 1280px;
 }

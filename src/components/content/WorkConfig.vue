@@ -47,6 +47,14 @@ export default {
       workName: '',
       ddl: null,
       workFormat: '',
+      named: [
+        {
+          name: '学号'
+        },
+        {
+          name: '姓名'
+        }
+      ]
     }
   },
   props: [
