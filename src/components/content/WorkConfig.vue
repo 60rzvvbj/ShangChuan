@@ -32,7 +32,7 @@
     </div>
     <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click="submit">确 定</el-button>
-      <el-button @click="status = false">取 消</el-button>
+      <el-button @click="close">取 消</el-button>
     </div>
   </el-dialog>
 </template>
@@ -43,6 +43,7 @@ import ElementUI from 'plugins/ElementUI.js';
 export default {
   data () {
     return {
+      nowDV: null,
       status: false,
       workName: '',
       ddl: null,
@@ -66,12 +67,37 @@ export default {
     ...ElementUI,
   },
   methods: {
+    init () {
+      if (this.nowDV) {
+        if (this.nowDV.workName != undefined) {
+          this.workName = this.nowDV.workName;
+        }
+        if (this.nowDV.ddl != undefined) {
+          this.ddl = this.nowDV.ddl;
+        }
+        if (this.nowDV.workFormat != undefined) {
+          this.workFormat = this.nowDV.workFormat;
+        }
+        if (this.nowDV.named != undefined) {
+          this.named = this.nowDV.named;
+        }
+      }
+    },
     show () {
       this.status = true;
+    },
+    close () {
+      this.init();
+      this.status = false;
     },
     // 提交处理函数
     submit () {
       this.status = false; // 关闭显示
+
+      this.nowDV.workName = this.workName;
+      this.nowDV.ddl = this.ddl;
+      this.nowDV.workFormat = this.workFormat;
+      this.nowDV.named = this.named;
 
       // 提交到父组件
       this.$emit('submit', {
@@ -95,20 +121,8 @@ export default {
     }
   },
   mounted () {
-    if (this.defaultValue) {
-      if (this.defaultValue.workName != undefined) {
-        this.workName = this.defaultValue.workName;
-      }
-      if (this.defaultValue.ddl != undefined) {
-        this.ddl = this.defaultValue.ddl;
-      }
-      if (this.defaultValue.workFormat != undefined) {
-        this.workFormat = this.defaultValue.workFormat;
-      }
-      if (this.defaultValue.named != undefined) {
-        this.named = this.defaultValue.named;
-      }
-    }
+    this.nowDV = this.defaultValue;
+    this.init();
   }
 }
 </script>

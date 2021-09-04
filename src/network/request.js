@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const status = 'dev';
+export const status = 'build';
 
 export function request(config) {
   let instance;
